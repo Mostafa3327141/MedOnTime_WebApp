@@ -13,7 +13,7 @@ namespace MedOnTime_WebApp.Models
         public string Email { get; set; }
         public int PhoneNum { get; set; }
         public int Age { get; set; }
-        public List<Medicine> Medicines { get; set; }
+        public List<Medication> Medicines { get; set; }
         public List<Caretaker> Caretakers { get; set; }
         public List <Prescription> Prescriptions { get; set; }
 
@@ -27,7 +27,7 @@ namespace MedOnTime_WebApp.Models
             this.Email = email;
             this.PhoneNum = phoneNum;
             this.Age = age;
-            this.Medicines = new List<Medicine>();
+            this.Medicines = new List<Medication>();
             this.Caretakers = new List<Caretaker>();
             this.Prescriptions = new List<Prescription>();
         }
