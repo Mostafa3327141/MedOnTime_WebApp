@@ -1,8 +1,16 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "MedOnTime Home";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="homeFlexRow">
+    <section>
+        <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
+        <div class="homeButtons">
+            <a class="homeRoute" asp-action="Register">Register</a>
+            <a class="homeRoute" asp-action="Login">Login</a>
+        </div>
+    </section>
+    <section>
+        <!--To have medical data shown-->
+        <h4>No Medications Added</h4>
+    </section>
 </div>

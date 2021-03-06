@@ -1,0 +1,56 @@
+﻿/*General Styles*/
+label {
+    font-size: 15px;
+}
+
+input {
+    min-height: 20px;
+}
+div {
+    margin: 5px;
+    text-align: center;
+}
+
+/* Index.cshtml styles */
+#homeCalendar {
+    height: 200px;
+}
+.homeRoute, input[type="submit"] {
+    font-size: 15px;
+    padding: 10px;
+    text-decoration: none;
+    background-color: rgb(255, 133, 149);
+    color: black;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.homeButtons {
+    margin: 20px;
+}
+#homeFlexRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+/*Register.cshtml*/
+#heartPlus {
+    height:40px;
+    margin: 5px;
+}
+#registerHeadingFlexRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.registerField {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/*Login.cshtml*/
