@@ -1,0 +1,41 @@
+﻿
+<h3><img class="heartBeatIcon" src="~/img/heart-beat-icon.png" alt="Heart Icon" />   Patient Profile</h3>
+
+<table align="center">
+    <tr>
+        <td>First Name:</td>
+        <td>patient.Fname</td>
+    </tr>
+    <tr>
+        <td>Middle Name:</td>
+        <td>patient.Mname</td>
+    </tr>
+    <tr>
+        <td>Last Name:</td>
+        <td>patient.Lname</td>
+    </tr>
+    <tr>
+        <td>Phone No:</td>
+        <td>patient.phone</td>
+    </tr>
+    <tr>
+        <td>dob:</td>
+        <td>patient.dob</td>
+    </tr>
+    <tr>
+        <td>Email:</td>
+        <td>patient.Email</td>
+    </tr>
+</table>
+<img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
+<div>
+    @*<table>
+            @foreach(var medication in Patient.Medication)
+            {
+                <tr>
+                    <td>medication.Name</td>
+                </tr>
+            }
+        </table>*@
+</div><br />
+<a class="homeRoute" asp-action="SchedulePicker">Add Medical Schedule</a>

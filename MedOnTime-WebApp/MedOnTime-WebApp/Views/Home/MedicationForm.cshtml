@@ -1,0 +1,47 @@
+﻿<div>
+    <form>
+        <!-- Medication name field-->
+        <div>
+            <label>Medication Name</label>
+            <input type="text" class="form-control" aria-label="Medication Name">
+        </div>
+        <!-- Method of taking field-->
+        <div>
+            <label>Method of Taking</label>
+            <input type="text" class="form-control" placeholder="Ex: Grinded Pills" />
+        </div>
+        <!-- Dosage field-->
+        <div>
+            <label>Dosage</label>
+            <input type="text" class="form-control" placeholder="How many milligrams/millileters?" />
+        </div>
+        <!-- Quantity field-->
+        <div>
+            <label>Quantity</label>
+            <input type="number" class="form-control" placeholder="How many pills?" />
+        </div>
+        <!-- Medicine type field-->
+        <div>
+            <label>Medicine Type</label><br />
+            <select class="form-select form-select-lg mb-3" aria-label="Default select example">
+                <option value="pill" selected>Pill</option>
+                <option value="syrup">Syrup</option>
+                <option value="spray">Spray</option>
+            </select>
+        </div>
+        <!--Upload Pill Image field-->
+        <div>
+            <label>Upload Pill Image</label> <br />
+            <button style="padding: 10px 50px; border: solid black 2px;" class="btn btn-lg">
+                <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
+            </button>
+        </div>
+        <div>
+            <label>Upload Prescription</label> <br />
+            <button style="padding: 10px 50px; border: solid black 2px;" class="btn btn-lg">
+                <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
+            </button>
+        </div>
+        <input type="submit" />
+    </form>
+</div>
