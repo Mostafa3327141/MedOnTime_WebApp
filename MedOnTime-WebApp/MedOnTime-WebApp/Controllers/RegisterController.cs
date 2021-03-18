@@ -10,6 +10,7 @@ namespace MedOnTime_WebApp.Controllers
     {
         public IActionResult Register()
         {
+            // Testing pushing to kendrick's branch after fetching and merging from master
             return View();
         }
     }
