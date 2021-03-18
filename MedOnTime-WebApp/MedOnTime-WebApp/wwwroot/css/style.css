@@ -6,15 +6,43 @@ label {
 input {
     min-height: 20px;
 }
+
 div {
     margin: 5px;
     text-align: center;
+}
+
+.side-panel-item {
+    margin: 15px 0px;
+}
+
+td {
+    padding: 10px;
+    text-align: left;
+}
+
+/* _Layout styles */
+#layout-side-panel {
+    /*position: absolute;
+    left: 13px;*/
+    float: left;
+    background-color: rgb(255 188 197);
+    opacity: 0%;
+    padding: 15px;
+    position: relative;
+    right: 5px;
+    bottom: 22px;
+}
+
+.nav-icon, #home-icon, #calendar-icon, #pill-icon, #peoples-icon {
+    height: 40px;
 }
 
 /* Index.cshtml styles */
 #homeCalendar {
     height: 200px;
 }
+
 .homeRoute, input[type="submit"] {
     font-size: 15px;
     padding: 10px;
@@ -28,6 +56,7 @@ div {
 .homeButtons {
     margin: 20px;
 }
+
 #homeFlexRow {
     display: flex;
     flex-direction: row;
@@ -37,15 +66,17 @@ div {
 
 /*Register.cshtml*/
 #heartPlus {
-    height:40px;
+    height: 40px;
     margin: 5px;
 }
+
 #registerHeadingFlexRow {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
 }
+
 .registerField {
     display: flex;
     flex-direction: column;
@@ -53,4 +84,12 @@ div {
     justify-content: center;
 }
 
-/*Login.cshtml*/
+/* Medication Form styles */
+.upload-image-icon {
+    height: 80px;
+}
+
+/* Patient Profile styles*/
+.heartBeatIcon {
+    height: 50px;
+}
