@@ -10,6 +10,11 @@ namespace MedOnTime_WebApp.Controllers
     {
         public IActionResult Login()
         {
+            /*
+             * Checkes if credential entered matches the records
+             * if matches then change the app state to logined
+             * else rejects and pops a credential invalid message
+             */
             return View();
         }
     }

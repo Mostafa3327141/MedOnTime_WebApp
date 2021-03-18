@@ -2,6 +2,7 @@
     ViewData["Title"] = "MedOnTime Home";
 }
 <div id="homeFlexRow">
+    @*if (!Model.isLoggedIn)*@
     <section>
         <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
         <div class="homeButtons">
@@ -9,8 +10,25 @@
             <a class="homeRoute" asp-action="Login">Login</a>
         </div>
     </section>
+    @*else*@
     <section>
-        <!--To have medical data shown-->
-        <h4>No Medications Added</h4>
+        <!--To have patient data shown-->
+        <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
+        <table>
+            @*foreach(var patient in Model.Petients)
+            {
+                <tr>
+                    <td>
+                        <form method="post" asp-action="Patient_Detail">
+                            <input type="hidden" asp-for="viewModel.PatientId" value="patient.PatientId" />
+                            <img src="patient.icon" alt="patient.name" /> 
+                            <input type="submit" value="patient.name" />
+                        </form>
+                    </td>
+                </tr>
+            }
+            *@
+        </table>
+        <h4>No Patient Added</h4>
     </section>
 </div>
