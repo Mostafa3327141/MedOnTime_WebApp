@@ -32,8 +32,26 @@ namespace MedOnTime_WebApp.Controllers
         {
             return View();
         }
+        public IActionResult PatientProfile()
+        {
+            return View();
+        }
+        public IActionResult MedicationForm()
+        {
+            return View();
+        }
+
+        public IActionResult SchedulePicker()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult QRCode()
         {
             return View();
         }

@@ -11,25 +11,40 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <button id="layout-nav-button" class="btn">
+                <img class="nav-icon" src="~/img/Hamburger_icon.png" alt="Nav Toggle Icon" />
+            </button>
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MedOnTime_WebApp</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MedOnTime</a>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="PatientProfile">
+                                <img class="nav-icon" src="~/img/profile-icon.png" alt="Profile Icon" />
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+    <div id="layout-side-panel">
+        <a class="side-panel-item btn" asp-controller="Home" asp-action="Index" aria-current="true">
+            <img id="home-icon" src="~/img/home-icon.png" alt="Home Icon" />
+        </a>
+        <br />
+        <a class="side-panel-item btn" asp-controller="Home" asp-action="SchedulePicker" aria-current="true">
+            <img id="calendar-icon" src="~/img/calander-icon.png" alt="Calendar Icon" />
+        </a>
+        <br />
+        <a class="side-panel-item btn" asp-controller="Home" asp-action="MedicationForm" aria-current="true">
+            <img id="pill-icon" src="~/img/pill-icon.png" alt="Pill Icon" />
+        </a>
+        <br />
+        <a class="side-panel-item btn" asp-controller="Home" asp-action="QRCode" aria-current="true">
+            <img id="peoples-icon" src="~/img/peoples-icon.png" alt="Peoples Icon" />
+        </a>
+    </div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -38,7 +53,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - MedOnTime_WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - MedOnTime - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
