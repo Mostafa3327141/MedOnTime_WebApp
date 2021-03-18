@@ -2,6 +2,18 @@
 
 <form method="post">
     <!--TODO: Add a way to scan a qr code using this: https://stackoverflow.com/questions/37361534/scan-qr-code-using-webcam-in-asp-net-web-form-->
+    <!--QR Testing-->
+    <input id="QRTest" type="text" onchange="updateQR()" /><br />
+    <img id="QRIMG" src="" alt="QR code" /><br />
+
     <input id="QR" type="file" /><br />
     <input type="submit" value="Save as PDF" />
 </form>
+
+<script type="text/javascript">
+    function updateQR() {
+        var qrSrc = "https://api.qrserver.com/v1/create-qr-code/?data=";
+        qrSrc += $("#QRTest").val();
+        $("#QRIMG").attr("src", qrSrc);
+    }
+</script>
