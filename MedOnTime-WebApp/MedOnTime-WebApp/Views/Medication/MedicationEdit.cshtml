@@ -1,0 +1,51 @@
+﻿@model Medication
+
+<div>
+    <div class="alert-danger text-left" asp-validation-summary="All"></div>
+    <form asp-action="MedicationEdit" method="post">
+        <input type="hidden" name="objID" value="@Model.Id">
+        <!-- Medication name field-->
+        <div class="form-group">
+            <label asp-for="MedicationName">Medication Name</label>
+            <input class="form-control" asp-for="MedicationName" placeholder="Medication Name" />
+        </div>
+        <!-- Method of taking field-->
+        <div class="form-group">
+            <label asp-for="MethodOfTaking">Method of Taking</label>
+            <input class="form-control" asp-for="MethodOfTaking" placeholder="Ex: Grinded Pills" />
+        </div>
+        <!-- Dosage field-->
+        <div class="form-group">
+            <label asp-for="Dosage">Dosage</label>
+            <input class="form-control" asp-for="Dosage" placeholder="How many milligrams/millileters?" />
+        </div>
+        <!-- Quantity field-->
+        <div class="form-group">
+            <label asp-for="Quantity">Quantity</label>
+            <input class="form-control" asp-for="Quantity" min="0" placeholder="How many pills?" />
+        </div>
+        <!-- Medicine type field-->
+        <div class="form-group">
+            <label asp-for="MedicationType">Medicine Type</label><br />
+            <select class="form-select form-select-lg mb-3" asp-for="MedicationType">
+                <option value="pill" selected>Pill</option>
+                <option value="syrup">Syrup</option>
+                <option value="spray">Spray</option>
+            </select>
+        </div>
+        <!--Upload Pill Image field-->
+        <div>
+            <label>Upload Pill Image</label> <br />
+            <button style="padding: 10px 50px; border: solid black 2px;" class="btn btn-lg">
+                <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
+            </button>
+        </div>
+        <div>
+            <label>Upload Prescription</label> <br />
+            <button style="padding: 10px 50px; border: solid black 2px;" class="btn btn-lg">
+                <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
+            </button>
+        </div>
+        <input type="submit" value="Edit"/>
+    </form>
+</div>

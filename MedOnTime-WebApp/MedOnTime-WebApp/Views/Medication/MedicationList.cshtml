@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MedOnTime_WebApp.Models.Medication>
+﻿@model IEnumerable<Medication>
 
 @{
     ViewData["Title"] = "Index";
@@ -8,36 +8,43 @@
 <h1>List of all kinds of medications</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="MedicationForm">Add new medication</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Medication Name
-            </th>
-            <th>
-                Medication Type
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+@if (Model.Count() != 0)
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MedicationName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MedicationType)
-                </td>@*
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item._id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item._id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item._id })
-                </td>*@
+                <th>
+                    Medication Name
+                </th>
+                <th>
+                    Medication Type
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MedicationName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MedicationType)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "MedicationEdit", new { medID = item.MedID }) |
+                        @Html.ActionLink("Details", "MedicationDetails", new { medID = item.MedID }) |
+                        @Html.ActionLink("Delete", "MedicationDelete", new { medID = item.MedID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2 class="text-danger">There are no medications yet.</h2>
+}
