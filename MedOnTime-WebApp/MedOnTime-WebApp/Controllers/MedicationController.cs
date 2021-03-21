@@ -5,17 +5,23 @@ using System.Collections.Generic;
 
 namespace MedOnTime_WebApp.Controllers
 {
-    public class MedicationFormController : Controller
+    public class MedicationController : Controller
     {
 
         private IMongoCollection<Medication> _medicationCollection;
 
         public MongoClientSettings ConfigurationManager { get; }
 
-        public MedicationFormController(IMongoClient client)
+        public MedicationController(IMongoClient client)
         {
             var database = client.GetDatabase("MedOnTimeDb");
             _medicationCollection = database.GetCollection<Medication>("Medication");
+        }
+
+        public ActionResult MedicationList()
+        {
+            List<Medication> existingMeds = _medicationCollection.AsQueryable<Medication>().ToList();
+            return View(existingMeds);
         }
 
         [HttpGet]

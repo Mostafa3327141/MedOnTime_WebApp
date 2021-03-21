@@ -1,0 +1,43 @@
+﻿@model IEnumerable<MedOnTime_WebApp.Models.Medication>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>List of all kinds of medications</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Medication Name
+            </th>
+            <th>
+                Medication Type
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicationType)
+                </td>@*
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item._id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item._id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item._id })
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
