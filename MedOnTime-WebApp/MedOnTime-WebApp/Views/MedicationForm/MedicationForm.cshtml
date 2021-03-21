@@ -1,29 +1,32 @@
-﻿<div>
-    <form>
+﻿@model Medication
+
+<div>
+    <div class="alert-danger text-left" asp-validation-summary="All"></div>
+    <form asp-action="MedicationForm" method="post">
         <!-- Medication name field-->
-        <div>
-            <label>Medication Name</label>
-            <input type="text" class="form-control" aria-label="Medication Name">
+        <div class="form-group">
+            <label asp-for="MedicationName">Medication Name</label>
+            <input class="form-control" asp-for="MedicationName" placeholder="Medication Name" />
         </div>
         <!-- Method of taking field-->
-        <div>
-            <label>Method of Taking</label>
-            <input type="text" class="form-control" placeholder="Ex: Grinded Pills" />
+        <div class="form-group">
+            <label asp-for="MethodOfTaking">Method of Taking</label>
+            <input class="form-control" asp-for="MethodOfTaking" placeholder="Ex: Grinded Pills" />
         </div>
         <!-- Dosage field-->
-        <div>
-            <label>Dosage</label>
-            <input type="text" class="form-control" placeholder="How many milligrams/millileters?" />
+        <div class="form-group">
+            <label asp-for="Dosage">Dosage</label>
+            <input class="form-control" asp-for="Dosage" placeholder="How many milligrams/millileters?" />
         </div>
         <!-- Quantity field-->
-        <div>
-            <label>Quantity</label>
-            <input type="number" class="form-control" placeholder="How many pills?" />
+        <div class="form-group">
+            <label asp-for="Quantity">Quantity</label>
+            <input class="form-control" asp-for="Quantity" min="0" placeholder="How many pills?" />
         </div>
         <!-- Medicine type field-->
-        <div>
-            <label>Medicine Type</label><br />
-            <select class="form-select form-select-lg mb-3" aria-label="Default select example">
+        <div class="form-group">
+            <label asp-for="MedicationType">Medicine Type</label><br />
+            <select class="form-select form-select-lg mb-3" asp-for="MedicationType">
                 <option value="pill" selected>Pill</option>
                 <option value="syrup">Syrup</option>
                 <option value="spray">Spray</option>

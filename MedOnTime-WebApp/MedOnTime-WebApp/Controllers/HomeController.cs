@@ -36,10 +36,6 @@ namespace MedOnTime_WebApp.Controllers
         {
             return View();
         }
-        public IActionResult MedicationForm()
-        {
-            return View();
-        }
 
         public IActionResult SchedulePicker()
         {
