@@ -1,17 +1,20 @@
 ﻿@{
     ViewData["Title"] = "MedOnTime Login";
 }
-
-<form action="/" method="post">
+@if (!"".Equals(ViewBag.Message))
+{
+    <div class="alert-danger">@ViewBag.Message</div>
+}
+<form action="Login" method="post">
     <!--Email field-->
     <div class="registerField">
         <label>Email</label>
-        <input type="email" value="" />
+        <input type="email" name="email" />
     </div>
     <!--Password field-->
     <div class="registerField">
         <label>Password</label>
-        <input type="password" value="" />
+        <input type="password" name="password" />
         <a href="#">Forgot Password?</a>
     </div>
     <input type="submit" value="Login" />

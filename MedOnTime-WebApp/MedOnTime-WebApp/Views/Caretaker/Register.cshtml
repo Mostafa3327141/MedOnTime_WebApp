@@ -10,6 +10,15 @@
 <section>
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
     <form action="Register" method="post">
+        <!--Username field-->
+        @if (!"".Equals(ViewBag.Message))
+        {
+            <div class="alert-danger">@ViewBag.Message</div>
+        }
+        <div class="registerField">
+            <label asp-for="Username">UserName</label>
+            <input class="form-control" asp-for="Username" />
+        </div>
         <!--First Name field-->
         <div class="registerField">
             <label asp-for="FirstName">First Name</label>

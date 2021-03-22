@@ -2,38 +2,54 @@
     ViewData["Title"] = "MedOnTime Home";
 }
 <div id="homeFlexRow">
-    @*if (!Model.isLoggedIn)*@
-    <section>
-        <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
-        <div class="homeButtons">
-            <a class="homeRoute" asp-controller="Caretaker" asp-action="Register">Register</a>
-            <a class="homeRoute" asp-controller="Caretaker" asp-action="Login">Login</a>
-        </div>
-    </section>
-    <section id="medication-panel">
-        <!--To have medical data shown-->
-        <h4>No Medications Added</h4>
-        <a class="homeRoute" asp-controller="Medication" asp-action="MedicationForm">Add Medication</a>
-    </section>
-    @*else*@
-    @*<section>
+    @if (!LoginStatus.IsLoggedIn)
+    {
+        <section>
+            <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
+            <div class="homeButtons">
+                <a class="homeRoute" asp-controller="Caretaker" asp-action="Register">Register</a>
+                <a class="homeRoute" asp-controller="Caretaker" asp-action="Login">Login</a>
+            </div>
+        </section>
+        <section id="medication-panel">
+            <!--To have medical data shown-->
+            <h4>No Medications Added</h4>
+            <a class="homeRoute" asp-controller="Medication" asp-action="MedicationForm">Add Medication</a>
+        </section>
+    }
+    else
+    {
+        <section>
             <!--To have patient data shown-->
             <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
-            <table>
-                @*foreach(var patient in Model.Petients)
-                {
-                    <tr>
-                        <td>
-                            <form method="post" asp-action="Patient_Detail">
-                                <input type="hidden" asp-for="viewModel.PatientId" value="patient.PatientId" />
-                                <img src="patient.icon" alt="patient.name" />
-                                <input type="submit" value="patient.name" />
-                            </form>
-                        </td>
-                    </tr>
-                }
-
-            </table>
+            @if (LoginStatus.LogginedUser.Patients.Count() != 0)
+            {
+                <table>
+                    @foreach (var patient in LoginStatus.LogginedUser.Patients)
+                    {
+                        <tr>
+                            <td>
+                                <form method="post" asp-action="Patient_Detail">
+                                    <input type="hidden" name="PatientId" value="patient.PatientId" />
+                                    <img src="patient.icon" alt="patient.name" />
+                                    <input type="submit" value="patient.name" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <h4>You don't have any patients yet.</h4>
+            }
+            <h4>Logged in as @LoginStatus.LogginedUser.Email</h4>
             <h4>No Patient Added</h4>
-        </section>  *@
+        </section>
+        <section id="medication-panel">
+            <!--To have medical data shown-->
+            <h4>No Medications Added</h4>
+            <a class="homeRoute" asp-controller="Medication" asp-action="MedicationForm">Add Medication</a>
+        </section>
+    }
 </div>

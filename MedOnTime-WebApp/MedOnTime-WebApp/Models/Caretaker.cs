@@ -8,9 +8,12 @@ namespace MedOnTime_WebApp.Models
     public class Caretaker
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public ObjectId Id { get; set; }
         public int ctID { get; set; }
+
+        [Required(ErrorMessage = "Please enter a username")]
+        [BsonElement("Username")]
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "Please enter your first name")]
         [BsonElement("FirstName")]
@@ -20,21 +23,23 @@ namespace MedOnTime_WebApp.Models
         [BsonElement("LastName")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Please enter your email")]
-        [BsonElement("Email")]
-        public string Email { get; set; }
-
         [Required(ErrorMessage = "please enter your phone number")]
         [BsonElement("PhoneNum")]
         public int? PhoneNum { get; set; }
+
+        [Required(ErrorMessage = "Please enter your email")]
+        [BsonElement("Email")]
+        public string Email { get; set; }
 
         /*[Required(ErrorMessage = "Please enter your age")]
         [BsonElement("Age")]
         public int? Age { get; set; }*/
 
         [Required(ErrorMessage = "Please enter a password")]
-        [BsonElement("Password")]
         public string Password { get; set; }
+
+        [BsonElement("PasswordHash")]
+        public string PasswordHash { get; set; }
         public List<string> PatientIDs { get; set; }
 
         public List<Patient> Patients { get; set; }
