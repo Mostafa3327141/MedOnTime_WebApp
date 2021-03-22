@@ -1,9 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace MedOnTime_WebApp.Models
 {
@@ -12,23 +10,41 @@ namespace MedOnTime_WebApp.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        public int ctID { get; set; }
+
+        [Required(ErrorMessage = "Please enter your first name")]
+        [BsonElement("FirstName")]
         public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Please enter your last name")]
+        [BsonElement("LastName")]
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Please enter your email")]
+        [BsonElement("Email")]
         public string Email { get; set; }
-        public int PhoneNum { get; set; }
-        public int Age { get; set; }
+
+        [Required(ErrorMessage = "please enter your phone number")]
+        [BsonElement("PhoneNum")]
+        public int? PhoneNum { get; set; }
+
+        /*[Required(ErrorMessage = "Please enter your age")]
+        [BsonElement("Age")]
+        public int? Age { get; set; }*/
+
+        [Required(ErrorMessage = "Please enter a password")]
+        [BsonElement("Password")]
         public string Password { get; set; }
         public List<string> PatientIDs { get; set; }
 
         public List<Patient> Patients { get; set; }
-        Caretaker() { }
-        Caretaker(string firstName, string lastName, string email, int phoneNum, int age)
+        public Caretaker() { }
+        public Caretaker(string firstName, string lastName, string email, int phoneNum)
         {
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Email = email;
             this.PhoneNum = phoneNum;
-            this.Age = age;
             this.PatientIDs = new List<string>();
             this.Patients = new List<Patient>();
         }

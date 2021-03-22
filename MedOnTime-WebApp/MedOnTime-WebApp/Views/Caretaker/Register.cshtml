@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Caretaker
+@{
     ViewData["Title"] = "MedOnTime Registration";
 }
 
@@ -7,26 +8,22 @@
     <h2>Register</h2>
 </section>
 <section>
-    <form action="/" method="post">
+    <div class="alert-danger text-left" asp-validation-summary="All"></div>
+    <form action="Register" method="post">
         <!--First Name field-->
         <div class="registerField">
-            <label>First Name</label>
-            <input type="text" value="" />
-        </div>
-        <!--Middle Name field-->
-        <div class="registerField">
-            <label>Middle Name</label>
-            <input type="text" value="" />
+            <label asp-for="FirstName">First Name</label>
+            <input class="form-control" asp-for="FirstName" />
         </div>
         <!--Last Name field-->
         <div class="registerField">
-            <label>Last Name</label>
-            <input type="text" value="" />
+            <label asp-for="LastName">Last Name</label>
+            <input class="form-control" asp-for="LastName" />
         </div>
         <!--Phone number field-->
         <div class="registerField">
-            <label>Phone No.</label>
-            <input type="text" value="" />
+            <label asp-for="PhoneNum">Phone No.</label>
+            <input class="form-control" asp-for="PhoneNum" />
         </div>
         <!--Date of Birth field-->
         <div class="registerField">
@@ -35,13 +32,13 @@
         </div>
         <!--Email field-->
         <div class="registerField">
-            <label>Email</label>
-            <input type="email" value="" />
+            <label asp-for="Email">Email</label>
+            <input class="form-control" asp-for="Email" />
         </div>
         <!--Password field-->
         <div class="registerField">
-            <label>Password</label>
-            <input type="password" value="" />
+            <label asp-for="Password">Password</label>
+            <input class="form-control" asp-for="Password" />
         </div>
         <!--Title field-->
         <div class="registerField">
