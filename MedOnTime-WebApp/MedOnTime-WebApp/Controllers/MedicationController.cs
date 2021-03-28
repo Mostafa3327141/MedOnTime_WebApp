@@ -58,11 +58,6 @@ namespace MedOnTime_WebApp.Controllers
                 System.Diagnostics.Debug.WriteLine(formResponse.MedicationName + ", " + formResponse.MethodOfTaking + ", " + formResponse.Dosage + ", " + formResponse.Quantity + ", " + formResponse.MedicationType);
                 try
                 {
-                    /*List<Medication> existingMeds = _medicationCollection.AsQueryable<Medication>().ToList();
-                    if (existingMeds.Count == 0)
-                        formResponse.MedID = 1;
-                    else
-                        formResponse.MedID = existingMeds[existingMeds.Count - 1].MedID + 1;*/
                     StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
                     using (var httpClient = new HttpClient())
                     {
@@ -101,17 +96,23 @@ namespace MedOnTime_WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(string objID, Medication formResponse)
         {
-
-            StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
-            using (var httpClient = new HttpClient())
+            if (ModelState.IsValid)
             {
-                using (var response = await httpClient.PutAsync("https://localhost:44338/MedicationAPI", content))
+                StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
+                using (var httpClient = new HttpClient())
                 {
-                    string apiRes = await response.Content.ReadAsStringAsync();
-                    System.Diagnostics.Debug.WriteLine(apiRes);
+                    using (var response = await httpClient.PutAsync("https://localhost:44338/MedicationAPI", content))
+                    {
+                        string apiRes = await response.Content.ReadAsStringAsync();
+                        System.Diagnostics.Debug.WriteLine(apiRes);
+                    }
                 }
+                return RedirectToAction("MedicationList");
+            } 
+            else
+            {
+                return View(formResponse);
             }
-            return RedirectToAction("MedicationList");
         }
 
         [HttpGet]
