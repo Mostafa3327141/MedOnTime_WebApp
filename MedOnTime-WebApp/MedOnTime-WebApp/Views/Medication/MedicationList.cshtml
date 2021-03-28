@@ -35,9 +35,9 @@
                         @Html.DisplayFor(modelItem => item.MedicationType)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "MedicationEdit", new { medID = item.MedID }) |
-                        @Html.ActionLink("Details", "MedicationDetails", new { medID = item.MedID }) |
-                        @Html.ActionLink("Delete", "MedicationDelete", new { medID = item.MedID })
+                        @Html.ActionLink("Edit", "MedicationEdit", new { Id = item.Id }) |
+                        @Html.ActionLink("Details", "MedicationDetails", new { Id = item.Id }) |
+                        @Html.ActionLink("Delete", "MedicationDelete", new { Id = item.Id })
                     </td>
                 </tr>
             }

@@ -2,27 +2,44 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 
 namespace MedOnTime_WebApp.Controllers
 {
     public class MedicationController : Controller
     {
 
-        private IMongoCollection<Medication> _medicationCollection;
+        //private IMongoCollection<Medication> _medicationCollection;
 
-        public MongoClientSettings ConfigurationManager { get; }
+        //public MongoClientSettings ConfigurationManager { get; }
 
-        public MedicationController(IMongoClient client)
+        //public MedicationController(IMongoClient client)
+        //{
+        //    var database = client.GetDatabase("MedOnTimeDb");
+        //    _medicationCollection = database.GetCollection<Medication>("Medication");
+        //}
+
+        public MedicationController()
         {
-            var database = client.GetDatabase("MedOnTimeDb");
-            _medicationCollection = database.GetCollection<Medication>("Medication");
         }
 
-        public ActionResult MedicationList()
+        public async System.Threading.Tasks.Task<ActionResult> MedicationList()
         {
-            List<Medication> existingMeds = _medicationCollection.AsQueryable<Medication>().ToList();
+            //List<Medication> existingMeds = _medicationCollection.AsQueryable<Medication>().ToList();
+            List<Medication> existingMeds = new List<Medication>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44338/MedicationAPI"))
+                {
+                    string apiRes = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine(apiRes);
+                    existingMeds = JsonConvert.DeserializeObject<List<Medication>>(apiRes);
+                }
+            }
             return View(existingMeds);
         }
 
@@ -34,20 +51,27 @@ namespace MedOnTime_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult MedicationForm(Medication formResponse)
+        public async System.Threading.Tasks.Task<IActionResult> MedicationForm(Medication formResponse)
         {
             if (ModelState.IsValid)
             {
                 System.Diagnostics.Debug.WriteLine(formResponse.MedicationName + ", " + formResponse.MethodOfTaking + ", " + formResponse.Dosage + ", " + formResponse.Quantity + ", " + formResponse.MedicationType);
                 try
                 {
-                    List<Medication> existingMeds = _medicationCollection.AsQueryable<Medication>().ToList();
+                    /*List<Medication> existingMeds = _medicationCollection.AsQueryable<Medication>().ToList();
                     if (existingMeds.Count == 0)
                         formResponse.MedID = 1;
                     else
-                        formResponse.MedID = existingMeds[existingMeds.Count - 1].MedID + 1;
-
-                    _medicationCollection.InsertOne(formResponse);
+                        formResponse.MedID = existingMeds[existingMeds.Count - 1].MedID + 1;*/
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
+                    using (var httpClient = new HttpClient())
+                    {
+                        using (var response = await httpClient.PostAsync("https://localhost:44338/MedicationAPI", content))
+                        {
+                            string apiRes = await response.Content.ReadAsStringAsync();
+                            System.Diagnostics.Debug.WriteLine(apiRes);
+                        }
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 catch { return View(formResponse); }
@@ -55,53 +79,87 @@ namespace MedOnTime_WebApp.Controllers
             return View(formResponse);
         }
 
-        [HttpGet]
-        public IActionResult MedicationEdit(int medID)
-        {
-            var medication = _medicationCollection.AsQueryable<Medication>().SingleOrDefault(x => x.MedID == medID);
-            return View(medication);
-        }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult MedicationEdit(string objID, Medication formResponse)
+        [HttpGet]
+        public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(string Id)
         {
-            try
+
+            Medication med = new Medication();
+            using (var httpClient = new HttpClient())
             {
-                var filter = Builders<Medication>.Filter.Eq("_id", ObjectId.Parse(objID));
-                var update = Builders<Medication>.Update
-                    .Set("MedicationName", formResponse.MedicationName)
-                    .Set("MethodOfTaking", formResponse.MethodOfTaking)
-                    .Set("Dosage", formResponse.Dosage)
-                    .Set("MedicationType", formResponse.MedicationType)
-                    .Set("Quantity", formResponse.Quantity);
-                var result = _medicationCollection.UpdateOne(filter, update);
-                return RedirectToAction("MedicationList");
+                using (var response = await httpClient.GetAsync("https://localhost:44338/MedicationAPI/" + Id))
+                {
+                    string apiRes = await response.Content.ReadAsStringAsync();
+                    med = JsonConvert.DeserializeObject<Medication>(apiRes);
+                    System.Diagnostics.Debug.WriteLine(apiRes);
+                }
             }
-            catch { return View(formResponse); }
-        }
-
-        [HttpGet]
-        public IActionResult MedicationDetails(int medID)
-        {
-            var medication = _medicationCollection.AsQueryable<Medication>().SingleOrDefault(x => x.MedID == medID);
-            return View(medication);
-        }
-
-        [HttpGet]
-        public IActionResult MedicationDelete(int medID)
-        {
-            var medication = _medicationCollection.AsQueryable<Medication>().SingleOrDefault(x => x.MedID == medID);
-            return View(medication);
+            return View(med);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult MedicationDelete(string objID, Medication formResponse)
+        public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(string objID, Medication formResponse)
+        {
+
+            StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.PutAsync("https://localhost:44338/MedicationAPI", content))
+                {
+                    string apiRes = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine(apiRes);
+                }
+            }
+            return RedirectToAction("MedicationList");
+        }
+
+        [HttpGet]
+        public async System.Threading.Tasks.Task<IActionResult> MedicationDetails(string Id)
+        {
+            Medication med = new Medication();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44338/MedicationAPI/" + Id))
+                {
+                    string apiRes = await response.Content.ReadAsStringAsync();
+                    med = JsonConvert.DeserializeObject<Medication>(apiRes);
+                    System.Diagnostics.Debug.WriteLine(apiRes);
+                }
+            }
+            return View(med);
+        }
+
+        [HttpGet]
+        public async System.Threading.Tasks.Task<IActionResult> MedicationDelete(string Id)
+        {
+            Medication med = new Medication();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44338/MedicationAPI/" + Id))
+                {
+                    string apiRes = await response.Content.ReadAsStringAsync();
+                    med = JsonConvert.DeserializeObject<Medication>(apiRes);
+                    System.Diagnostics.Debug.WriteLine(apiRes);
+                }
+            }
+            return View(med);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async System.Threading.Tasks.Task<IActionResult> MedicationDelete(string objID, Medication formResponse)
         {
             try
             {
-                _medicationCollection.DeleteOne(Builders<Medication>.Filter.Eq("_id", ObjectId.Parse(objID)));
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.DeleteAsync("https://localhost:44338/MedicationAPI/" + objID))
+                    {
+                        string apiRes = await response.Content.ReadAsStringAsync();
+                        System.Diagnostics.Debug.WriteLine(apiRes);
+                    }
+                }
                 return RedirectToAction("MedicationList");
             }
             catch { return View(formResponse); }
