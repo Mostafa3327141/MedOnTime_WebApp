@@ -7,7 +7,11 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-//TODO -> Test the AddPatient form with API connectivity and check update on MongoDB.
+/*
+ For Adding Patients from Caretaker Account, 2 Steps:
+    Allow caretaker to add patient once logged in and display patients if there's any
+    Only allow med to be added in a patient profile
+ */
 
 namespace MedOnTime_WebApp.Controllers
 {
@@ -31,19 +35,27 @@ namespace MedOnTime_WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddPatient(Patient formResponse)
+        public IActionResult AddPatient(int PatientID, string FirstName, string LastName, string Email, int PhoneNum, int Age)
         {
-            Console.WriteLine(formResponse.FirstName);
+            Console.WriteLine(FirstName);
+            Patient formResponse = new Patient(PatientID, FirstName, LastName, Email, PhoneNum, Age);
 
             ViewBag.Message = "";
-            if (ModelState.IsValid)
+            if (formResponse != null)
             {
-                System.Diagnostics.Debug.WriteLine(formResponse.FirstName + ", " + formResponse.LastName + ", " + formResponse.Email + "," + formResponse.PhoneNum);
+                System.Diagnostics.Debug.WriteLine(formResponse.FirstName + ", " + formResponse.LastName + ", " + 
+                                                    formResponse.Email + "," + formResponse.PhoneNum + "," + formResponse.Age);
+                Console.WriteLine(formResponse.FirstName + ", " + formResponse.LastName + ", " +
+                                                    formResponse.Email + "," + formResponse.PhoneNum + "," + formResponse.Age);
                 try
                 {
+                    Console.WriteLine("See me starting try-catch?");
                     List<Patient> existingPatients = _patientCollection.AsQueryable<Patient>().ToList();
+
+                    Console.WriteLine(existingPatients.Count);
                     foreach (var patient in existingPatients)
                     {
+                        Console.WriteLine(patient.LastName);
                         // if the response email is the same as an existing patient's email
                         if (formResponse.Email.Equals(patient.Email))
                         {
@@ -57,12 +69,14 @@ namespace MedOnTime_WebApp.Controllers
                         formResponse.PatientID = 1;
                     else
                         formResponse.PatientID = existingPatients[existingPatients.Count - 1].PatientID + 1;
-                    
-                    return RedirectToAction("Index", "Home");
+                    _patientCollection.InsertOne(formResponse); // TODO: Verify that the patient is being inserted into the API
                 }
-                catch { return View(formResponse); }
+                catch (MongoWriteConcernException) {
+                //TODO: Figure out why it's catching an error
+                    Console.WriteLine("Is there any errors?");
+                }
             }
-            return View(formResponse);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
