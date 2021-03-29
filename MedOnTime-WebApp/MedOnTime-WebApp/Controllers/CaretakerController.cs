@@ -21,6 +21,12 @@ namespace MedOnTime_WebApp.Controllers
             _caretakerCollection = database.GetCollection<Caretaker>("Caretaker");
         }
 
+        // goes to AddPatient view
+        public IActionResult AddPatient()
+        {
+            return View("./Patient/AddPatient");
+        }
+
         [HttpGet]
         public IActionResult Register()
         {

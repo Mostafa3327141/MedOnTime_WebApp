@@ -42,10 +42,10 @@
             else
             {
                 <h4>You don't have any patients yet.</h4>
+                <a asp-controller="Caretaker" asp-action="AddPatient">Add Patient</a>
             }
             <h4>Logged in as @LoginStatus.LogginedUser.Email</h4>
-            <h4>No Patient Added</h4>
-        </section>
+        </section> 
         <section id="medication-panel">
             <!--To have medical data shown-->
             <h4>No Medications Added</h4>

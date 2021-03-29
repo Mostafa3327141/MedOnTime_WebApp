@@ -7,7 +7,7 @@ namespace MedOnTime_WebApp.Models
 {
     public class Patient
     {
-        public string PatientID { get; set; }
+        public int PatientID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
@@ -19,7 +19,7 @@ namespace MedOnTime_WebApp.Models
 
         Patient() { }
 
-        Patient(string patientID, string firstName, string lastName, string email, int phoneNum, int age)
+        Patient(int patientID, string firstName, string lastName, string email, int phoneNum, int age)
         {
             this.PatientID = patientID;
             this.FirstName = firstName;
