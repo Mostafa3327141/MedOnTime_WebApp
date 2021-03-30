@@ -13,21 +13,13 @@ namespace MedOnTime_WebApp.Controllers
 {
     public class MedicationController : Controller
     {
-
-        private IMongoCollection<Medication> _medicationCollection;
-
-        public MongoClientSettings ConfigurationManager { get; }
-
-        public MedicationController(IMongoClient client)
+        public MedicationController()
         {
-            var database = client.GetDatabase("MedOnTimeDb");
-            _medicationCollection = database.GetCollection<Medication>("Medication");
         }
 
         public async System.Threading.Tasks.Task<ActionResult> MedicationList()
         {
-            List<Medication> existingMeds = _medicationCollection.AsQueryable<Medication>().ToList();
-            //List<Medication> existingMeds = new List<Medication>();
+            List<Medication> existingMeds = new List<Medication>();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync("https://localhost:44338/MedicationAPI"))
