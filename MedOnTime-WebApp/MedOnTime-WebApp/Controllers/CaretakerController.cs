@@ -1,9 +1,11 @@
 ﻿using MedOnTime_WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -11,20 +13,8 @@ namespace MedOnTime_WebApp.Controllers
 {
     public class CaretakerController : Controller
     {
-        private IMongoCollection<Caretaker> _caretakerCollection;
-
-        public MongoClientSettings ConfigurationManager { get; }
-
-        public CaretakerController(IMongoClient client)
+        public CaretakerController()
         {
-            var database = client.GetDatabase("MedOnTimeDb");
-            _caretakerCollection = database.GetCollection<Caretaker>("Caretaker");
-        }
-
-        // goes to AddPatient view
-        public IActionResult AddPatient()
-        {
-            return View("./Patient/AddPatient");
         }
 
         [HttpGet]
@@ -35,23 +25,32 @@ namespace MedOnTime_WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(Caretaker formResponse)
+        public async System.Threading.Tasks.Task<IActionResult> Register(Caretaker formResponse)
         {
             ViewBag.Message = "";
            
             if (ModelState.IsValid)
             {
-                
                 System.Diagnostics.Debug.WriteLine(formResponse.FirstName + ", " + formResponse.LastName + ", " + formResponse.Email + "," + formResponse.PhoneNum);
                 try
                 {
-                    List<Caretaker> existingCaretakers = _caretakerCollection.AsQueryable<Caretaker>().ToList();
+                    List<Caretaker> existingCaretakers = new List<Caretaker>();
+                    // Get the existing Caretakers with GET method
+                    using (var httpClient = new HttpClient())
+                    {
+                        using (var response = await httpClient.GetAsync("https://localhost:44338/api/CaretakerAPI"))
+                        {
+                            string apiRes = await response.Content.ReadAsStringAsync();
+                            System.Diagnostics.Debug.WriteLine(apiRes);
+                            existingCaretakers = JsonConvert.DeserializeObject<List<Caretaker>>(apiRes);
+                        }
+                    }
+                    // Check if there's any entries that have the same email
                     foreach (var caretaker in existingCaretakers)
                     {
-                        Console.WriteLine(caretaker.Username);
-                        if (formResponse.Username.Equals(caretaker.Username))
+                        if (formResponse.Email.Equals(caretaker.Email, StringComparison.OrdinalIgnoreCase))
                         {
-                            ViewBag.Message = "Username " + formResponse.Username + " is not avaliable.";
+                            ViewBag.Message = "Username " + formResponse.Email + " is not avaliable.";
                             return View(formResponse);
                         }
                     }
@@ -63,10 +62,21 @@ namespace MedOnTime_WebApp.Controllers
 
                     // Hash the password
                     using (SHA256 sha256hash = SHA256.Create())
-                        formResponse.PasswordHash = GetHash(sha256hash, formResponse.Password);
+                        formResponse.PasswordHash = GetHash(sha256hash, formResponse.Password, formResponse.Email.ToLower());
 
                     formResponse.Password = "";
-                    _caretakerCollection.InsertOne(formResponse);
+
+                    // Add new Caretaker with POST method
+                    using (var httpClient = new HttpClient())
+                    {
+                        StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
+                        using (var response = await httpClient.PostAsync("https://localhost:44338/api/CaretakerAPI", content))
+                        {
+                            string apiRes = await response.Content.ReadAsStringAsync();
+                            System.Diagnostics.Debug.WriteLine(apiRes);
+                        }
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
                 catch { Console.WriteLine("See an error?"); }
@@ -82,23 +92,39 @@ namespace MedOnTime_WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        public async System.Threading.Tasks.Task<IActionResult> Login(string email, string password)
         {
             if (email != null && password != null)
             {
                 string pwdHash;
                 using (SHA256 sha256hash = SHA256.Create())
-                    pwdHash = GetHash(sha256hash, password);
+                    pwdHash = GetHash(sha256hash, password, email.ToLower());
 
-                List<Caretaker> existingCaretakers = _caretakerCollection.AsQueryable<Caretaker>().ToList();
+                //List<Caretaker> existingCaretakers = _caretakerCollection.AsQueryable<Caretaker>().ToList();
+                List<Caretaker> existingCaretakers = new List<Caretaker>();
+
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync("https://localhost:44338/api/CaretakerAPI"))
+                    {
+                        string apiRes = await response.Content.ReadAsStringAsync();
+                        System.Diagnostics.Debug.WriteLine(apiRes);
+                        existingCaretakers = JsonConvert.DeserializeObject<List<Caretaker>>(apiRes);
+                    }
+                }
+
                 foreach (var caretaker in existingCaretakers)
                 {
+                    // Check if there is any entries' data matches with the provided data
                     if (caretaker.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && VerifyHash(pwdHash,caretaker.PasswordHash))
                     {
                         LoginStatus.IsLoggedIn = true;
                         if (caretaker.PatientIDs == null)
                             caretaker.PatientIDs = new List<int>();
                         LoginStatus.LogginedUser = caretaker;
+
+                        await LoginStatus.LoadPatients();
+
                         return RedirectToAction("Index", "Home");
                     }
                 }
@@ -115,11 +141,11 @@ namespace MedOnTime_WebApp.Controllers
 
         // Comes from MS documentation
         // ref https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.hashalgorithm.computehash?view=netcore-3.1
-        public string GetHash(HashAlgorithm hashAlgorithm, string input)
+        public string GetHash(HashAlgorithm hashAlgorithm, string password, string email)
         {
 
-            // Convert the input string to a byte array and compute the hash.
-            byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(input));
+            // Convert the password string with email as salt to a byte array and compute the hash.
+            byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes((password + email)));
 
             // Create a new Stringbuilder to collect the bytes
             // and create a string.

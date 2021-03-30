@@ -1,9 +1,11 @@
 ﻿using MedOnTime_WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -17,14 +19,8 @@ namespace MedOnTime_WebApp.Controllers
 {
     public class PatientController : Controller
     {
-        private IMongoCollection<Patient> _patientCollection;
-
-        public MongoClientSettings ConfigurationManager { get; }
-
-        public PatientController(IMongoClient client)
+        public PatientController()
         {
-            var database = client.GetDatabase("MedOnTimeDb");
-            _patientCollection = database.GetCollection<Patient>("Patient");
         }
 
         [HttpGet]
@@ -35,31 +31,37 @@ namespace MedOnTime_WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddPatient(int PatientID, string FirstName, string LastName, string Email, int PhoneNum, int Age)
+        public async System.Threading.Tasks.Task<IActionResult> AddPatient(Patient formResponse)
         {
-            Console.WriteLine(FirstName);
-            Patient formResponse = new Patient(PatientID, FirstName, LastName, Email, PhoneNum, Age);
 
             ViewBag.Message = "";
-            if (formResponse != null)
+            if (ModelState.IsValid)
             {
                 System.Diagnostics.Debug.WriteLine(formResponse.FirstName + ", " + formResponse.LastName + ", " + 
-                                                    formResponse.Email + "," + formResponse.PhoneNum + "," + formResponse.Age);
-                Console.WriteLine(formResponse.FirstName + ", " + formResponse.LastName + ", " +
-                                                    formResponse.Email + "," + formResponse.PhoneNum + "," + formResponse.Age);
+                                                    formResponse.Email + ", " + formResponse.PhoneNum + ", " + formResponse.Age);
                 try
                 {
-                    Console.WriteLine("See me starting try-catch?");
-                    List<Patient> existingPatients = _patientCollection.AsQueryable<Patient>().ToList();
+                    //List<Patient> existingPatients = _patientCollection.AsQueryable<Patient>().ToList();
 
-                    Console.WriteLine(existingPatients.Count);
+                    List<Patient> existingPatients = new List<Patient>();
+                    // Get the existing Patients with GET method
+                    using (var httpClient = new HttpClient())
+                    {
+                        using (var response = await httpClient.GetAsync("https://localhost:44338/api/PatientAPI"))
+                        {
+                            string apiRes = await response.Content.ReadAsStringAsync();
+                            System.Diagnostics.Debug.WriteLine(apiRes);
+                            existingPatients = JsonConvert.DeserializeObject<List<Patient>>(apiRes);
+                        }
+                    }
+
                     foreach (var patient in existingPatients)
                     {
                         Console.WriteLine(patient.LastName);
                         // if the response email is the same as an existing patient's email
                         if (formResponse.Email.Equals(patient.Email))
                         {
-                            ViewBag.Message = "Email " + formResponse.Email + " is not avaliable.";
+                            ViewBag.Message = formResponse.Email + " is associated to PID#" + patient.PatientID + ", " + patient.FirstName + ", " + patient.LastName + " already.";
                             return View(formResponse);
                         }
                     }
@@ -69,13 +71,24 @@ namespace MedOnTime_WebApp.Controllers
                         formResponse.PatientID = 1;
                     else
                         formResponse.PatientID = existingPatients[existingPatients.Count - 1].PatientID + 1;
-                    _patientCollection.InsertOne(formResponse); // TODO: Verify that the patient is being inserted into the API
+                    // Add new Patient with POST method
+                    using (var httpClient = new HttpClient())
+                    {
+                        StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
+                        using (var response = await httpClient.PostAsync("https://localhost:44338/api/PatientAPI", content))
+                        {
+                            string apiRes = await response.Content.ReadAsStringAsync();
+                            System.Diagnostics.Debug.WriteLine(apiRes);
+                        }
+                    }
+                    await LoginStatus.LoadPatients();
+                    return RedirectToAction("Index", "Home");
                 }
                 catch (MongoWriteConcernException) {
                     Console.WriteLine("Is there any errors?");
                 }
             }
-            return RedirectToAction("Index", "Home");
+            return View(formResponse);
         }
     }
 }

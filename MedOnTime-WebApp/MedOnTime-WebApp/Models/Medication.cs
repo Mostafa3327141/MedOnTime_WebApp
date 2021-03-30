@@ -29,6 +29,15 @@ namespace MedOnTime_WebApp.Models
         [Required(ErrorMessage = "Please select the quantity")]
         [BsonElement("Quantity")]
         public int? Quantity { get; set; }
+
+        [Required(ErrorMessage = "Please enter time of first alarm")]
+        [BsonElement("FirstAlarm")]
+        public string FirstAlarm { get; set; }
+
+        [Required(ErrorMessage = "Please enter the interval")]
+        [BsonElement("Interval")]
+        public int Interval { get; set; }
+
         public Medication() { }
         public Medication(string medicationName, string methodOfTaking, string medImage, string dosage, string medicationType, int quanitity)
         {

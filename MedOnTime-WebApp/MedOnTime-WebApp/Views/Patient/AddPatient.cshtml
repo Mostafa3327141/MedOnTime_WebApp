@@ -1,4 +1,4 @@
-﻿
+﻿@model Patient
 @{ ViewData["Title"] = "MedOnTime Add Patient"; }
 
 <section id="registerHeadingFlexRow">
@@ -8,35 +8,31 @@
 <section>
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
     <form asp-action="AddPatient" asp-controller="Patient" method="post">
-        <!--Patient ID field-->
-        <div class="registerField">
-            <label for="PatientID">Patient ID</label>
-            <input type="number" value="1" readonly class="form-control" name="PatientID" />
-        </div>
+        <input type="hidden" asp-for="CaretakerID" value="@LoginStatus.LogginedUser.CaretakerID"/>
         <!--First Name field-->
         <div class="registerField">
-            <label for="FirstName">First Name</label>
-            <input type="text" class="form-control" name="FirstName" />
+            <label asp-for="FirstName">First Name</label>
+            <input class="form-control" asp-for="FirstName" />
         </div>
         <!--Last Name field-->
         <div class="registerField">
-            <label for="LastName">Last Name</label>
-            <input type="text" class="form-control" name="LastName" />
+            <label asp-for="LastName">Last Name</label>
+            <input class="form-control" asp-for="LastName" />
         </div>
         <!--Email field-->
         <div class="registerField">
-            <label for="Email">Email</label>
-            <input type="text" class="form-control" name="Email" />
+            <label asp-for="Email">Email</label>
+            <input class="form-control" asp-for="Email" />
         </div>
         <!--Phone number field-->
         <div class="registerField">
-            <label for="PhoneNum">Phone No.</label>
-            <input type="number" class="form-control" name="PhoneNum" />
+            <label asp-for="PhoneNum">Phone No.</label>
+            <input class="form-control" asp-for="PhoneNum" />
         </div>
         <!--Age field-->
         <div class="registerField">
-            <label for="Age">Age</label>
-            <input type="number" name="Age" />
+            <label asp-for="Age">Age</label>
+            <input class="form-control" asp-for="Age" />
         </div>
         <input type="submit" value="Create Patient Profile" />
     </form>

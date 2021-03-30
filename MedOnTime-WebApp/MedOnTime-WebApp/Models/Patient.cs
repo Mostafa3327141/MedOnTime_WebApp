@@ -28,7 +28,7 @@ namespace MedOnTime_WebApp.Models
 
         [Required(ErrorMessage = "Please enter your phone number")]
         [BsonElement("PhoneNum")]
-        public int PhoneNum { get; set; }
+        public string PhoneNum { get; set; }
 
         [Required(ErrorMessage = "Please enter your age")]
         [BsonElement("Age")]
@@ -38,7 +38,7 @@ namespace MedOnTime_WebApp.Models
 
         public Patient() { }
 
-        public Patient(int patientID, string firstName, string lastName, string email, int phoneNum, int age)
+        public Patient(int patientID, string firstName, string lastName, string email, string phoneNum, int age)
         {
             this.PatientID = patientID;
             this.FirstName = firstName;

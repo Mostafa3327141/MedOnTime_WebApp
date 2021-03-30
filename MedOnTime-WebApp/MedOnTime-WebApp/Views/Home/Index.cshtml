@@ -14,45 +14,43 @@
                 <a class="homeRoute" asp-controller="Caretaker" asp-action="Login">Login</a>
             </div>
         </section>
-        <section id="medication-panel">
-            <!--To have medical data shown-->
-            <h4>No Medications Added</h4>
-            <a class="homeRoute" asp-controller="Medication" asp-action="MedicationForm">Add Medication</a>
-        </section>
     }
     else
     {
         <section>
             <!--To have patient data shown-->
             <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
-            @if (LoginStatus.LogginedUser.PatientIDs.Count() != 0)
+            <h4>Logged in as @LoginStatus.LogginedUser.Email</h4>
+        </section> 
+        <section id="medication-panel">
+            @if (LoginStatus.Patients.Count() != 0)
             {
-                <table>
-                    @foreach (var patient in LoginStatus.LogginedUser.PatientIDs)
+                <h4>Your patients</h4>
+                <ul>
+                    @foreach (var patient in LoginStatus.Patients)
                     {
-                        <tr>
-                            <td>
-                                <form method="post" asp-action="Patient_Detail">
-                                    <input type="hidden" name="PatientId" value="patient.PatientId" />
-                                    <img src="patient.icon" alt="patient.name" />
-                                    <input type="submit" value="patient.name" />
-                                </form>
-                            </td>
-                        </tr>
+                        <li>
+                                @patient.FirstName, @patient.LastName
+                                @*
+                            <form method="post" asp-action="Patient_Detail">
+                                <input type="hidden" name="PatientId" value="patient.PatientId" />
+                                <img src="patient.icon" alt="patient.name" />
+                                <input type="submit" value="patient.name" />
+                            </form>*@
+                        </li>
                     }
-                </table>
+                </ul>
             }
             else
             {
                 <h4>You don't have any patients yet.</h4>
-                <a asp-controller="Caretaker" asp-action="AddPatient">Add Patient</a>
             }
-            <h4>Logged in as @LoginStatus.LogginedUser.Email</h4>
-        </section> 
-        <section id="medication-panel">
-            <!--To have medical data shown-->
-            <h4>No Medications Added</h4>
-            <a class="homeRoute" asp-controller="Medication" asp-action="MedicationForm">Add Medication</a>
+            <a asp-controller="Patient" asp-action="AddPatient">Add Patient</a>
         </section>
+        <!--<section id="medication-panel">-->
+            <!--To have medical data shown-->
+            <!--<h4>No Medications Added</h4>
+            <a class="homeRoute" asp-controller="Medication" asp-action="MedicationForm">Add Medication</a>
+        </section>-->
     }
 </div>
