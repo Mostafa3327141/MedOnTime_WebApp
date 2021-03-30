@@ -72,7 +72,6 @@ namespace MedOnTime_WebApp.Controllers
                     _patientCollection.InsertOne(formResponse); // TODO: Verify that the patient is being inserted into the API
                 }
                 catch (MongoWriteConcernException) {
-                //TODO: Figure out why it's catching an error
                     Console.WriteLine("Is there any errors?");
                 }
             }

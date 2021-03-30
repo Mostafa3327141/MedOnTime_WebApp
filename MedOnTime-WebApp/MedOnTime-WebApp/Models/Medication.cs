@@ -8,9 +8,9 @@ namespace MedOnTime_WebApp.Models
     {
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        public int Id { get; set; }
-        [BsonElement("ctID")]
-        public int ctID { get; set; }
+        public string Id { get; set; }
+        [BsonElement("CaretakerID")]
+        public int CaretakerID { get; set; }
         [BsonElement("PatientID")]
         public int PatientID { get; set; }
         [Required(ErrorMessage = "Please enter medication name")]
@@ -19,7 +19,7 @@ namespace MedOnTime_WebApp.Models
         [Required(ErrorMessage = "Please enter the method of taking")]
         [BsonElement("MethodOfTaking")]
         public string MethodOfTaking { get; set; }
-        public int? MedicationImage { get; set; }
+        public string MedicationImage { get; set; }
         [Required(ErrorMessage = "Please enter the dosage")]
         [BsonElement("Dosage")]
         public string Dosage { get; set; }
@@ -30,7 +30,7 @@ namespace MedOnTime_WebApp.Models
         [BsonElement("Quantity")]
         public int? Quantity { get; set; }
         public Medication() { }
-        public Medication(string medicationName, string methodOfTaking, int? medImage, string dosage, string medicationType, int quanitity)
+        public Medication(string medicationName, string methodOfTaking, string medImage, string dosage, string medicationType, int quanitity)
         {
             this.MedicationName = medicationName;
             this.MethodOfTaking = methodOfTaking;

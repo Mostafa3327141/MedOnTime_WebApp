@@ -9,9 +9,10 @@ namespace MedOnTime_WebApp.Models
     public class Patient
     {
         [BsonId]
-        public ObjectId Id { get; set; }
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public string Id { get; set; }
         public int PatientID { get; set; }
-        public int ctID { get; set; } // for caretaker
+        public int CaretakerID { get; set; } // for caretaker
         
         [Required(ErrorMessage = "Please enter your first name")]
         [BsonElement("FirstName")]
@@ -46,7 +47,7 @@ namespace MedOnTime_WebApp.Models
             this.PhoneNum = phoneNum;
             this.Age = age;
             this.MedicationIDs = new List<int>();
-            this.ctID = 0;
+            this.CaretakerID = 0;
             this.PrescriptionIDs = new List<int>();
         }
     }

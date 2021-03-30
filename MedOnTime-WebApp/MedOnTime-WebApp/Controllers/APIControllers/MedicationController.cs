@@ -27,9 +27,9 @@ namespace MedOnTime_WebApp.Controllers.APIControllers
         public IEnumerable<Medication> Get() => _medicationCollection.AsQueryable<Medication>().ToEnumerable();
 
         [HttpGet("{id}")]
-        public ActionResult<Medication> Get(int id)
+        public ActionResult<Medication> Get(string id)
         {
-            if (id == 0)
+            if (id == null)
             {
                 return BadRequest("Value must be passed in the request body");
             }
