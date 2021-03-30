@@ -57,9 +57,9 @@ namespace MedOnTime_WebApp.Controllers
                     }
                     
                     if (existingCaretakers.Count == 0)
-                        formResponse.ctID = 1;
+                        formResponse.CaretakerID = 1;
                     else
-                        formResponse.ctID = existingCaretakers[existingCaretakers.Count - 1].ctID + 1;
+                        formResponse.CaretakerID = existingCaretakers[existingCaretakers.Count - 1].CaretakerID + 1;
 
                     // Hash the password
                     using (SHA256 sha256hash = SHA256.Create())

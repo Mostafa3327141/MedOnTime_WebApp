@@ -8,8 +8,9 @@ namespace MedOnTime_WebApp.Models
     public class Caretaker
     {
         [BsonId]
-        public ObjectId Id { get; set; }
-        public int ctID { get; set; }
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public string Id { get; set; }
+        public int CaretakerID { get; set; }
         [Required(ErrorMessage = "Please enter a username")]
         [BsonElement("Username")]
         public string Username { get; set; }
