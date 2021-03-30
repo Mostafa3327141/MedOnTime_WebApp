@@ -1,6 +1,9 @@
 ﻿@{
     ViewData["Title"] = "MedOnTime Home";
 }
+
+<!--TODO: Make a table with Patient Info displaying -->
+
 <div id="homeFlexRow">
     @if (!LoginStatus.IsLoggedIn)
     {
@@ -22,10 +25,10 @@
         <section>
             <!--To have patient data shown-->
             <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
-            @if (LoginStatus.LogginedUser.Patients.Count() != 0)
+            @if (LoginStatus.LogginedUser.PatientIDs.Count() != 0)
             {
                 <table>
-                    @foreach (var patient in LoginStatus.LogginedUser.Patients)
+                    @foreach (var patient in LoginStatus.LogginedUser.PatientIDs)
                     {
                         <tr>
                             <td>
@@ -42,10 +45,10 @@
             else
             {
                 <h4>You don't have any patients yet.</h4>
+                <a asp-controller="Caretaker" asp-action="AddPatient">Add Patient</a>
             }
             <h4>Logged in as @LoginStatus.LogginedUser.Email</h4>
-            <h4>No Patient Added</h4>
-        </section>
+        </section> 
         <section id="medication-panel">
             <!--To have medical data shown-->
             <h4>No Medications Added</h4>

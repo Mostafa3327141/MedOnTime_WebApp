@@ -33,7 +33,7 @@ namespace MedOnTime_WebApp.Controllers.APIControllers
             {
                 return BadRequest("Value must be passed in the request body");
             }
-            return Ok(_medicationCollection.AsQueryable<Medication>().SingleOrDefault(x => x.MedID == id));
+            return Ok(_medicationCollection.AsQueryable<Medication>().SingleOrDefault(x => x.Id == id));
         }
     }
 }

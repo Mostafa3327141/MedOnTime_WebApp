@@ -1,0 +1,43 @@
+﻿
+@{ ViewData["Title"] = "MedOnTime Add Patient"; }
+
+<section id="registerHeadingFlexRow">
+    <img id="heartPlus" src="~/img/heartPlusIcon.ico" alt="Heart+ Icon" />
+    <h2>Add Patient</h2>
+</section>
+<section>
+    <div class="alert-danger text-left" asp-validation-summary="All"></div>
+    <form asp-action="AddPatient" asp-controller="Patient" method="post">
+        <!--Patient ID field-->
+        <div class="registerField">
+            <label for="PatientID">Patient ID</label>
+            <input type="number" value="1" readonly class="form-control" name="PatientID" />
+        </div>
+        <!--First Name field-->
+        <div class="registerField">
+            <label for="FirstName">First Name</label>
+            <input type="text" class="form-control" name="FirstName" />
+        </div>
+        <!--Last Name field-->
+        <div class="registerField">
+            <label for="LastName">Last Name</label>
+            <input type="text" class="form-control" name="LastName" />
+        </div>
+        <!--Email field-->
+        <div class="registerField">
+            <label for="Email">Email</label>
+            <input type="text" class="form-control" name="Email" />
+        </div>
+        <!--Phone number field-->
+        <div class="registerField">
+            <label for="PhoneNum">Phone No.</label>
+            <input type="number" class="form-control" name="PhoneNum" />
+        </div>
+        <!--Age field-->
+        <div class="registerField">
+            <label for="Age">Age</label>
+            <input type="number" name="Age" />
+        </div>
+        <input type="submit" value="Create Patient Profile" />
+    </form>
+</section>
