@@ -25,10 +25,10 @@
         <section>
             <!--To have patient data shown-->
             <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
-            @if (LoginStatus.LogginedUser.Patients.Count() != 0)
+            @if (LoginStatus.LogginedUser.PatientIDs.Count() != 0)
             {
                 <table>
-                    @foreach (var patient in LoginStatus.LogginedUser.Patients)
+                    @foreach (var patient in LoginStatus.LogginedUser.PatientIDs)
                     {
                         <tr>
                             <td>

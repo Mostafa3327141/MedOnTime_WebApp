@@ -38,21 +38,24 @@ namespace MedOnTime_WebApp.Controllers
         public IActionResult Register(Caretaker formResponse)
         {
             ViewBag.Message = "";
+           
             if (ModelState.IsValid)
             {
+                
                 System.Diagnostics.Debug.WriteLine(formResponse.FirstName + ", " + formResponse.LastName + ", " + formResponse.Email + "," + formResponse.PhoneNum);
                 try
                 {
                     List<Caretaker> existingCaretakers = _caretakerCollection.AsQueryable<Caretaker>().ToList();
                     foreach (var caretaker in existingCaretakers)
                     {
+                        Console.WriteLine(caretaker.Username);
                         if (formResponse.Username.Equals(caretaker.Username))
                         {
                             ViewBag.Message = "Username " + formResponse.Username + " is not avaliable.";
                             return View(formResponse);
                         }
                     }
-
+                    
                     if (existingCaretakers.Count == 0)
                         formResponse.ctID = 1;
                     else
@@ -66,7 +69,7 @@ namespace MedOnTime_WebApp.Controllers
                     _caretakerCollection.InsertOne(formResponse);
                     return RedirectToAction("Index", "Home");
                 }
-                catch { return View(formResponse); }
+                catch { Console.WriteLine("See an error?"); }
             }
             return View(formResponse);
         }
@@ -93,8 +96,8 @@ namespace MedOnTime_WebApp.Controllers
                     if (caretaker.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && VerifyHash(pwdHash,caretaker.PasswordHash))
                     {
                         LoginStatus.IsLoggedIn = true;
-                        if (caretaker.Patients == null)
-                            caretaker.Patients = new List<Patient>();
+                        if (caretaker.PatientIDs == null)
+                            caretaker.PatientIDs = new List<int>();
                         LoginStatus.LogginedUser = caretaker;
                         return RedirectToAction("Index", "Home");
                     }
