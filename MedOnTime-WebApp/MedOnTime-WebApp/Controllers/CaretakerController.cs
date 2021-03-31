@@ -24,6 +24,12 @@ namespace MedOnTime_WebApp.Controllers
             return View();
         }
 
+        public IActionResult RecoverPassword(string email)
+        {
+            //TODO: Send an email to recover the user's password.
+            return View();
+        }
+
         [HttpPost]
         public async System.Threading.Tasks.Task<IActionResult> Register(Caretaker formResponse)
         {

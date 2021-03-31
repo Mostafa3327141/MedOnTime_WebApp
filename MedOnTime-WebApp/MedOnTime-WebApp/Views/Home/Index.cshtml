@@ -7,7 +7,7 @@
 <div id="homeFlexRow">
     @if (!LoginStatus.IsLoggedIn)
     {
-        <section>
+        <section class="homeContent">
             <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
             <div class="homeButtons">
                 <a class="homeRoute" asp-controller="Caretaker" asp-action="Register">Register</a>
@@ -17,7 +17,7 @@
     }
     else
     {
-        <section>
+        <section class="homeContent">
             <!--To have patient data shown-->
             <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
             <h4>Logged in as @LoginStatus.LogginedUser.Email</h4>
