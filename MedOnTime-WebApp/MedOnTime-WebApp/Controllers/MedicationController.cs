@@ -22,7 +22,7 @@ namespace MedOnTime_WebApp.Controllers
             List<Medication> existingMeds = new List<Medication>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/MedicationAPI"))
+                using (var response = await httpClient.GetAsync("https://localhost:44338/API/MedicationAPI"))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     System.Diagnostics.Debug.WriteLine(apiRes);
@@ -52,7 +52,7 @@ namespace MedOnTime_WebApp.Controllers
                     StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
                     using (var httpClient = new HttpClient())
                     {
-                        using (var response = await httpClient.PostAsync("https://localhost:44338/MedicationAPI", content))
+                        using (var response = await httpClient.PostAsync("https://localhost:44338/API/MedicationAPI", content))
                         {
                             string apiRes = await response.Content.ReadAsStringAsync();
                             System.Diagnostics.Debug.WriteLine(apiRes);
@@ -65,47 +65,6 @@ namespace MedOnTime_WebApp.Controllers
             return View(formResponse);
         }
 
-        // The commented out code is for testing the MongoDB Medication insert without the API
-        /*[HttpPost]
-        public IActionResult MedicationForm(Medication formResponse)
-        {
-
-            ViewBag.Message = "";
-            if (formResponse != null)
-            {
-                System.Diagnostics.Debug.WriteLine(formResponse.MedicationName + ", " + formResponse.MethodOfTaking + ", " + formResponse.Dosage + ", " + formResponse.Quantity + ", " + formResponse.MedicationType);
-                Console.WriteLine(formResponse.MedicationName + ", " + formResponse.MethodOfTaking + ", " + formResponse.Dosage + ", " + formResponse.Quantity + ", " + formResponse.MedicationType);
-                try
-                {
-                    List<Medication> existingMedications = _medicationCollection.AsQueryable<Medication>().ToList();
-
-                    *//*Console.WriteLine(existingMedications.Count);
-                    foreach (var medication in existingMedications)
-                    {
-                        // if the response email is the same as an existing patient's email
-                        if (formResponse.Email.Equals(patient.Email))
-                        {
-                            ViewBag.Message = "Email " + formResponse.Email + " is not avaliable.";
-                            return View(formResponse);
-                        }
-                    }*//*
-
-                    // if any existing patients, increment the new patient's patient ID
-                    if (existingMedications.Count == 0)
-                        formResponse.PatientID = 1;
-                    else
-                        formResponse.PatientID = existingMedications[existingMedications.Count - 1].PatientID + 1;
-                    _medicationCollection.InsertOne(formResponse);
-                }
-                catch (MongoWriteConcernException)
-                {
-                    Console.WriteLine("Is there any errors?");
-                }
-            }
-            return RedirectToAction("Index", "Home");
-        }*/
-
-
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(string Id)
         {
@@ -113,7 +72,7 @@ namespace MedOnTime_WebApp.Controllers
             Medication med = new Medication();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/MedicationAPI/" + Id))
+                using (var response = await httpClient.GetAsync("https://localhost:44338/API/MedicationAPI/" + Id))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     med = JsonConvert.DeserializeObject<Medication>(apiRes);
@@ -132,7 +91,7 @@ namespace MedOnTime_WebApp.Controllers
                 StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.PutAsync("https://localhost:44338/MedicationAPI", content))
+                    using (var response = await httpClient.PutAsync("https://localhost:44338/API/MedicationAPI", content))
                     {
                         string apiRes = await response.Content.ReadAsStringAsync();
                         System.Diagnostics.Debug.WriteLine(apiRes);
@@ -152,7 +111,7 @@ namespace MedOnTime_WebApp.Controllers
             Medication med = new Medication();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/MedicationAPI/" + Id))
+                using (var response = await httpClient.GetAsync("https://localhost:44338/API/MedicationAPI/" + Id))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     med = JsonConvert.DeserializeObject<Medication>(apiRes);
@@ -168,7 +127,7 @@ namespace MedOnTime_WebApp.Controllers
             Medication med = new Medication();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/MedicationAPI/" + Id))
+                using (var response = await httpClient.GetAsync("https://localhost:44338/API/MedicationAPI/" + Id))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     med = JsonConvert.DeserializeObject<Medication>(apiRes);
@@ -186,7 +145,7 @@ namespace MedOnTime_WebApp.Controllers
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.DeleteAsync("https://localhost:44338/MedicationAPI/" + objID))
+                    using (var response = await httpClient.DeleteAsync("https://localhost:44338/API/MedicationAPI/" + objID))
                     {
                         string apiRes = await response.Content.ReadAsStringAsync();
                         System.Diagnostics.Debug.WriteLine(apiRes);
