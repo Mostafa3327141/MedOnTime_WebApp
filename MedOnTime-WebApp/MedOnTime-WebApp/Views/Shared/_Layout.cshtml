@@ -10,18 +10,20 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="z-index: 5;">
             <button id="layout-nav-button" class="btn">
                 <img class="nav-icon" src="~/img/Hamburger_icon.png" alt="Nav Toggle Icon" />
             </button>
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MedOnTime</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="PatientProfile">
-                                <img class="nav-icon" src="~/img/profile-icon.png" alt="Profile Icon" />
-                            </a>
+                            <a class="navbar-brand" id="medOnTime-title" asp-area="" asp-controller="Home" asp-action="Index">MedOnTime</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="PatientProfile">
+                            <img class="nav-icon" src="~/img/profile-icon.png" alt="Profile Icon" />
+                        </a>
                         </li>
                     </ul>
                 </div>

@@ -16,48 +16,31 @@
             <div class="alert-danger">@ViewBag.Message</div>
         }
         <div class="registerField">
-            <label asp-for="Username">UserName</label>
-            <input class="form-control" asp-for="Username" />
+            <input class="form-control" required asp-for="Username" placeholder="Username" />
         </div>
         <!--First Name field-->
         <div class="registerField">
-            <label asp-for="FirstName">First Name</label>
-            <input class="form-control" asp-for="FirstName" />
+            <input class="form-control" required asp-for="FirstName" placeholder="First Name" />
         </div>
         <!--Last Name field-->
         <div class="registerField">
-            <label asp-for="LastName">Last Name</label>
-            <input class="form-control" asp-for="LastName" />
+            <input class="form-control" required asp-for="LastName" placeholder="Last Name" />
         </div>
         <!--Phone number field-->
         <div class="registerField">
-            <label asp-for="PhoneNum">Phone No.</label>
-            <input class="form-control" asp-for="PhoneNum" />
+            <input class="form-control" required asp-for="PhoneNum" placeholder="Phone No." />
         </div>
         <!--Date of Birth field-->
         <div class="registerField">
-            <label>Date of Birth.</label>
-            <input type="text" value="" />
+            <input class="form-control" type="date" required placeholder="Date of Birth" />
         </div>
         <!--Email field-->
         <div class="registerField">
-            <label asp-for="Email">Email</label>
-            <input class="form-control" asp-for="Email" />
+            <input class="form-control" type="email" required asp-for="Email" placeholder="Email" />
         </div>
         <!--Password field-->
         <div class="registerField">
-            <label asp-for="Password">Password</label>
-            <input class="form-control" asp-for="Password" />
-        </div>
-        <!--Title field-->
-        <div class="registerField">
-            <label>Title</label>
-            <select>
-                <option value="No Title">No Title</option>
-                <option value="Mrs.">Mrs.</option>
-                <option value="Ms.">Ms.</option>
-                <option value="Mr.">Mr.</option>
-            </select>
+            <input class="form-control" type="password" required asp-for="Password" placeholder="Password" />
         </div>
         <input type="submit" value="Create Profile" />
     </form>
