@@ -3,6 +3,11 @@
 <div>
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
     <form asp-action="MedicationForm" method="post">
+        <!--Current Caretaker-->
+        <div class="form-group">
+            <label asp-for="CaretakerID">Caretaker ID</label>
+            <input class="form-control" asp-for="CaretakerID" value="@Html." placeholder="Caretaker ID" />
+        </div>
         <!-- Medication name field-->
         <div class="form-group">
             <label asp-for="MedicationName">Medication Name</label>
@@ -32,6 +37,27 @@
                 <option value="spray">Spray</option>
             </select>
         </div>
+
+        <!-- Frequency field-->
+        <div class="form-group">
+            <label asp-for="Frequency">Frequency</label><br />
+            <select class="form-select form-select-lg mb-3" asp-for="Frequency">
+                <option value="Every Day" selected>Every Day</option>
+                <option value="Specific Days">Specific Days</option>
+                <option value="Days Interval">Days Interval</option>
+                <option value="Birth Control Cycle">Birth Control Cycle</option>
+            </select>
+        </div>
+
+        <!-- Time Of Taking field-->
+        <div class="form-group">
+            <label asp-for="TimeOfTaking">Time Of Taking</label><br />
+            <div id="timepicker" class="timepicker">
+                <input class="timepickinput" type="text" value="00:00 AM" asp-for="TimeOfTaking" readonly />
+            </div>
+        </div>
+
+        <!--/ timepicker -->
         <!--Upload Pill Image field-->
         <div>
             <label>Upload Pill Image</label> <br />
