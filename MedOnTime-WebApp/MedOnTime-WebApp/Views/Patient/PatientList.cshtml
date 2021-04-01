@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Patient>
+
+<h3><img class="heartBeatIcon" src="~/img/heart-beat-icon.png" alt="Heart Icon" />   Patient Profile</h3>
+
+
+@{ ViewData["Title"] = "Patient List";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<h1>List of all kinds of medications</h1>
+@if (!LoginStatus.IsLoggedIn)
+{
+<section class="homeContent">
+    <h3>Currently not logged in</h3><br />
+    <h4>To view patients, please login</h4>
+    <div class="homeButtons">
+        <a class="homeRoute" asp-controller="Caretaker" asp-action="Register">Register</a>
+        <a class="homeRoute" asp-controller="Caretaker" asp-action="Login">Login</a>
+    </div>
+</section> }
+else
+{
+<p>
+    <a asp-action="AddPatient">Add new patient</a>
+</p>
+                @if (LoginStatus.Patients.Count() != 0)
+                {
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Patient Name
+            </th>
+            <th>
+                Age
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Age)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "EditPatient", new { Id = item.Id }) |
+        @Html.ActionLink("Details", "PatientDetails", new { Id = item.Id }) |
+        @Html.ActionLink("Delete", "DeletePatient", new { Id = item.Id })
+    </td>
+</tr>
+        }
+    </tbody>
+</table> }
+                else
+                {
+<h2 class="text-danger">There are no patients yet.</h2>}
+}
