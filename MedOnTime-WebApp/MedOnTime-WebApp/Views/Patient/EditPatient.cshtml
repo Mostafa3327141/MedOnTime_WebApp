@@ -1,14 +1,14 @@
 ﻿@model Patient
-@{ ViewData["Title"] = "MedOnTime Add Patient"; }
+@{ ViewData["Title"] = "Edit Patient"; }
 
 <section id="registerHeadingFlexRow">
     <img id="heartPlus" src="~/img/heartPlusIcon.ico" alt="Heart+ Icon" />
-    <h2>Add Patient</h2>
+    <h2>Edit Patient</h2>
 </section>
 <section>
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
-    <form asp-action="AddPatient" asp-controller="Patient" method="post">
-        <input type="hidden" asp-for="CaretakerID" value="@LoginStatus.LogginedUser.CaretakerID"/>
+    <form asp-action="EditPatient" asp-controller="Patient" method="post">
+        <input type="hidden" asp-for="CaretakerID" value="@LoginStatus.LogginedUser.CaretakerID" />
         <!--First Name field-->
         <div class="registerField">
             <input class="form-control" placeholder="First Name" asp-for="FirstName" />
@@ -29,6 +29,6 @@
         <div class="registerField">
             <input class="form-control" placeholder="Age" asp-for="Age" />
         </div>
-        <input type="submit" value="Create Patient Profile" />
+        <input type="submit" value="Update Values" />
     </form>
 </section>

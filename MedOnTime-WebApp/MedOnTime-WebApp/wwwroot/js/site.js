@@ -26,13 +26,6 @@ NAVBTN.addEventListener("click", function () {
     }
 }, false);
 
-/*
-* Javascript timepicker Plugin 
-* Author : @ElmahdiMahmoud
-* Created: 02.07.2013
-* Updated: 02.07.2013
-* Licensed under the MIT license
-*/
 
 function timepicker(id) {
     var tpicker = document.getElementById(id),

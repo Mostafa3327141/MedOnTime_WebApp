@@ -4,11 +4,11 @@
 
 <!--TODO: Make a table with Patient Info displaying -->
 
-<div id="homeFlexRow">
+<div id="homeFlexCol">
     @if (!LoginStatus.IsLoggedIn)
     {
         <section class="homeContent">
-            <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
+            <img class="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
             <div class="homeButtons">
                 <a class="homeRoute" asp-controller="Caretaker" asp-action="Register">Register</a>
                 <a class="homeRoute" asp-controller="Caretaker" asp-action="Login">Login</a>
@@ -19,7 +19,7 @@
     {
         <section class="homeContent">
             <!--To have patient data shown-->
-            <img id="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
+            <img class="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
             <h4>Logged in as @LoginStatus.LogginedUser.Email</h4>
         </section> 
         <section id="medication-panel">
