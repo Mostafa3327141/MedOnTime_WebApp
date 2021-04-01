@@ -17,9 +17,11 @@ namespace MedOnTime_WebApp.Controllers
         {
         }
 
+        [HttpGet]
         public async System.Threading.Tasks.Task<ActionResult> MedicationList()
         {
             List<Medication> existingMeds = new List<Medication>();
+            List<Medication> patientMeds = new List<Medication>();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync("https://localhost:44338/API/MedicationAPI"))
@@ -29,7 +31,12 @@ namespace MedOnTime_WebApp.Controllers
                     existingMeds = JsonConvert.DeserializeObject<List<Medication>>(apiRes);
                 }
             }
-            return View(existingMeds);
+
+            foreach (var med in existingMeds)
+                if (med.PatientID == LoginStatus.SelectedPatient.PatientID)
+                    patientMeds.Add(med);
+
+            return View(patientMeds);
         }
 
         [HttpGet]
@@ -58,7 +65,7 @@ namespace MedOnTime_WebApp.Controllers
                             System.Diagnostics.Debug.WriteLine(apiRes);
                         }
                     }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("MedicationList");
                 }
                 catch { return View(formResponse); }
             }

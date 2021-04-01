@@ -84,11 +84,28 @@ namespace MedOnTime_WebApp.Controllers
                     await LoginStatus.LoadPatients();
                     return RedirectToAction("Index", "Home");
                 }
-                catch (MongoWriteConcernException) {
+                catch {
                     Console.WriteLine("Is there any errors?");
                 }
             }
             return View(formResponse);
+        }
+
+        [HttpGet]
+        public async System.Threading.Tasks.Task<IActionResult> PatientDetails(string Id)
+        {
+            Patient patient = new Patient();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44338/API/PatientAPI/" + Id))
+                {
+                    string apiRes = await response.Content.ReadAsStringAsync();
+                    patient = JsonConvert.DeserializeObject<Patient>(apiRes);
+                    System.Diagnostics.Debug.WriteLine(apiRes);
+                }
+            }
+            LoginStatus.SelectedPatient = patient;
+            return View(patient);
         }
     }
 }
