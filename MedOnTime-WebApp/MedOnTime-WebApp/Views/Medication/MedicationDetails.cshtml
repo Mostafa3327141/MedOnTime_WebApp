@@ -13,55 +13,61 @@
             Medication ID
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
+            @Model.Id
         </dd>
         <dt class="col-sm-2">
             Caretaker ID
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CaretakerID)
+            @Model.CaretakerID
         </dd>
         <dt class="col-sm-2">
             Patient ID
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PatientID)
+            @Model.PatientID
         </dd>
         <dt class="col-sm-2">
             Medication Name
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MedicationName)
+            @Model.MedicationName
         </dd>
         <dt class="col-sm-2">
             Method of Taking
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MethodOfTaking)
+            @Model.MethodOfTaking
         </dd>
         <dt class="col-sm-2">
             Medication Type
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MedicationType)
+            @Model.MedicationType
         </dd>
         <dt class="col-sm-2">
             Quantity
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
+            @Model.Quantity
         </dd>
         <dt class="col-sm-2">
             Time Of Taking
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TimeOfTaking)
+            @Model.TimeOfTaking
         </dd>
         <dt class="col-sm-2">
             Frequency
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Frequency)
+            @Model.Frequency
+        </dd>
+        <dt class="col-sm-2">
+            QRCode
+        </dt>
+        <dd class="col-sm-10">
+            <img id="QRIMG" src="https://api.qrserver.com/v1/create-qr-code/?data=@Model.Id" width="100" height="100" alt="QR code" /><br />
         </dd>
     </dl>
 </div>

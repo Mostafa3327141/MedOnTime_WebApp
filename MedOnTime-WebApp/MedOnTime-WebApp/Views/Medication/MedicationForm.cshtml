@@ -2,12 +2,11 @@
 
 <div>
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
+    <h4>Add new medication for @LoginStatus.SelectedPatient.FirstName</h4>
     <form asp-action="MedicationForm" method="post">
         <!--Current Caretaker-->
-        <div class="form-group">
-            <label asp-for="CaretakerID">Caretaker ID</label>
-            <input class="form-control" asp-for="CaretakerID" value="@Html." placeholder="Caretaker ID" />
-        </div>
+        <input type="hidden" value="@LoginStatus.LogginedUser.Id" asp-for="CaretakerID" />
+        <input type="hidden" value="@LoginStatus.SelectedPatient.PatientID" asp-for="PatientID" />
         <!-- Medication name field-->
         <div class="form-group">
             <label asp-for="MedicationName">Medication Name</label>

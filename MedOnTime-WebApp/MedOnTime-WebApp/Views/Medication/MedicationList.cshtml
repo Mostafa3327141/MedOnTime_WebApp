@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>List of all kinds of medications</h1>
+<h1>@LoginStatus.SelectedPatient.FirstName's medications</h1>
 
 <p>
-    <a asp-action="MedicationForm">Add new medication</a>
+    @Html.ActionLink("Add new medication", "MedicationForm")
 </p>
 @if (Model.Count() != 0)
 {

@@ -30,7 +30,10 @@
                     @foreach (var patient in LoginStatus.Patients)
                     {
                         <li>
-                                @patient.FirstName, @patient.LastName
+                            <form method="get" asp-action="PatientDetails" asp-controller="Patient">
+                                <input type="hidden" value="@patient.Id" name="Id" />
+                                <input type="submit" value="@patient.FirstName, @patient.LastName" />
+                            </form>
                                 @*
                             <form method="post" asp-action="Patient_Detail">
                                 <input type="hidden" name="PatientId" value="patient.PatientId" />

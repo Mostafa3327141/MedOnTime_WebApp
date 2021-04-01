@@ -10,7 +10,7 @@ namespace MedOnTime_WebApp.Models
         [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
         [BsonElement("CaretakerID")]
-        public int CaretakerID { get; set; }
+        public string CaretakerID { get; set; }
         [BsonElement("PatientID")]
         public int PatientID { get; set; }
         [Required(ErrorMessage = "Please enter medication name")]

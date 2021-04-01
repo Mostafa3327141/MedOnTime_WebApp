@@ -10,6 +10,7 @@ namespace MedOnTime_WebApp.Models
         public static bool IsLoggedIn { get; set; } = false;
         public static Caretaker LogginedUser { get; set; }
         public static List<Patient> Patients { get; set; }
+        public static Patient SelectedPatient { get; set; }
 
         public static async System.Threading.Tasks.Task LoadPatients()
         {
