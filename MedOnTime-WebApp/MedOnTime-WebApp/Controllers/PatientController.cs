@@ -82,90 +82,13 @@ namespace MedOnTime_WebApp.Controllers
                         }
                     }
                     await LoginStatus.LoadPatients();
-                    return RedirectToAction("PatientList");
+                    return RedirectToAction("Index", "Home");
                 }
                 catch (MongoWriteConcernException) {
                     Console.WriteLine("Is there any errors?");
                 }
             }
             return View(formResponse);
-        } // end of AddPatient
-
-        // for going to EditPatient view to update info
-        [HttpGet]
-        public async System.Threading.Tasks.Task<IActionResult> EditPatient(string Id)
-        {
-
-            Patient patient = new Patient();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/API/PatientAPI/" + Id))
-                {
-                    string apiRes = await response.Content.ReadAsStringAsync();
-                    patient = JsonConvert.DeserializeObject<Patient>(apiRes);
-                    System.Diagnostics.Debug.WriteLine(apiRes);
-                }
-            }
-            return View(patient);
-        }
-
-        // post update method
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> EditPatient(string Id, Patient formResponse)
-        {
-            if (ModelState.IsValid)
-            {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
-                using (var httpClient = new HttpClient())
-                {
-                    using (var response = await httpClient.PutAsync("https://localhost:44338/API/PatientAPI", content))
-                    {
-                        string apiRes = await response.Content.ReadAsStringAsync();
-                        System.Diagnostics.Debug.WriteLine(apiRes);
-                    }
-                }
-                return RedirectToAction("PatientList");
-            }
-            else
-            {
-                return View(formResponse);
-            }
-        } // end of EditPatient
-
-        [HttpGet]
-        public async System.Threading.Tasks.Task<IActionResult> DeletePatient(string Id)
-        {
-            Patient patient = new Patient();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/API/PatientAPI/" + Id))
-                {
-                    string apiRes = await response.Content.ReadAsStringAsync();
-                    patient = JsonConvert.DeserializeObject<Patient>(apiRes);
-                    System.Diagnostics.Debug.WriteLine(apiRes);
-                }
-            }
-            return View(patient);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> DeletePatient(string Id, Patient formResponse)
-        {
-            try
-            {
-                using (var httpClient = new HttpClient())
-                {
-                    using (var response = await httpClient.DeleteAsync("https://localhost:44338/API/PatientAPI/" + Id))
-                    {
-                        string apiRes = await response.Content.ReadAsStringAsync();
-                        System.Diagnostics.Debug.WriteLine(apiRes);
-                    }
-                }
-                return RedirectToAction("PatientList");
-            }
-            catch { return View(formResponse); }
         }
     }
 }
