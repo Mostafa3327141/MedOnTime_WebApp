@@ -4,8 +4,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MedOnTime_WebApp.Controllers
 {
@@ -20,6 +18,7 @@ namespace MedOnTime_WebApp.Controllers
 
         public IActionResult Index()
         {
+            LoginStatus.SelectedPatient = null;
             return View();
         }
 
