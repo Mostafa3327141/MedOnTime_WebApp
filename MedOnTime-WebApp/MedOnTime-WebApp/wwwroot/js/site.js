@@ -56,6 +56,7 @@ function timepicker(id) {
         row = document.createElement("tr");
         if (i === 0 || i === 3) {
             format = document.createElement("td");
+             // this is for AM/PM time
             if (i === 0) {
                 _tim = 'AM';
                 _class = 'hrs am';
@@ -129,6 +130,9 @@ $(document).on('click', '.pm', function () {
     setDate();
 });
 
+/**
+ *  @function setDate formats the numbers for hours and minutes picked in AM/PM time 
+ */
 function setDate() {
     var timeFormat;
     if (isAm) {

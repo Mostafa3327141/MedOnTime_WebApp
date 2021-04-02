@@ -38,22 +38,21 @@
         <div class="registerField">
             <select class="form-control mb-3" asp-for="Frequency">
                 <option selected>Frequency</option>
-                <option value="Every Day" selected>Every Day</option>
-                <option value="Specific Days">Specific Days</option>
+                <option value="Every Day" selected>Every Day</option> <!--Hours Between = 24 hours-->
+                <option value="Specific Days">Specific Days</option> 
                 <option value="Days Interval">Days Interval</option>
                 <option value="Birth Control Cycle">Birth Control Cycle</option>
             </select>
         </div>
 
-        <!-- Time Of Taking field-->
+        <!-- First Dose Time field-->
         <div class="registerField">
-            <label style="margin: 0;" asp-for="TimeOfTaking">Time Of Taking</label><br />
+            <label style="margin: 0;" asp-for="FirstDoseTime">First Dose Time</label><br />
             <div id="timepicker" class="timepicker">
-                <input class="timepickinput" type="text" value="00:00 AM" asp-for="TimeOfTaking" readonly />
+                <input class="timepickinput" type="text" value="00:00 AM" asp-for="FirstDoseTime" readonly />
             </div>
         </div>
 
-        <!--/ timepicker -->
         <!--Upload Pill Image field-->
         <div class="registerField">
             <label>Upload Pill Image</label> <br />

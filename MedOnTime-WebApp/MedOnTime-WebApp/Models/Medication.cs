@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -31,15 +33,22 @@ namespace MedOnTime_WebApp.Models
         public int? Quantity { get; set; }
 
         [Required(ErrorMessage = "Please enter time of taking the medication")]
-        [BsonElement("TimeOfTaking")]
-        public string TimeOfTaking { get; set; }
+        [BsonElement("FirstDoseTime")]
+        public string FirstDoseTime { get; set; }
+
+        //[Required(ErrorMessage = "Please enter time of taking the medication")]
+        [BsonElement("HoursBetween")]
+        public int HoursBetween { get; set; }
 
         [Required(ErrorMessage = "Please enter the Frequency")]
         [BsonElement("Frequency")]
         public string Frequency { get; set; }
 
+        [BsonElement("Times")]
+        public List<DateTime> Times { get; set; }
+
         public Medication() { }
-        public Medication(string medicationName, string methodOfTaking, string medImage, string dosage, string medicationType, int quantity, string timeOfTaking, string frequency)
+        public Medication(string medicationName, string methodOfTaking, string medImage, string dosage, string medicationType, int quantity, string firstDoseTime, string frequency, int hoursBetween)
         {
             this.MedicationName = medicationName;
             this.MethodOfTaking = methodOfTaking;
@@ -47,8 +56,10 @@ namespace MedOnTime_WebApp.Models
             this.Dosage = dosage;
             this.MedicationType = medicationType;
             this.Quantity = quantity;
-            this.TimeOfTaking = timeOfTaking;
+            this.FirstDoseTime = firstDoseTime;
             this.Frequency = frequency;
+            this.HoursBetween = hoursBetween;
+            this.Times = new List<DateTime>();
         }
     }
 }

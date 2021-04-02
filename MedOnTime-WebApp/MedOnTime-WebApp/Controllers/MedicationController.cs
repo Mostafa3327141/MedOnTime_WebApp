@@ -53,7 +53,14 @@ namespace MedOnTime_WebApp.Controllers
             if (ModelState.IsValid)
             {
                 System.Diagnostics.Debug.WriteLine(formResponse.MedicationName + ", " + formResponse.MethodOfTaking + ", " + formResponse.Dosage + ", " + formResponse.Quantity + ", " + formResponse.MedicationType);
-                Console.WriteLine(formResponse.MedicationName + ", " + formResponse.MethodOfTaking + ", " + formResponse.Dosage + ", " + formResponse.Quantity + ", " + formResponse.MedicationType);
+
+                if (formResponse.Frequency == "Every Day")
+                    formResponse.HoursBetween = 24; // only if selecting Every Day option
+
+                // create a new list for the newly binded medication object
+                formResponse.Times = new List<DateTime>();
+                formResponse.Times.Add(DateTime.Parse(formResponse.FirstDoseTime.Insert(5, ":00")));
+
                 try
                 {
                     StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
