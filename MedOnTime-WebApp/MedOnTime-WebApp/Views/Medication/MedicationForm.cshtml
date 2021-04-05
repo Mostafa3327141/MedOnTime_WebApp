@@ -1,9 +1,17 @@
 ﻿@model Medication
 
+<style>
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+    }
+</style>
 <div>
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
     <h4>Add new medication for @LoginStatus.SelectedPatient.FirstName</h4>
-    <form asp-action="MedicationForm" method="post">
+    <form enctype="multipart/form-data" asp-action="MedicationForm" method="post">
         <input type="submit" />
         <!--Current Caretaker-->
         <input type="hidden" value="@LoginStatus.LogginedUser.Id" asp-for="CaretakerID" />
@@ -58,12 +66,20 @@
             <label>Upload Medication</label> <br />
             <div style="padding: 10px 50px; border: solid black 2px; cursor:pointer;" class="btn btn-lg">
                 <div class="image-upload">
-                    <label for="file-input">
+                    <label for="file-upload" class="custom-file-upload">
                         <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
                     </label>
-                  <input id="file-input" name="image" style="display:none;" type="file" />
+                    <input id="file-upload" type="file" name="image" style="display:none;" />
                 </div>
             </div>
         </div>
     </form>
 </div>
+
+<script type="text/javascript">
+    $('#file-upload').change(function () {
+        var i = $(this).prev('label').clone();
+        var file = $('#file-upload')[0].files[0].name;
+        $(this).prev('label').text(file);
+    });
+</script>
