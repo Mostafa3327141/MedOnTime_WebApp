@@ -39,7 +39,7 @@
             <select class="form-control mb-3" asp-for="Frequency">
                 <option selected>Frequency</option>
                 <option value="Every Day" selected>Every Day</option> <!--Hours Between = 24 hours-->
-                <option value="Specific Days">Specific Days</option> 
+                <option value="Specific Days">Specific Days</option>
                 <option value="Days Interval">Days Interval</option>
                 <option value="Birth Control Cycle">Birth Control Cycle</option>
             </select>
@@ -55,16 +55,15 @@
 
         <!--Upload Pill Image field-->
         <div class="registerField">
-            <label>Upload Pill Image</label> <br />
-            <button style="padding: 10px 50px; border: solid black 2px;" class="btn btn-lg">
-                <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
-            </button>
-        </div>
-        <div class="registerField">
-            <label>Upload Prescription</label> <br />
-            <button style="padding: 10px 50px; border: solid black 2px;" class="btn btn-lg">
-                <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
-            </button>
+            <label>Upload Medication</label> <br />
+            <div style="padding: 10px 50px; border: solid black 2px; cursor:pointer;" class="btn btn-lg">
+                <div class="image-upload">
+                    <label for="file-input">
+                        <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
+                    </label>
+                  <input id="file-input" name="image" style="display:none;" type="file" />
+                </div>
+            </div>
         </div>
     </form>
 </div>

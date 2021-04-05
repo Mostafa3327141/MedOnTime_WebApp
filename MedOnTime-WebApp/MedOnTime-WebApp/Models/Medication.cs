@@ -21,6 +21,7 @@ namespace MedOnTime_WebApp.Models
         [Required(ErrorMessage = "Please enter the method of taking")]
         [BsonElement("MethodOfTaking")]
         public string MethodOfTaking { get; set; }
+        [BsonElement("MedicationImage")]
         public string MedicationImage { get; set; }
         [Required(ErrorMessage = "Please enter the dosage")]
         [BsonElement("Dosage")]

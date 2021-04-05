@@ -4,6 +4,10 @@ body, html {
     padding: 0;
 }
 
+.image-upload > input {
+    display: none;
+}
+
 label {
     font-size: 15px;
 }
