@@ -1,13 +1,16 @@
 ﻿using MedOnTime_WebApp.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.GridFS; // this version of GridFS works with ASP.NET Core: https://www.nuget.org/packages/MongoDB.Driver.GridFS.signed/
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.IO;
 
 namespace MedOnTime_WebApp.Controllers
 {
@@ -48,12 +51,17 @@ namespace MedOnTime_WebApp.Controllers
         // Method for API Testing
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> MedicationForm(Medication formResponse, Microsoft.AspNetCore.Http.IFormFile image) // name of file input is "image" as an extra parameter
+        public async System.Threading.Tasks.Task<IActionResult> MedicationForm(Medication formResponse, IFormFile medImage)
         {
-            // TODO: Properly implement file upload from MedicationForm using tutorial: https://www.aurigma.com/upload-suite/developers/aspnet-mvc/how-to-upload-files-in-aspnet-mvc
             if (ModelState.IsValid)
             {
                 System.Diagnostics.Debug.WriteLine(formResponse.MedicationName + ", " + formResponse.MethodOfTaking + ", " + formResponse.Dosage + ", " + formResponse.Quantity + ", " + formResponse.MedicationType);
+
+                Console.WriteLine(medImage.ContentType);
+                
+                // prepping medImage for serialization
+                var bytes = await medImage.GetBytes();
+                formResponse.MedicationImage = Convert.ToBase64String(bytes);
 
                 if (formResponse.Frequency == "Every Day")
                     formResponse.HoursBetween = 24; // only if selecting Every Day option
@@ -99,10 +107,17 @@ namespace MedOnTime_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(string objID, Medication formResponse)
+        public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(string objID, Medication formResponse, IFormFile medImage)
         {
             if (ModelState.IsValid)
             {
+                if (medImage != null)
+                {
+                    // prepping medImage for serialization
+                    var bytes = await medImage.GetBytes();
+                    formResponse.MedicationImage = Convert.ToBase64String(bytes);
+                }
+
                 StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
                 using (var httpClient = new HttpClient())
                 {
@@ -130,6 +145,11 @@ namespace MedOnTime_WebApp.Controllers
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     med = JsonConvert.DeserializeObject<Medication>(apiRes);
+                    if (med.MedicationImage != null)
+                    {
+                        var binary = Convert.FromBase64String(med.MedicationImage);
+                        System.IO.File.WriteAllBytes("./wwwroot/img/test.jpg", binary); // TODO: Detect image file type before creating file.
+                    }
                     System.Diagnostics.Debug.WriteLine(apiRes);
                 }
             }
