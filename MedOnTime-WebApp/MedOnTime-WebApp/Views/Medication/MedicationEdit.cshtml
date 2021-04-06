@@ -4,48 +4,69 @@
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
     <form asp-action="MedicationEdit" method="post">
         <input type="hidden" name="objID" value="@Model.Id">
+        <input type="submit" />
         <!-- Medication name field-->
-        <div class="form-group">
-            <label asp-for="MedicationName">Medication Name</label>
+        <div class="registerField">
             <input class="form-control" asp-for="MedicationName" placeholder="Medication Name" />
         </div>
         <!-- Method of taking field-->
-        <div class="form-group">
-            <label asp-for="MethodOfTaking">Method of Taking</label>
-            <input class="form-control" asp-for="MethodOfTaking" placeholder="Ex: Grinded Pills" />
+        <div class="registerField">
+            <input class="form-control" asp-for="MethodOfTaking" placeholder="Method of Taking" />
         </div>
         <!-- Dosage field-->
-        <div class="form-group">
-            <label asp-for="Dosage">Dosage</label>
-            <input class="form-control" asp-for="Dosage" placeholder="How many milligrams/millileters?" />
+        <div class="registerField">
+            <input class="form-control" asp-for="Dosage" placeholder="Dosage" />
         </div>
         <!-- Quantity field-->
-        <div class="form-group">
-            <label asp-for="Quantity">Quantity</label>
-            <input class="form-control" asp-for="Quantity" min="0" placeholder="How many pills?" />
+        <div class="registerField">
+            <input class="form-control" asp-for="Quantity" min="0" placeholder="Quantity" />
         </div>
         <!-- Medicine type field-->
-        <div class="form-group">
-            <label asp-for="MedicationType">Medicine Type</label><br />
-            <select class="form-select form-select-lg mb-3" asp-for="MedicationType">
-                <option value="pill" selected>Pill</option>
+        <div class="registerField">
+            <select class="form-control  mb-3" asp-for="MedicationType">
+                <option selected>Medicine Type</option>
+                <option value="pill">Pill</option>
                 <option value="syrup">Syrup</option>
                 <option value="spray">Spray</option>
             </select>
         </div>
+
+        <!-- Frequency field-->
+        <div class="registerField">
+            <select class="form-control mb-3" asp-for="Frequency">
+                <option selected>Frequency</option>
+                <option value="Every Day" selected>Every Day</option> <!--Hours Between = 24 hours-->
+                <option value="Specific Days">Specific Days</option>
+                <option value="Days Interval">Days Interval</option>
+                <option value="Birth Control Cycle">Birth Control Cycle</option>
+            </select>
+        </div>
+
+        <!-- First Dose Time field-->
+        <div class="registerField">
+            <label style="margin: 0;" asp-for="FirstDoseTime">First Dose Time</label><br />
+            <div id="timepicker" class="timepicker">
+                <input class="timepickinput" type="text" value="00:00 AM" asp-for="FirstDoseTime" readonly />
+            </div>
+        </div>
+
         <!--Upload Pill Image field-->
-        <div>
-            <label>Upload Pill Image</label> <br />
-            <button style="padding: 10px 50px; border: solid black 2px;" class="btn btn-lg">
-                <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
-            </button>
+        <div class="registerField">
+            <label>Upload Medication</label> <br />
+            <div style="padding: 10px 50px; border: solid black 2px; cursor:pointer;" class="btn btn-lg">
+                <div class="image-upload">
+                    <label for="file-upload" class="custom-file-upload">
+                        <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
+                    </label>
+                    <input id="file-upload" type="file" name="medImage" style="display:none;" />
+                </div>
+            </div>
         </div>
-        <div>
-            <label>Upload Prescription</label> <br />
-            <button style="padding: 10px 50px; border: solid black 2px;" class="btn btn-lg">
-                <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
-            </button>
-        </div>
-        <input type="submit" value="Edit"/>
     </form>
 </div>
+
+<script type="text/javascript">$('#file-upload').change(function () {
+        var i = $(this).prev('label').clone();
+        var file = $('#file-upload')[0].files[0].name;
+        $(this).prev('label').text(file);
+    });</script>
