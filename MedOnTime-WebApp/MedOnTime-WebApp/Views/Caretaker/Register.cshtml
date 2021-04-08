@@ -10,11 +10,11 @@
 <section>
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
     <form asp-action="Register" method="post">
+        <input type="submit" value="Create Profile" />
         <!--Username field-->
         @if (!"".Equals(ViewBag.Message))
         {
-            <div class="alert-danger">@ViewBag.Message</div>
-        }
+    <div class="alert-danger">@ViewBag.Message</div>}
         <div class="registerField">
             <input class="form-control" required asp-for="Username" placeholder="Username" />
         </div>
@@ -42,6 +42,5 @@
         <div class="registerField">
             <input class="form-control" type="password" required asp-for="Password" placeholder="Password" />
         </div>
-        <input type="submit" value="Create Profile" />
     </form>
 </section>

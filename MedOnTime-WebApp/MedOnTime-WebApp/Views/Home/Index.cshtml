@@ -26,10 +26,9 @@
             @if (LoginStatus.Patients.Count() != 0)
             {
                 <h4>Your patients</h4>
-                <ul>
+                <ul id="patient-select-list">
                     @foreach (var patient in LoginStatus.Patients)
                     {
-                        <li>
                             <form method="get" asp-action="PatientDetails" asp-controller="Patient">
                                 <input type="hidden" value="@patient.Id" name="Id" />
                                 <input type="submit" value="@patient.FirstName, @patient.LastName" />
@@ -40,7 +39,6 @@
                                 <img src="patient.icon" alt="patient.name" />
                                 <input type="submit" value="patient.name" />
                             </form>*@
-                        </li>
                     }
                 </ul>
             }
@@ -48,7 +46,7 @@
             {
                 <h4>You don't have any patients yet.</h4>
             }
-            <a asp-controller="Patient" asp-action="AddPatient">Add Patient</a>
+            <a class="addPatientLink" asp-controller="Patient" asp-action="AddPatient">Add Patient</a>
         </section>
         <!--<section id="medication-panel">-->
             <!--To have medical data shown-->
