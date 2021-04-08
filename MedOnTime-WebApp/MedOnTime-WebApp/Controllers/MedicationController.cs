@@ -48,7 +48,7 @@ namespace MedOnTime_WebApp.Controllers
         // Method for API Testing
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> MedicationForm(Medication formResponse, Microsoft.AspNetCore.Http.IFormFile image) // name of file input is "image" as an extra parameter
+        public async System.Threading.Tasks.Task<IActionResult> MedicationForm(Medication formResponse) // name of file input is "image" as an extra parameter
         {
             // TODO: Properly implement file upload from MedicationForm using tutorial: https://www.aurigma.com/upload-suite/developers/aspnet-mvc/how-to-upload-files-in-aspnet-mvc
             if (ModelState.IsValid)
