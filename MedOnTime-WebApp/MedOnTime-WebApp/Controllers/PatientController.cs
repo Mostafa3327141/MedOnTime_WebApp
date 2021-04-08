@@ -35,7 +35,7 @@ namespace MedOnTime_WebApp.Controllers
             List<Patient> existingPatients = new List<Patient>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/API/PatientAPI"))
+                using (var response = await httpClient.GetAsync("https://localhost:44338/API/PatientAPI?caretakerID=" + LoginStatus.LogginedUser.CaretakerID))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     System.Diagnostics.Debug.WriteLine(apiRes);
@@ -43,6 +43,23 @@ namespace MedOnTime_WebApp.Controllers
                 }
             }
             return View(existingPatients);
+        }
+
+        
+
+        public async System.Threading.Tasks.Task<ActionResult> PatientLog(string Id)
+        {
+            List<Log> existingLogs = new List<Log>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44338/API/LogAPI?patientID=" + Id))
+                {
+                    string apiRes = await response.Content.ReadAsStringAsync();
+                    System.Diagnostics.Debug.WriteLine(apiRes);
+                    existingLogs = JsonConvert.DeserializeObject<List<Log>>(apiRes);
+                }
+            }
+            return View(existingLogs);
         }
 
         [HttpPost]
