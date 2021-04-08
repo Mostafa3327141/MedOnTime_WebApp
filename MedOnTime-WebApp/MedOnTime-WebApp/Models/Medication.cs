@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -23,6 +24,8 @@ namespace MedOnTime_WebApp.Models
         public string MethodOfTaking { get; set; }
         [BsonElement("MedicationImage")]
         public string MedicationImage { get; set; }
+        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
+        public string ImageId { get; set; }
         [Required(ErrorMessage = "Please enter the dosage")]
         [BsonElement("Dosage")]
         public string Dosage { get; set; }

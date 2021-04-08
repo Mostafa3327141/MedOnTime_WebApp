@@ -85,6 +85,25 @@ td {
     justify-content: center;
 }
 
+#patient-select-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+a.addPatientLink {
+    text-align: center;
+    font-size: 100%;
+    padding: 10px;
+    text-decoration: none;
+    background-color: rgb(255, 133, 149);
+    color: black;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+
 /*Register.cshtml*/
 #heartPlus {
     height: 40px;
@@ -182,4 +201,49 @@ table.timepicker {
     font: 400 18px/100% Georgia, Times, "Times New Roman", serif;
     color: #222;
     
+}
+
+/*Specific Mobile Styles*/
+@media only screen and (max-width: 600px) {
+
+    /*General layout*/
+    footer.footer-hide {
+        display: none;
+    }
+
+    form {
+        vertical-align: central;
+    }
+
+    /*Home page*/
+    img.homeCalendar {
+        max-width: 100%;
+    }
+
+    div.homeButtons {
+        display: flex;
+        flex-direction: column;
+    }
+
+    a.homeRoute {
+        font-size: 140%;
+        padding: 20px 60px;
+        color: black;
+        border-radius: 5px;
+        margin: 10px;
+    }
+
+    #patient-select-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /*a.addPatientLink {
+        position: absolute;
+        bottom: 5%;
+        text-align: center;
+    }*/
+
+    /*Patient Profile*/
+
 }
