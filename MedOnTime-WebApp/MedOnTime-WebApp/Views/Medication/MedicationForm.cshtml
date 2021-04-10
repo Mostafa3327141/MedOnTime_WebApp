@@ -53,12 +53,17 @@
             </div>
         </div>
 
+        <!-- HoursBetween field-->
+        <div class="registerField">
+            <input class="form-control" type="number" asp-for="HoursBetween" min="0" placeholder="HoursBetween" />
+        </div>
+
         <!--Upload Pill Image field-->
         <div class="registerField">
             <label>Upload Medication</label> <br />
             <div style="padding: 10px 50px; border: solid black 2px; cursor:pointer;" class="btn btn-lg">
                 <div class="image-upload">
-                    <label for="file-input">
+                    <label for="file-upload" class="custom-file-upload">
                         <img class="upload-image-icon" src="~/img/upload-image-icon.png" alt="Upload Image Icon" />
                     </label>
                     <input id="file-upload" type="file" name="medImage" style="display:none;" />

@@ -63,8 +63,8 @@ namespace MedOnTime_WebApp.Controllers
                 var bytes = await medImage.GetBytes();
                 formResponse.MedicationImage = Convert.ToBase64String(bytes);
 
-                if (formResponse.Frequency == "Every Day")
-                    formResponse.HoursBetween = 24; // only if selecting Every Day option
+               /* if (formResponse.Frequency == "Every Day")
+                    formResponse.HoursBetween = 24; // only if selecting Every Day option*/
 
                 // create a new list for the newly binded medication object
                 formResponse.Times = new List<DateTime>();
