@@ -18,7 +18,7 @@ namespace MedOnTime_WebApp.Models
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/api/PatientAPI"))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/api/PatientAPI"))
                 {
                     // Load the patients that's under this caretaker
                     string apiRes = await response.Content.ReadAsStringAsync();

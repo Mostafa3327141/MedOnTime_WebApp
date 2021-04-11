@@ -27,7 +27,7 @@ namespace MedOnTime_WebApp.Controllers
             List<Medication> patientMeds = new List<Medication>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/API/MedicationAPI"))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/MedicationAPI"))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     System.Diagnostics.Debug.WriteLine(apiRes);
@@ -75,7 +75,7 @@ namespace MedOnTime_WebApp.Controllers
                     StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
                     using (var httpClient = new HttpClient())
                     {
-                        using (var response = await httpClient.PostAsync("https://localhost:44338/API/MedicationAPI", content))
+                        using (var response = await httpClient.PostAsync("https://medontime-api.herokuapp.com/API/MedicationAPI", content))
                         {
                             string apiRes = await response.Content.ReadAsStringAsync();
                             System.Diagnostics.Debug.WriteLine(apiRes);
@@ -95,7 +95,7 @@ namespace MedOnTime_WebApp.Controllers
             Medication med = new Medication();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/API/MedicationAPI/" + Id))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/MedicationAPI/" + Id))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     med = JsonConvert.DeserializeObject<Medication>(apiRes);
@@ -121,7 +121,7 @@ namespace MedOnTime_WebApp.Controllers
                 StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.PutAsync("https://localhost:44338/API/MedicationAPI", content))
+                    using (var response = await httpClient.PutAsync("https://medontime-api.herokuapp.com/API/MedicationAPI", content))
                     {
                         string apiRes = await response.Content.ReadAsStringAsync();
                         System.Diagnostics.Debug.WriteLine(apiRes);
@@ -141,7 +141,7 @@ namespace MedOnTime_WebApp.Controllers
             Medication med = new Medication();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/API/MedicationAPI/" + Id))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/MedicationAPI/" + Id))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     med = JsonConvert.DeserializeObject<Medication>(apiRes);
@@ -162,7 +162,7 @@ namespace MedOnTime_WebApp.Controllers
             Medication med = new Medication();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44338/API/MedicationAPI/" + Id))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/MedicationAPI/" + Id))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     med = JsonConvert.DeserializeObject<Medication>(apiRes);
@@ -180,7 +180,7 @@ namespace MedOnTime_WebApp.Controllers
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.DeleteAsync("https://localhost:44338/API/MedicationAPI/" + objID))
+                    using (var response = await httpClient.DeleteAsync("https://medontime-api.herokuapp.com/API/MedicationAPI/" + objID))
                     {
                         string apiRes = await response.Content.ReadAsStringAsync();
                         System.Diagnostics.Debug.WriteLine(apiRes);
