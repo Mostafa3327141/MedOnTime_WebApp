@@ -33,5 +33,13 @@ namespace MedOnTime_WebApp.Models
                 }
             }
         }
+
+        public static void Logout()
+        {
+            IsLoggedIn = false;
+            LogginedUser = null;
+            Patients = null;
+            SelectedPatient = null;
+        }
     }
 }

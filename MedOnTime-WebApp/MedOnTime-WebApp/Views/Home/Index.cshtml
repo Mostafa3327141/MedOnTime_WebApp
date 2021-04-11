@@ -21,7 +21,7 @@
             <!--To have patient data shown-->
             <img class="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
             <h4>Logged in as @LoginStatus.LogginedUser.Email</h4>
-        </section> 
+        </section>
         <section id="medication-panel">
             @if (LoginStatus.Patients.Count() != 0)
             {
@@ -29,11 +29,13 @@
                 <ul id="patient-select-list">
                     @foreach (var patient in LoginStatus.Patients)
                     {
+                        <li>
                             <form method="get" asp-action="PatientDetails" asp-controller="Patient">
                                 <input type="hidden" value="@patient.Id" name="Id" />
                                 <input type="submit" value="@patient.FirstName, @patient.LastName" />
                             </form>
-                                @*
+                        </li>
+                        @*
                             <form method="post" asp-action="Patient_Detail">
                                 <input type="hidden" name="PatientId" value="patient.PatientId" />
                                 <img src="patient.icon" alt="patient.name" />
@@ -49,8 +51,8 @@
             <a class="addPatientLink" asp-controller="Patient" asp-action="AddPatient">Add Patient</a>
         </section>
         <!--<section id="medication-panel">-->
-            <!--To have medical data shown-->
-            <!--<h4>No Medications Added</h4>
+        <!--To have medical data shown-->
+        <!--<h4>No Medications Added</h4>
             <a class="homeRoute" asp-controller="Medication" asp-action="MedicationForm">Add Medication</a>
         </section>-->
     }

@@ -144,6 +144,13 @@ namespace MedOnTime_WebApp.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            LoginStatus.Logout();
+            return RedirectToAction("Index", "Home");
+        }
+
 
         // Comes from MS documentation
         // ref https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.hashalgorithm.computehash?view=netcore-3.1
