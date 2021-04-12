@@ -1,10 +1,8 @@
 ﻿using MedOnTime_WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;

@@ -7,18 +7,38 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="C:\Users\kenye\.nuget\packages\mongodb.libmongocrypt.signed\1.2.1.1\contentFiles\any\netstandard2.1\libmongocrypt.dylib" />
+    <Content Remove="C:\Users\kenye\.nuget\packages\mongodb.libmongocrypt.signed\1.2.1.1\contentFiles\any\netstandard2.1\libmongocrypt.so" />
+    <Content Remove="C:\Users\kenye\.nuget\packages\mongodb.libmongocrypt.signed\1.2.1.1\contentFiles\any\netstandard2.1\mongocrypt.dll" />
+    <Content Remove="C:\Users\kenye\.nuget\packages\mongodb.libmongocrypt\1.2.1\contentFiles\any\netstandard2.1\libmongocrypt.dylib" />
+    <Content Remove="C:\Users\kenye\.nuget\packages\mongodb.libmongocrypt\1.2.1\contentFiles\any\netstandard2.1\libmongocrypt.so" />
+    <Content Remove="C:\Users\kenye\.nuget\packages\mongodb.libmongocrypt\1.2.1\contentFiles\any\netstandard2.1\mongocrypt.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
-    <PackageReference Include="MongoDB.Bson" Version="2.12.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.12.0" />
-    <PackageReference Include="MongoDB.Driver.GridFS.signed" Version="2.11.2" />
-    <PackageReference Include="MongoDB.Libmongocrypt" Version="1.2.1" />
-    <PackageReference Include="MongoDB.Libmongocrypt.signed" Version="1.2.1.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\kenye\.nuget\packages\mongodb.libmongocrypt\1.2.1\build\../runtimes/win/native/mongocrypt.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\kenye\.nuget\packages\mongodb.libmongocrypt.signed\1.2.1.1\build\../runtimes/win/native/mongocrypt.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\kenye\.nuget\packages\mongodb.libmongocrypt\1.2.1\build\../runtimes/win/native/mongocrypt.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\kenye\.nuget\packages\mongodb.libmongocrypt.signed\1.2.1.1\build\../runtimes/win/native/mongocrypt.dll" />
   </ItemGroup>
 
 </Project>

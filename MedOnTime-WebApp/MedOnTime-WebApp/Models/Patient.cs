@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -8,30 +6,23 @@ namespace MedOnTime_WebApp.Models
 {
     public class Patient
     {
-        [BsonId]
-        [BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
         public string Id { get; set; }
         public int PatientID { get; set; }
         public int CaretakerID { get; set; } // for caretaker
         
         [Required(ErrorMessage = "Please enter your first name")]
-        [BsonElement("FirstName")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Please enter your last name")]
-        [BsonElement("LastName")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please enter your email")]
-        [BsonElement("Email")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Please enter your phone number")]
-        [BsonElement("PhoneNum")]
         public string PhoneNum { get; set; }
 
         [Required(ErrorMessage = "Please enter your age")]
-        [BsonElement("Age")]
         public int Age { get; set; }
         public List<int> MedicationIDs { get; set; }
         public List <int> PrescriptionIDs { get; set; }

@@ -1,16 +1,11 @@
 ﻿using MedOnTime_WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MongoDB.Driver.GridFS; // this version of GridFS works with ASP.NET Core: https://www.nuget.org/packages/MongoDB.Driver.GridFS.signed/
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.IO;
 
 namespace MedOnTime_WebApp.Controllers
 {
