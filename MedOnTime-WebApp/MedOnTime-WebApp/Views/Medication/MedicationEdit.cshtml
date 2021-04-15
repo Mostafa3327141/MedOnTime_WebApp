@@ -2,9 +2,12 @@
 
 <div>
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
-    <form asp-action="MedicationEdit" method="post">
+    <form enctype="multipart/form-data" asp-action="MedicationEdit" method="post">
         <input type="hidden" name="objID" value="@Model.Id">
         <input type="submit" />
+        <!--Current Caretaker-->
+        <input type="hidden" value="@Model.CaretakerID" asp-for="CaretakerID" />
+        <input type="hidden" value="@Model.PatientID" asp-for="PatientID" />
         <!-- Medication name field-->
         <div class="registerField">
             <input class="form-control" asp-for="MedicationName" placeholder="Medication Name" />

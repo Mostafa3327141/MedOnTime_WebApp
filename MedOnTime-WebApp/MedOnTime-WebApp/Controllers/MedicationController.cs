@@ -52,11 +52,15 @@ namespace MedOnTime_WebApp.Controllers
             {
                 System.Diagnostics.Debug.WriteLine(formResponse.MedicationName + ", " + formResponse.MethodOfTaking + ", " + formResponse.Dosage + ", " + formResponse.Quantity + ", " + formResponse.MedicationType);
 
-                Console.WriteLine(medImage.ContentType);
-                
-                // prepping medImage for serialization
-                var bytes = await medImage.GetBytes();
-                formResponse.MedicationImage = Convert.ToBase64String(bytes);
+                if (medImage != null)
+                {
+                    // prepping medImage for serialization
+                    var bytes = await medImage.GetBytes();
+                    formResponse.MedicationImage = Convert.ToBase64String(bytes);
+                } else
+                {
+                    formResponse.MedicationImage = null;
+                }
 
                /* if (formResponse.Frequency == "Every Day")
                     formResponse.HoursBetween = 24; // only if selecting Every Day option*/
@@ -102,7 +106,7 @@ namespace MedOnTime_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(string objID, Medication formResponse, IFormFile medImage)
+        public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(Medication formResponse, IFormFile medImage)
         {
             if (ModelState.IsValid)
             {
@@ -143,7 +147,8 @@ namespace MedOnTime_WebApp.Controllers
                     if (med.MedicationImage != null)
                     {
                         var binary = Convert.FromBase64String(med.MedicationImage);
-                        System.IO.File.WriteAllBytes("./wwwroot/img/test.jpg", binary); // TODO: Detect image file type before creating file.
+                        System.IO.File.WriteAllBytes("./wwwroot/img/" + med.Id + ".jpg", binary); // TODO: Detect image file type before creating file.
+                        //System.IO.File.WriteAllBytes("./wwwroot/img/test.jpg", binary); // TODO: Detect image file type before creating file.
                     }
                     System.Diagnostics.Debug.WriteLine(apiRes);
                 }

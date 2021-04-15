@@ -1,7 +1,9 @@
 ﻿@model Medication
 
-@{ ViewData["Title"] = "Edit";
-                Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{  ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.imageSrc = Model.Id + ".jpg";
+}
 
 <div>
     <h1>Details</h1>
@@ -43,12 +45,14 @@
         <dd class="col-sm-10">
             @Model.Frequency
         </dd>
+        @if (Model.MedicationImage != null) { 
         <dt class="col-sm-2">
             Medication Image
         </dt>
         <dd class="col-sm-10">
-            <img src="~/img/test.jpg" alt="@Model.MedicationName" width="300" style="object-fit:contain;" />
+            <img src="~/img/@ViewBag.imageSrc" alt="@Model.MedicationName" width="300" style="object-fit:contain;" />
         </dd>
+        }
         <dt class="col-sm-2">
             QRCode<br />
             <button onclick="PrintImage('https://api.qrserver.com/v1/create-qr-code/?data=@Model.Id'); return false;" id="printImage">Print QR Code</button>
