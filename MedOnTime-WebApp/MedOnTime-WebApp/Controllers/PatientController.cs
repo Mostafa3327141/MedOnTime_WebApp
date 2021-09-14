@@ -16,6 +16,7 @@ namespace MedOnTime_WebApp.Controllers
 {
     public class PatientController : Controller
     {
+        
         public PatientController()
         {
         }
@@ -32,7 +33,7 @@ namespace MedOnTime_WebApp.Controllers
             List<Patient> existingPatients = new List<Patient>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/PatientAPI?caretakerID=" + LoginStatus.LogginedUser.CaretakerID))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/PatientAPI?caretakerID=" + LoginStatus.LogginedUser.CaretakerID + "&" + LoginStatus.ApiKey))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     System.Diagnostics.Debug.WriteLine(apiRes);
@@ -49,7 +50,7 @@ namespace MedOnTime_WebApp.Controllers
             List<Log> existingLogs = new List<Log>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/LogAPI?patientID=" + Id))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/LogAPI?patientID=" + Id + LoginStatus.ApiKey))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     System.Diagnostics.Debug.WriteLine(apiRes);
@@ -76,7 +77,7 @@ namespace MedOnTime_WebApp.Controllers
                     // Get the existing Patients with GET method
                     using (var httpClient = new HttpClient())
                     {
-                        using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/api/PatientAPI"))
+                        using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/api/PatientAPI?" + LoginStatus.ApiKey))
                         {
                             string apiRes = await response.Content.ReadAsStringAsync();
                             System.Diagnostics.Debug.WriteLine(apiRes);
@@ -104,7 +105,7 @@ namespace MedOnTime_WebApp.Controllers
                     using (var httpClient = new HttpClient())
                     {
                         StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
-                        using (var response = await httpClient.PostAsync("https://medontime-api.herokuapp.com/api/PatientAPI", content))
+                        using (var response = await httpClient.PostAsync("https://medontime-api.herokuapp.com/api/PatientAPI?", content))
                         {
                             string apiRes = await response.Content.ReadAsStringAsync();
                             System.Diagnostics.Debug.WriteLine(apiRes);
@@ -126,7 +127,7 @@ namespace MedOnTime_WebApp.Controllers
             Patient patient = new Patient();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/PatientAPI/" + Id))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/PatientAPI/" + Id + "?" + LoginStatus.ApiKey))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     patient = JsonConvert.DeserializeObject<Patient>(apiRes);
@@ -145,7 +146,7 @@ namespace MedOnTime_WebApp.Controllers
             Patient patient = new Patient();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/PatientAPI/" + Id))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/PatientAPI/" + Id + "?" + LoginStatus.ApiKey))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     patient = JsonConvert.DeserializeObject<Patient>(apiRes);
@@ -185,7 +186,7 @@ namespace MedOnTime_WebApp.Controllers
             Patient patient = new Patient();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/PatientAPI/" + Id))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/PatientAPI/" + Id + "?" + LoginStatus.ApiKey))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     patient = JsonConvert.DeserializeObject<Patient>(apiRes);
@@ -203,7 +204,7 @@ namespace MedOnTime_WebApp.Controllers
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.DeleteAsync("https://medontime-api.herokuapp.com/API/PatientAPI/" + Id))
+                    using (var response = await httpClient.DeleteAsync("https://medontime-api.herokuapp.com/API/PatientAPI/" + Id + "?" + LoginStatus.ApiKey))
                     {
                         string apiRes = await response.Content.ReadAsStringAsync();
                         System.Diagnostics.Debug.WriteLine(apiRes);

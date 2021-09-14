@@ -6,6 +6,7 @@ namespace MedOnTime_WebApp.Models
 {
     public static class LoginStatus
     {
+        public static string ApiKey { get { return "key=sH5O!2cdOqP1^"; } }
         public static bool IsLoggedIn { get; set; } = false;
         public static Caretaker LogginedUser { get; set; }
         public static List<Patient> Patients { get; set; }
@@ -17,7 +18,7 @@ namespace MedOnTime_WebApp.Models
 
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/api/PatientAPI"))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/api/PatientAPI?" + ApiKey))
                 {
                     // Load the patients that's under this caretaker
                     string apiRes = await response.Content.ReadAsStringAsync();

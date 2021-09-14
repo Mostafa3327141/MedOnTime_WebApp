@@ -42,7 +42,7 @@ namespace MedOnTime_WebApp.Controllers
                     // Get the existing Caretakers with GET method
                     using (var httpClient = new HttpClient())
                     {
-                        using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/api/CaretakerAPI"))
+                        using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/api/CaretakerAPI?" + LoginStatus.ApiKey))
                         {
                             string apiRes = await response.Content.ReadAsStringAsync();
                             System.Diagnostics.Debug.WriteLine(apiRes);
@@ -109,7 +109,7 @@ namespace MedOnTime_WebApp.Controllers
 
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/api/CaretakerAPI"))
+                    using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/api/CaretakerAPI?" + LoginStatus.ApiKey))
                     {
                         string apiRes = await response.Content.ReadAsStringAsync();
                         System.Diagnostics.Debug.WriteLine(apiRes);
