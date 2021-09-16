@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\img\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="C:\Users\kenye\.nuget\packages\mongodb.libmongocrypt\1.2.1\build\../runtimes/win/native/mongocrypt.dll" />
   </ItemGroup>
 

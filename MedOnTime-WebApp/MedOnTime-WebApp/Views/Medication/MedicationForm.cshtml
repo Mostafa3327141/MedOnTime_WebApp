@@ -58,6 +58,31 @@
             <input class="form-control" type="number" asp-for="HoursBetween" min="0" placeholder="HoursBetween" />
         </div>
 
+        <!-- HoursBetween field-->
+        <div class="registerField">
+            <label style="margin: 0;" >Select a shape as an identifier</label><br />
+            <select class="form-control" id="shape-selector" onChange="shapeSelectorChange()">
+                <option value="circle" selected="selected">Circle</option>
+                <option value="oval">Oval</option>
+                <option value="triangle">Triangle</option>
+                <option value="heart">Heart</option>
+                <option value="pentagon">Pentagon</option>
+                <option value="hexagon">Hexagon</option>
+                <option value="octagon">Octagon</option>
+                <option value="rightTri">Right Triangle</option>
+                <option value="sTri">Scalene Triangle</option>
+                <option value="square">Square</option>
+                <option value="rectangle">Rectangle</option>
+                <option value="parallelogram">Parallelogram</option>
+                <option value="trapezuim">Trapezuim</option>
+                <option value="rhombus">Rhombus</option>
+                <option value="4star">4 Pointed Star</option>
+                <option value="star">5 Pointed Star</option>
+                <option value="6star">6 Pointed Star</option>
+            </select>
+            <img id="shape-display" />
+        </div>
+
         <!--Upload Pill Image field-->
         <div class="registerField">
             <label>Upload Medication</label> <br />
@@ -71,4 +96,65 @@
             </div>
         </div>
     </form>
+
+    <script>
+        function shapeSelectorChange() {
+            var selectedShape = document.getElementById("shape-selector").value;
+            var shapeDisplay = document.getElementById("shape-display");
+
+            switch (selectedShape) {
+                case "circle":
+                    shapeDisplay.src = "/img/shapes/circle.PNG"
+                    break;
+                case "oval":
+                    shapeDisplay.src = "/img/shapes/oval.PNG"
+                    break;
+                case "triangle":
+                    shapeDisplay.src = "/img/shapes/Triangle.PNG"
+                    break;
+                case "heart":
+                    shapeDisplay.src = "/img/shapes/Heart.PNG"
+                    break;
+                case "pentagon":
+                    shapeDisplay.src = "/img/shapes/pentagon.PNG"
+                    break;
+                case "hexagon":
+                    shapeDisplay.src = "/img/shapes/hexagon.PNG"
+                    break;
+                case "octagon":
+                    shapeDisplay.src = "/img/shapes/octagon.PNG"
+                    break;
+                case "rightTri":
+                    shapeDisplay.src = "/img/shapes/right_triangle.PNG"
+                    break;
+                case "sTri":
+                    shapeDisplay.src = "/img/shapes/sTriangle.PNG"
+                    break;
+                case "square":
+                    shapeDisplay.src = "/img/shapes/square.PNG"
+                    break;
+                case "rectangle":
+                    shapeDisplay.src = "/img/shapes/rectangle.PNG"
+                    break;
+                case "parallelogram":
+                    shapeDisplay.src = "/img/shapes/parallelogram.PNG"
+                    break;
+                case "trapezuim":
+                    shapeDisplay.src = "/img/shapes/Trapezuim.PNG"
+                    break;
+                case "rhombus":
+                    shapeDisplay.src = "/img/shapes/Rhombus.PNG"
+                    break;
+                case "4star":
+                    shapeDisplay.src = "/img/shapes/4pointStar.PNG"
+                    break;
+                case "star":
+                    shapeDisplay.src = "/img/shapes/star.PNG"
+                    break;
+                case "6star":
+                    shapeDisplay.src = "/img/shapes/6pointStar.PNG"
+                    break;
+            }
+        }
+    </script>
 </div>
