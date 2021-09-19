@@ -27,7 +27,7 @@
         <!-- Medicine type field-->
         <div class="registerField">
             <select class="form-control  mb-3" asp-for="MedicationType">
-                <option selected>Medicine Type</option>
+                <option selected disabled>Medicine Type</option>
                 <option value="pill">Pill</option>
                 <option value="syrup">Syrup</option>
                 <option value="spray">Spray</option>
@@ -37,8 +37,8 @@
         <!-- Frequency field-->
         <div class="registerField">
             <select class="form-control mb-3" asp-for="Frequency">
-                <option selected>Frequency</option>
-                <option value="Every Day" selected>Every Day</option> <!--Hours Between = 24 hours-->
+                <option selected disabled>Frequency</option>
+                <option value="Every Day">Every Day</option> <!--Hours Between = 24 hours-->
                 <option value="Specific Days">Specific Days</option>
                 <option value="Days Interval">Days Interval</option>
                 <option value="Birth Control Cycle">Birth Control Cycle</option>
@@ -62,11 +62,18 @@
         <div class="registerField">
             <label style="margin: 0;" >Select a shape as an identifier</label><br />
 
-            <select class="form-control" id="shape-selector" onChange="shapeSelectorChange()">
-                <option selected="selected" disabled>Please select a shape</option>
-                @{ foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
+            <select class="form-control" id="shape-selector" asp-for="Shape" onChange="shapeSelectorChange()">
+                <option selected disabled>Please select a shape</option>
+                @{ 
+                    if (LoginStatus.SelectedPatient.UnSelectedShapes.Count != 0) { 
+                        foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
+                        {
+                            <option value="@s.ShapeName">@s.ShapeDisplay</option>
+                        }
+                    }
+                    else
                     {
-                        <option value="@s.ShapeName">@s.ShapeDisplay</option>
+                        <option disabled>Out of shapes</option>
                     }
                 }
 @*                <option value="circle" selected="selected">Circle</option>

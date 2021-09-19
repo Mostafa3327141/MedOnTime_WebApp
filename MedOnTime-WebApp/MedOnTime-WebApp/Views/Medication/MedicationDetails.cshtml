@@ -3,6 +3,63 @@
 @{  ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.imageSrc = Model.Id + ".jpg";
+
+    String ShapeSrc = "";
+
+    switch (Model.Shape)
+    {
+        case "circle":
+            ShapeSrc = "/img/shapes/circle.PNG";
+            break;
+        case "oval":
+            ShapeSrc = "/img/shapes/oval.PNG";
+            break;
+        case "triangle":
+            ShapeSrc = "/img/shapes/Triangle.PNG";
+            break;
+        case "heart":
+            ShapeSrc = "/img/shapes/Heart.PNG";
+            break;
+        case "pentagon":
+            ShapeSrc = "/img/shapes/pentagon.PNG";
+            break;
+        case "hexagon":
+            ShapeSrc = "/img/shapes/hexagon.PNG";
+            break;
+        case "octagon":
+            ShapeSrc = "/img/shapes/octagon.PNG";
+            break;
+        case "rightTri":
+            ShapeSrc = "/img/shapes/right_triangle.PNG";
+            break;
+        case "sTri":
+            ShapeSrc = "/img/shapes/sTriangle.PNG";
+            break;
+        case "square":
+            ShapeSrc = "/img/shapes/square.PNG";
+            break;
+        case "rectangle":
+            ShapeSrc = "/img/shapes/rectangle.PNG";
+            break;
+        case "parallelogram":
+            ShapeSrc = "/img/shapes/parallelogram.PNG";
+            break;
+        case "trapezuim":
+            ShapeSrc = "/img/shapes/Trapezuim.PNG";
+            break;
+        case "rhombus":
+            ShapeSrc = "/img/shapes/Rhombus.PNG";
+            break;
+        case "4star":
+            ShapeSrc = "/img/shapes/4pointStar.PNG";
+            break;
+        case "star":
+            ShapeSrc = "/img/shapes/star.PNG";
+            break;
+        case "6star":
+            ShapeSrc = "/img/shapes/6pointStar.PNG";
+            break;
+    }
 }
 
 <div>
@@ -45,14 +102,22 @@
         <dd class="col-sm-10">
             @Model.Frequency
         </dd>
-        @if (Model.MedicationImage != null) { 
-        <dt class="col-sm-2">
-            Medication Image
-        </dt>
-        <dd class="col-sm-10">
-            <img src="~/img/@ViewBag.imageSrc" alt="@Model.MedicationName" width="300" style="object-fit:contain;" />
-        </dd>
+        @if (Model.MedicationImage != null)
+        {
+            <dt class="col-sm-2">
+                Medication Image
+            </dt>
+            <dd class="col-sm-10">
+                <img src="~/img/@ViewBag.imageSrc" alt="@Model.MedicationName" width="300" style="object-fit:contain;" />
+            </dd>
         }
+        <dt class="col-sm-2">
+            Identifier shape for this med<br />
+        </dt>
+        <dd download class="col-sm-10">
+            <img src="@ShapeSrc" width="100" height="100" alt="QR code" /><br />
+        </dd>
+        </dl>
         <dt class="col-sm-2">
             QRCode<br />
             <button onclick="PrintImage('https://api.qrserver.com/v1/create-qr-code/?data=@Model.Id'); return false;" id="printImage">Print QR Code</button>
