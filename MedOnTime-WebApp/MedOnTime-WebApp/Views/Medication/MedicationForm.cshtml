@@ -61,8 +61,15 @@
         <!-- HoursBetween field-->
         <div class="registerField">
             <label style="margin: 0;" >Select a shape as an identifier</label><br />
+
             <select class="form-control" id="shape-selector" onChange="shapeSelectorChange()">
-                <option value="circle" selected="selected">Circle</option>
+                <option selected="selected" disabled>Please select a shape</option>
+                @{ foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
+                    {
+                        <option value="@s.ShapeName">@s.ShapeDisplay</option>
+                    }
+                }
+@*                <option value="circle" selected="selected">Circle</option>
                 <option value="oval">Oval</option>
                 <option value="triangle">Triangle</option>
                 <option value="heart">Heart</option>
@@ -78,7 +85,7 @@
                 <option value="rhombus">Rhombus</option>
                 <option value="4star">4 Pointed Star</option>
                 <option value="star">5 Pointed Star</option>
-                <option value="6star">6 Pointed Star</option>
+                <option value="6star">6 Pointed Star</option>*@
             </select>
             <img id="shape-display" />
         </div>

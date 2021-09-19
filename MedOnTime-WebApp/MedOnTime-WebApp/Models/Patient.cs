@@ -24,6 +24,7 @@ namespace MedOnTime_WebApp.Models
 
         [Required(ErrorMessage = "Please enter your age")]
         public int Age { get; set; }
+        public List<Shape> UnSelectedShapes { get; set; }
         public List<int> MedicationIDs { get; set; }
         public List <int> PrescriptionIDs { get; set; }
 
@@ -39,6 +40,25 @@ namespace MedOnTime_WebApp.Models
             this.Age = age;
             this.MedicationIDs = new List<int>();
             this.CaretakerID = 0;
+            this.UnSelectedShapes = new List<Shape> { 
+                new Shape { ShapeName = "circle", ShapeDisplay = "Circle" },
+                new Shape { ShapeName = "oval", ShapeDisplay = "Oval" },
+                new Shape { ShapeName = "triangle", ShapeDisplay = "Triangle" },
+                new Shape { ShapeName = "heart", ShapeDisplay = "Heart" },
+                new Shape { ShapeName = "pentagon", ShapeDisplay = "Pentagon" },
+                new Shape { ShapeName = "hexagon", ShapeDisplay = "Hexagon" },
+                new Shape { ShapeName = "octagon", ShapeDisplay = "Octagon" },
+                new Shape { ShapeName = "rightTri", ShapeDisplay = "Right Triangle" },
+                new Shape { ShapeName = "sTri", ShapeDisplay = "Scalene Triangle" },
+                new Shape { ShapeName = "square", ShapeDisplay = "Square" },
+                new Shape { ShapeName = "rectangle", ShapeDisplay = "Rectangle" },
+                new Shape { ShapeName = "parallelogram", ShapeDisplay = "Parallelogram" },
+                new Shape { ShapeName = "trapezuim", ShapeDisplay = "Trapezuim" },
+                new Shape { ShapeName = "rhombus", ShapeDisplay = "Rhombus" },
+                new Shape { ShapeName = "4star", ShapeDisplay = "4 Pointed Star" },
+                new Shape { ShapeName = "star", ShapeDisplay = "5 Pointed Star" },
+                new Shape { ShapeName = "6star", ShapeDisplay = "6 Pointed Star" }
+            };
             this.PrescriptionIDs = new List<int>();
         }
     }

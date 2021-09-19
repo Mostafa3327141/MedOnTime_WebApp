@@ -52,6 +52,26 @@ namespace MedOnTime_WebApp.Controllers
             {
                 System.Diagnostics.Debug.WriteLine(formResponse.MedicationName + ", " + formResponse.MethodOfTaking + ", " + formResponse.Dosage + ", " + formResponse.Quantity + ", " + formResponse.MedicationType);
 
+                // Remove selected shape into the list of unselected shape
+                foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
+                {
+                    if (s.ShapeName == formResponse.Shape) {
+                        LoginStatus.SelectedPatient.UnSelectedShapes.Remove(s);
+                        break;
+                    }
+                }
+
+                // Update patient's unselected shapes
+                StringContent patientContent = new StringContent(JsonConvert.SerializeObject(LoginStatus.SelectedPatient), Encoding.UTF8, "application/json");
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.PutAsync("https://medontime-api.herokuapp.com/API/PatientAPI", patientContent))
+                    {
+                        string apiRes = await response.Content.ReadAsStringAsync();
+                        System.Diagnostics.Debug.WriteLine(apiRes);
+                    }
+                }
+
                 if (medImage != null)
                 {
                     // prepping medImage for serialization

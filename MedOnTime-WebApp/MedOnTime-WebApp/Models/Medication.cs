@@ -37,13 +37,16 @@ namespace MedOnTime_WebApp.Models
         //[Required(ErrorMessage = "Please enter time of taking the medication")]
         public int HoursBetween { get; set; }
 
-        [Required(ErrorMessage = "Please enter the Frequency")]
+        [Required(ErrorMessage = "Please enter the frequency")]
         public string Frequency { get; set; }
+
+        [Required(ErrorMessage = "Please select a shape for this medication")]
+        public string Shape { get; set; }
 
         public List<DateTime> Times { get; set; }
 
         public Medication() { }
-        public Medication(string medicationName, string methodOfTaking, string medImage, string dosage, string medicationType, int quantity, string firstDoseTime, string frequency, int hoursBetween)
+        public Medication(string medicationName, string methodOfTaking, string medImage, string dosage, string medicationType, int quantity, string firstDoseTime, string frequency, string shape,int hoursBetween)
         {
             this.MedicationName = medicationName;
             this.MethodOfTaking = methodOfTaking;
@@ -53,6 +56,7 @@ namespace MedOnTime_WebApp.Models
             this.Quantity = quantity;
             this.FirstDoseTime = firstDoseTime;
             this.Frequency = frequency;
+            this.Shape = shape;
             this.HoursBetween = hoursBetween;
             this.Times = new List<DateTime>();
         }
