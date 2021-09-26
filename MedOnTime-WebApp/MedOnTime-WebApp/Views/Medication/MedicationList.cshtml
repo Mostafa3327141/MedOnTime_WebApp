@@ -19,7 +19,7 @@
                     Medication Name
                 </th>
                 <th>
-                    Medication Type
+                    Unit
                 </th>
                 <th></th>
             </tr>
@@ -32,7 +32,7 @@
                         @Html.DisplayFor(modelItem => item.MedicationName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.MedicationType)
+                        @Html.DisplayFor(modelItem => item.Unit)
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "MedicationEdit", new { Id = item.Id }) |

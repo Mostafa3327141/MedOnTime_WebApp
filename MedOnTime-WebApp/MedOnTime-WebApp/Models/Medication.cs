@@ -14,19 +14,12 @@ namespace MedOnTime_WebApp.Models
 
         [Required(ErrorMessage = "Please enter medication name")]
         public string MedicationName { get; set; }
-
-        [Required(ErrorMessage = "Please enter the method of taking")]
-        public string MethodOfTaking { get; set; }
-
         public string MedicationImage { get; set; }
 
         public string ImageId { get; set; }
 
-        [Required(ErrorMessage = "Please enter the dosage")]
-        public string Dosage { get; set; }
-
-        [Required(ErrorMessage = "Please select the type of taking")]
-        public string MedicationType { get; set; }
+        [Required(ErrorMessage = "Please enter the unit")]
+        public string Unit { get; set; }
 
         [Required(ErrorMessage = "Please select the quantity")]
         public int? Quantity { get; set; }
@@ -34,8 +27,8 @@ namespace MedOnTime_WebApp.Models
         [Required(ErrorMessage = "Please enter time of taking the medication")]
         public string FirstDoseTime { get; set; }
 
-        //[Required(ErrorMessage = "Please enter time of taking the medication")]
-        public int HoursBetween { get; set; }
+        [Required(ErrorMessage = "Please enter time of taking the medication")]
+        public int? HoursBetween { get; set; }
 
         [Required(ErrorMessage = "Please enter the frequency")]
         public string Frequency { get; set; }
@@ -46,13 +39,10 @@ namespace MedOnTime_WebApp.Models
         public List<DateTime> Times { get; set; }
 
         public Medication() { }
-        public Medication(string medicationName, string methodOfTaking, string medImage, string dosage, string medicationType, int quantity, string firstDoseTime, string frequency, string shape,int hoursBetween)
+        public Medication(string medicationName, string medImage, string unit, int quantity, string firstDoseTime, string frequency, string shape,int hoursBetween)
         {
             this.MedicationName = medicationName;
-            this.MethodOfTaking = methodOfTaking;
-            this.MedicationImage = medImage;
-            this.Dosage = dosage;
-            this.MedicationType = medicationType;
+            this.Unit = unit;
             this.Quantity = quantity;
             this.FirstDoseTime = firstDoseTime;
             this.Frequency = frequency;

@@ -12,26 +12,36 @@
         <div class="registerField">
             <input class="form-control" asp-for="MedicationName" placeholder="Medication Name" />
         </div>
-        <!-- Method of taking field-->
+        <!-- Unit field-->
         <div class="registerField">
-            <input class="form-control" asp-for="MethodOfTaking" placeholder="Method of Taking" />
-        </div>
-        <!-- Dosage field-->
-        <div class="registerField">
-            <input class="form-control" asp-for="Dosage" placeholder="Dosage" />
+            <table>
+                <tr>
+                    <td>
+                        <input class="form-control" type="number" min="0" id="unit-numeric" onchange="unitModified()" placeholder="Unit" />
+                    </td>
+                    <td>
+                        <select class="form-control" id="unit-unit" onchange="unitModified()">
+                            <option value="g">g</option>
+                            <option value="IU">IU</option>
+                            <option value="mcg">mcg</option>
+                            <option value="mcg/hr">mcg/hr</option>
+                            <option value="mcg/ml">mcg/ml</option>
+                            <option value="mEg">mEg</option>
+                            <option value="mg">mg</option>
+                            <option value="mg/cm2">mg/cm2</option>
+                            <option value="mg/g">mg/g</option>
+                            <option value="mg/ml">mg/ml</option>
+                            <option value="ml">ml</option>
+                            <option value="pct">%</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <input style="display:none" asp-for="Unit" id="concated-unit" />
         </div>
         <!-- Quantity field-->
         <div class="registerField">
             <input class="form-control" asp-for="Quantity" min="0" placeholder="Quantity" />
-        </div>
-        <!-- Medicine type field-->
-        <div class="registerField">
-            <select class="form-control  mb-3" asp-for="MedicationType">
-                <option selected disabled>Medicine Type</option>
-                <option value="pill">Pill</option>
-                <option value="syrup">Syrup</option>
-                <option value="spray">Spray</option>
-            </select>
         </div>
 
         <!-- Frequency field-->
@@ -76,23 +86,6 @@
                         <option disabled>Out of shapes</option>
                     }
                 }
-@*                <option value="circle" selected="selected">Circle</option>
-                <option value="oval">Oval</option>
-                <option value="triangle">Triangle</option>
-                <option value="heart">Heart</option>
-                <option value="pentagon">Pentagon</option>
-                <option value="hexagon">Hexagon</option>
-                <option value="octagon">Octagon</option>
-                <option value="rightTri">Right Triangle</option>
-                <option value="sTri">Scalene Triangle</option>
-                <option value="square">Square</option>
-                <option value="rectangle">Rectangle</option>
-                <option value="parallelogram">Parallelogram</option>
-                <option value="trapezuim">Trapezuim</option>
-                <option value="rhombus">Rhombus</option>
-                <option value="4star">4 Pointed Star</option>
-                <option value="star">5 Pointed Star</option>
-                <option value="6star">6 Pointed Star</option>*@
             </select>
             <img id="shape-display" />
         </div>
@@ -112,61 +105,69 @@
     </form>
 
     <script>
+        function unitModified() {
+            var numericUnit = document.getElementById("unit-numeric").value;
+            var unitType = document.getElementById("unit-unit").value;
+            var concatedUnit = document.getElementById("concated-unit");
+
+            concatedUnit.value = numericUnit + " " + unitType;
+        }
+
         function shapeSelectorChange() {
             var selectedShape = document.getElementById("shape-selector").value;
             var shapeDisplay = document.getElementById("shape-display");
 
             switch (selectedShape) {
                 case "circle":
-                    shapeDisplay.src = "/img/shapes/circle.PNG"
+                    shapeDisplay.src = "/img/shapes/circle.PNG";
                     break;
                 case "oval":
-                    shapeDisplay.src = "/img/shapes/oval.PNG"
+                    shapeDisplay.src = "/img/shapes/oval.PNG";
                     break;
                 case "triangle":
-                    shapeDisplay.src = "/img/shapes/Triangle.PNG"
+                    shapeDisplay.src = "/img/shapes/Triangle.PNG";
                     break;
                 case "heart":
-                    shapeDisplay.src = "/img/shapes/Heart.PNG"
+                    shapeDisplay.src = "/img/shapes/Heart.PNG";
                     break;
                 case "pentagon":
-                    shapeDisplay.src = "/img/shapes/pentagon.PNG"
+                    shapeDisplay.src = "/img/shapes/pentagon.PNG";
                     break;
                 case "hexagon":
-                    shapeDisplay.src = "/img/shapes/hexagon.PNG"
+                    shapeDisplay.src = "/img/shapes/hexagon.PNG";
                     break;
                 case "octagon":
-                    shapeDisplay.src = "/img/shapes/octagon.PNG"
+                    shapeDisplay.src = "/img/shapes/octagon.PNG";
                     break;
                 case "rightTri":
-                    shapeDisplay.src = "/img/shapes/right_triangle.PNG"
+                    shapeDisplay.src = "/img/shapes/right_triangle.PNG";
                     break;
                 case "sTri":
-                    shapeDisplay.src = "/img/shapes/sTriangle.PNG"
+                    shapeDisplay.src = "/img/shapes/sTriangle.PNG";
                     break;
                 case "square":
-                    shapeDisplay.src = "/img/shapes/square.PNG"
+                    shapeDisplay.src = "/img/shapes/square.PNG";
                     break;
                 case "rectangle":
-                    shapeDisplay.src = "/img/shapes/rectangle.PNG"
+                    shapeDisplay.src = "/img/shapes/rectangle.PNG";
                     break;
                 case "parallelogram":
-                    shapeDisplay.src = "/img/shapes/parallelogram.PNG"
+                    shapeDisplay.src = "/img/shapes/parallelogram.PNG";
                     break;
                 case "trapezuim":
-                    shapeDisplay.src = "/img/shapes/Trapezuim.PNG"
+                    shapeDisplay.src = "/img/shapes/Trapezuim.PNG";
                     break;
                 case "rhombus":
-                    shapeDisplay.src = "/img/shapes/Rhombus.PNG"
+                    shapeDisplay.src = "/img/shapes/Rhombus.PNG";
                     break;
-                case "4star":
-                    shapeDisplay.src = "/img/shapes/4pointStar.PNG"
+                case "4star": 
+                    shapeDisplay.src = "/img/shapes/4pointStar.PNG";
                     break;
                 case "star":
-                    shapeDisplay.src = "/img/shapes/star.PNG"
+                    shapeDisplay.src = "/img/shapes/star.PNG";
                     break;
                 case "6star":
-                    shapeDisplay.src = "/img/shapes/6pointStar.PNG"
+                    shapeDisplay.src = "/img/shapes/6pointStar.PNG";
                     break;
             }
         }

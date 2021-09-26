@@ -31,8 +31,10 @@ namespace MedOnTime_WebApp.Controllers
             }
 
             foreach (var med in existingMeds)
+            {
                 if (med.PatientID == LoginStatus.SelectedPatient.PatientID)
                     patientMeds.Add(med);
+            }
 
             return View(patientMeds);
         }
@@ -50,8 +52,7 @@ namespace MedOnTime_WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                System.Diagnostics.Debug.WriteLine(formResponse.MedicationName + ", " + formResponse.MethodOfTaking + ", " + formResponse.Dosage + ", " + formResponse.Quantity + ", " + formResponse.MedicationType);
-
+               
                 // Remove selected shape into the list of unselected shape
                 foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
                 {
