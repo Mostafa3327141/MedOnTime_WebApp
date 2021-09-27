@@ -232,6 +232,7 @@ namespace MedOnTime_WebApp.Controllers
                         System.Diagnostics.Debug.WriteLine(apiRes);
                     }
                 }
+                await LoginStatus.LoadPatients();
                 return RedirectToAction("PatientList");
             }
             catch { return View(formResponse); }

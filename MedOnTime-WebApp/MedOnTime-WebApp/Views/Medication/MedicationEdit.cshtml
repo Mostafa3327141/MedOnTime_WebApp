@@ -1,4 +1,80 @@
 ﻿@model Medication
+@{ 
+    string imgSrc = "";
+    string shapeDisp = "";
+
+    switch (Model.Shape)
+    {
+        case "circle":
+            imgSrc = "/img/shapes/circle.PNG";
+            shapeDisp = "Circle";
+            break;
+        case "oval":
+            imgSrc = "/img/shapes/oval.PNG";
+            shapeDisp = "Oval";
+            break;
+        case "triangle":
+            imgSrc = "/img/shapes/Triangle.PNG";
+            shapeDisp = "Triangle";
+            break;
+        case "heart":
+            imgSrc = "/img/shapes/Heart.PNG";
+            shapeDisp = "Heart";
+            break;
+        case "pentagon":
+            imgSrc = "/img/shapes/pentagon.PNG";
+            shapeDisp = "Pentagon";
+            break;
+        case "hexagon":
+            imgSrc = "/img/shapes/hexagon.PNG";
+            shapeDisp = "Hexagon";
+            break;
+        case "octagon":
+            imgSrc = "/img/shapes/octagon.PNG";
+            shapeDisp = "Octagon";
+            break;
+        case "rightTri":
+            imgSrc = "/img/shapes/right_triangle.PNG";
+            shapeDisp = "Right Triangle";
+            break;
+        case "sTri":
+            imgSrc = "/img/shapes/sTriangle.PNG";
+            shapeDisp = "Scalene Triangle";
+            break;
+        case "square":
+            imgSrc = "/img/shapes/square.PNG";
+            shapeDisp = "Square";
+            break;
+        case "rectangle":
+            imgSrc = "/img/shapes/rectangle.PNG";
+            shapeDisp = "Rectangle";
+            break;
+        case "parallelogram":
+            imgSrc = "/img/shapes/parallelogram.PNG";
+            shapeDisp = "Parallelogram";
+            break;
+        case "trapezuim":
+            imgSrc = "/img/shapes/Trapezuim.PNG";
+            shapeDisp = "Trapezuim";
+            break;
+        case "rhombus":
+            imgSrc = "/img/shapes/Rhombus.PNG";
+            shapeDisp = "Rhombus";
+            break;
+        case "4star":
+            imgSrc = "/img/shapes/4pointStar.PNG";
+            shapeDisp = "4 Pointed Star";
+            break;
+        case "star":
+            imgSrc = "/img/shapes/star.PNG";
+            shapeDisp = "5 Pointed Star";
+            break;
+        case "6star":
+            imgSrc = "/img/shapes/6pointStar.PNG";
+            shapeDisp = "6 Pointed Star";
+            break;
+    }
+}
 
 <div>
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
@@ -37,7 +113,7 @@
                     </td>
                 </tr>
             </table>
-            <input style="display:none" asp-for="Unit" id="concated-unit" />
+            <input type="hidden" asp-for="Unit" id="concated-unit" />
         </div>
         <!-- Quantity field-->
         <div class="registerField">
@@ -73,22 +149,19 @@
             <label style="margin: 0;">Select a shape as an identifier</label><br />
 
             <select class="form-control" id="shape-selector" asp-for="Shape" onChange="shapeSelectorChange()">
-                <option selected disabled>Please select a shape</option>
+                <option value="@Model.Shape">@shapeDisp</option>
                 @{
                     if (LoginStatus.SelectedPatient.UnSelectedShapes.Count != 0)
                     {
                         foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
                         {
-                            <option value="@s.ShapeName">@s.ShapeDisplay</option>
+                                <option value="@s.ShapeName">@s.ShapeDisplay</option>
                         }
-                    }
-                    else
-                    {
-                        <option disabled>Out of shapes</option>
+                        
                     }
                 }
             </select>
-            <img id="shape-display" />
+            <img id="shape-preview" src="@imgSrc"/>
         </div>
 
         <!--Upload Pill Image field-->
@@ -104,16 +177,12 @@
                 </div>
             </div>
         </div>
+
+        <input type="hidden" value="@Model.Shape" name="oldShape"/>
     </form>
 </div>
 
 <script type="text/javascript">
-    $('#file-upload').change(function () {
-        var i = $(this).prev('label').clone();
-        var file = $('#file-upload')[0].files[0].name;
-        $(this).prev('label').text(file);
-    });
-
     function unitModified() {
         var numericUnit = document.getElementById("unit-numeric").value;
         var unitType = document.getElementById("unit-unit").value;
@@ -124,60 +193,66 @@
 
     function shapeSelectorChange() {
         var selectedShape = document.getElementById("shape-selector").value;
-        var shapeDisplay = document.getElementById("shape-display");
+        var shapePreview = document.getElementById("shape-preview");
 
         switch (selectedShape) {
             case "circle":
-                shapeDisplay.src = "/img/shapes/circle.PNG";
+                shapePreview.src = "/img/shapes/circle.PNG";
                 break;
             case "oval":
-                shapeDisplay.src = "/img/shapes/oval.PNG";
+                shapePreview.src = "/img/shapes/oval.PNG";
                 break;
             case "triangle":
-                shapeDisplay.src = "/img/shapes/Triangle.PNG";
+                shapePreview.src = "/img/shapes/Triangle.PNG";
                 break;
             case "heart":
-                shapeDisplay.src = "/img/shapes/Heart.PNG";
+                shapePreview.src = "/img/shapes/Heart.PNG";
                 break;
             case "pentagon":
-                shapeDisplay.src = "/img/shapes/pentagon.PNG";
+                shapePreview.src = "/img/shapes/pentagon.PNG";
                 break;
             case "hexagon":
-                shapeDisplay.src = "/img/shapes/hexagon.PNG";
+                shapePreview.src = "/img/shapes/hexagon.PNG";
                 break;
             case "octagon":
-                shapeDisplay.src = "/img/shapes/octagon.PNG";
+                shapePreview.src = "/img/shapes/octagon.PNG";
                 break;
             case "rightTri":
-                shapeDisplay.src = "/img/shapes/right_triangle.PNG";
+                shapePreview.src = "/img/shapes/right_triangle.PNG";
                 break;
             case "sTri":
-                shapeDisplay.src = "/img/shapes/sTriangle.PNG";
+                shapePreview.src = "/img/shapes/sTriangle.PNG";
                 break;
             case "square":
-                shapeDisplay.src = "/img/shapes/square.PNG";
+                shapePreview.src = "/img/shapes/square.PNG";
                 break;
             case "rectangle":
-                shapeDisplay.src = "/img/shapes/rectangle.PNG";
+                shapePreview.src = "/img/shapes/rectangle.PNG";
                 break;
             case "parallelogram":
-                shapeDisplay.src = "/img/shapes/parallelogram.PNG";
+                shapePreview.src = "/img/shapes/parallelogram.PNG";
                 break;
             case "trapezuim":
-                shapeDisplay.src = "/img/shapes/Trapezuim.PNG";
+                shapePreview.src = "/img/shapes/Trapezuim.PNG";
                 break;
             case "rhombus":
-                shapeDisplay.src = "/img/shapes/Rhombus.PNG";
+                shapePreview.src = "/img/shapes/Rhombus.PNG";
                 break;
             case "4star":
-                shapeDisplay.src = "/img/shapes/4pointStar.PNG";
+                shapePreview.src = "/img/shapes/4pointStar.PNG";
                 break;
             case "star":
-                shapeDisplay.src = "/img/shapes/star.PNG";
+                shapePreview.src = "/img/shapes/star.PNG";
                 break;
             case "6star":
-                shapeDisplay.src = "/img/shapes/6pointStar.PNG";
+                shapePreview.src = "/img/shapes/6pointStar.PNG";
                 break;
         }
     }
+
+@*    jQuery.('#file-upload').change(function () {
+        var i = $(this).prev('label').clone();
+        var file = $('#file-upload')[0].files[0].name;
+        $(this).prev('label').text(file);
+    });*@
 </script>

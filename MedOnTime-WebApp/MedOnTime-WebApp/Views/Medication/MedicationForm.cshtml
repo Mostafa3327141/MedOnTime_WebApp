@@ -37,7 +37,7 @@
                     </td>
                 </tr>
             </table>
-            <input style="display:none" asp-for="Unit" id="concated-unit" />
+            <input type="hidden" asp-for="Unit" id="concated-unit" />
         </div>
         <!-- Quantity field-->
         <div class="registerField">
@@ -87,7 +87,7 @@
                     }
                 }
             </select>
-            <img id="shape-display" />
+            <img id="shape-preview" />
         </div>
 
         <!--Upload Pill Image field-->
@@ -115,59 +115,59 @@
 
         function shapeSelectorChange() {
             var selectedShape = document.getElementById("shape-selector").value;
-            var shapeDisplay = document.getElementById("shape-display");
+            var shapePreview = document.getElementById("shape-preview");
 
             switch (selectedShape) {
                 case "circle":
-                    shapeDisplay.src = "/img/shapes/circle.PNG";
+                    shapePreview.src = "/img/shapes/circle.PNG";
                     break;
                 case "oval":
-                    shapeDisplay.src = "/img/shapes/oval.PNG";
+                    shapePreview.src = "/img/shapes/oval.PNG";
                     break;
                 case "triangle":
-                    shapeDisplay.src = "/img/shapes/Triangle.PNG";
+                    shapePreview.src = "/img/shapes/Triangle.PNG";
                     break;
                 case "heart":
-                    shapeDisplay.src = "/img/shapes/Heart.PNG";
+                    shapePreview.src = "/img/shapes/Heart.PNG";
                     break;
                 case "pentagon":
-                    shapeDisplay.src = "/img/shapes/pentagon.PNG";
+                    shapePreview.src = "/img/shapes/pentagon.PNG";
                     break;
                 case "hexagon":
-                    shapeDisplay.src = "/img/shapes/hexagon.PNG";
+                    shapePreview.src = "/img/shapes/hexagon.PNG";
                     break;
                 case "octagon":
-                    shapeDisplay.src = "/img/shapes/octagon.PNG";
+                    shapePreview.src = "/img/shapes/octagon.PNG";
                     break;
                 case "rightTri":
-                    shapeDisplay.src = "/img/shapes/right_triangle.PNG";
+                    shapePreview.src = "/img/shapes/right_triangle.PNG";
                     break;
                 case "sTri":
-                    shapeDisplay.src = "/img/shapes/sTriangle.PNG";
+                    shapePreview.src = "/img/shapes/sTriangle.PNG";
                     break;
                 case "square":
-                    shapeDisplay.src = "/img/shapes/square.PNG";
+                    shapePreview.src = "/img/shapes/square.PNG";
                     break;
                 case "rectangle":
-                    shapeDisplay.src = "/img/shapes/rectangle.PNG";
+                    shapePreview.src = "/img/shapes/rectangle.PNG";
                     break;
                 case "parallelogram":
-                    shapeDisplay.src = "/img/shapes/parallelogram.PNG";
+                    shapePreview.src = "/img/shapes/parallelogram.PNG";
                     break;
                 case "trapezuim":
-                    shapeDisplay.src = "/img/shapes/Trapezuim.PNG";
+                    shapePreview.src = "/img/shapes/Trapezuim.PNG";
                     break;
                 case "rhombus":
-                    shapeDisplay.src = "/img/shapes/Rhombus.PNG";
+                    shapePreview.src = "/img/shapes/Rhombus.PNG";
                     break;
-                case "4star": 
-                    shapeDisplay.src = "/img/shapes/4pointStar.PNG";
+                case "4star":
+                    shapePreview.src = "/img/shapes/4pointStar.PNG";
                     break;
                 case "star":
-                    shapeDisplay.src = "/img/shapes/star.PNG";
+                    shapePreview.src = "/img/shapes/star.PNG";
                     break;
                 case "6star":
-                    shapeDisplay.src = "/img/shapes/6pointStar.PNG";
+                    shapePreview.src = "/img/shapes/6pointStar.PNG";
                     break;
             }
         }

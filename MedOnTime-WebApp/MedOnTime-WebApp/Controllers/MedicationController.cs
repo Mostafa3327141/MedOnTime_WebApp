@@ -52,26 +52,6 @@ namespace MedOnTime_WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-               
-                // Remove selected shape into the list of unselected shape
-                foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
-                {
-                    if (s.ShapeName == formResponse.Shape) {
-                        LoginStatus.SelectedPatient.UnSelectedShapes.Remove(s);
-                        break;
-                    }
-                }
-
-                // Update patient's unselected shapes
-                StringContent patientContent = new StringContent(JsonConvert.SerializeObject(LoginStatus.SelectedPatient), Encoding.UTF8, "application/json");
-                using (var httpClient = new HttpClient())
-                {
-                    using (var response = await httpClient.PutAsync("https://medontime-api.herokuapp.com/API/PatientAPI", patientContent))
-                    {
-                        string apiRes = await response.Content.ReadAsStringAsync();
-                        System.Diagnostics.Debug.WriteLine(apiRes);
-                    }
-                }
 
                 if (medImage != null)
                 {
@@ -101,6 +81,28 @@ namespace MedOnTime_WebApp.Controllers
                             System.Diagnostics.Debug.WriteLine(apiRes);
                         }
                     }
+
+                    // Remove selected shape into the list of unselected shape
+                    foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
+                    {
+                        if (s.ShapeName == formResponse.Shape)
+                        {
+                            LoginStatus.SelectedPatient.UnSelectedShapes.Remove(s);
+                            break;
+                        }
+                    }
+
+                    // Update patient's unselected shapes
+                    StringContent patientContent = new StringContent(JsonConvert.SerializeObject(LoginStatus.SelectedPatient), Encoding.UTF8, "application/json");
+                    using (var httpClient = new HttpClient())
+                    {
+                        using (var response = await httpClient.PutAsync("https://medontime-api.herokuapp.com/API/PatientAPI", patientContent))
+                        {
+                            string apiRes = await response.Content.ReadAsStringAsync();
+                            System.Diagnostics.Debug.WriteLine(apiRes);
+                        }
+                    }
+
                     return RedirectToAction("MedicationList");
                 }
                 catch { return View(formResponse); }
@@ -127,7 +129,7 @@ namespace MedOnTime_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(Medication formResponse, IFormFile medImage)
+        public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(Medication formResponse, string oldShape, IFormFile medImage)
         {
             if (ModelState.IsValid)
             {
@@ -147,6 +149,33 @@ namespace MedOnTime_WebApp.Controllers
                         System.Diagnostics.Debug.WriteLine(apiRes);
                     }
                 }
+
+                if (!formResponse.Shape.Equals(oldShape))
+                {
+                    LoginStatus.SelectedPatient.UnSelectedShapes.Add(getShapeByName(oldShape));
+
+                    // Remove selected shape into the list of unselected shape
+                    foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
+                    {
+                        if (s.ShapeName == formResponse.Shape)
+                        {
+                            LoginStatus.SelectedPatient.UnSelectedShapes.Remove(s);
+                            break;
+                        }
+                    }
+                } 
+
+                // Update patient's unselected shapes
+                StringContent patientContent = new StringContent(JsonConvert.SerializeObject(LoginStatus.SelectedPatient), Encoding.UTF8, "application/json");
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.PutAsync("https://medontime-api.herokuapp.com/API/PatientAPI", patientContent))
+                    {
+                        string apiRes = await response.Content.ReadAsStringAsync();
+                        System.Diagnostics.Debug.WriteLine(apiRes);
+                    }
+                }
+
                 return RedirectToAction("MedicationList");
             } 
             else
@@ -195,8 +224,8 @@ namespace MedOnTime_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> MedicationDelete(string objID, Medication formResponse)
-        {
+        public async System.Threading.Tasks.Task<IActionResult> MedicationDelete(string objID, string medShape, Medication formResponse)
+        {            
             try
             {
                 using (var httpClient = new HttpClient())
@@ -207,9 +236,84 @@ namespace MedOnTime_WebApp.Controllers
                         System.Diagnostics.Debug.WriteLine(apiRes);
                     }
                 }
+
+                LoginStatus.SelectedPatient.UnSelectedShapes.Add(getShapeByName(medShape));
+
+                // Update patient's unselected shapes
+                StringContent patientContent = new StringContent(JsonConvert.SerializeObject(LoginStatus.SelectedPatient), Encoding.UTF8, "application/json");
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.PutAsync("https://medontime-api.herokuapp.com/API/PatientAPI", patientContent))
+                    {
+                        string apiRes = await response.Content.ReadAsStringAsync();
+                        System.Diagnostics.Debug.WriteLine(apiRes);
+                    }
+                }
+
                 return RedirectToAction("MedicationList");
             }
             catch { return View(formResponse); }
+        }
+
+        private Shape getShapeByName(string name)
+        {
+            string medShapeDisplay = "";
+            switch (name)
+            {
+                case "circle":
+                    medShapeDisplay = "Circle";
+                    break;
+                case "oval":
+                    medShapeDisplay = "Oval";
+                    break;
+                case "triangle":
+                    medShapeDisplay = "Triangle";
+                    break;
+                case "heart":
+                    medShapeDisplay = "Heart";
+                    break;
+                case "pentagon":
+                    medShapeDisplay = "Pentagon";
+                    break;
+                case "hexagon":
+                    medShapeDisplay = "Hexagon";
+                    break;
+                case "octagon":
+                    medShapeDisplay = "Octagon";
+                    break;
+                case "rightTri":
+                    medShapeDisplay = "Right Triangle";
+                    break;
+                case "sTri":
+                    medShapeDisplay = "Scalene Triangle";
+                    break;
+                case "square":
+                    medShapeDisplay = "Square";
+                    break;
+                case "rectangle":
+                    medShapeDisplay = "Rectangle";
+                    break;
+                case "parallelogram":
+                    medShapeDisplay = "Parallelogram";
+                    break;
+                case "trapezuim":
+                    medShapeDisplay = "Trapezuim";
+                    break;
+                case "rhombus":
+                    medShapeDisplay = "Rhombus";
+                    break;
+                case "4star":
+                    medShapeDisplay = "4 Pointed Star";
+                    break;
+                case "star":
+                    medShapeDisplay = "5 Pointed Star";
+                    break;
+                case "6star":
+                    medShapeDisplay = "6 Pointed Star";
+                    break;
+            }
+
+            return new Shape { ShapeName = name, ShapeDisplay = medShapeDisplay };
         }
     }
 }
