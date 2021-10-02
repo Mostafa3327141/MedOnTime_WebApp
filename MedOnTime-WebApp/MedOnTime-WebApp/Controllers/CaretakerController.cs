@@ -122,14 +122,7 @@ namespace MedOnTime_WebApp.Controllers
                     // Check if there is any entries' data matches with the provided data
                     if (caretaker.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && VerifyHash(pwdHash,caretaker.PasswordHash))
                     {
-                        LoginStatus.IsLoggedIn = true;
-                        if (caretaker.PatientIDs == null)
-                            caretaker.PatientIDs = new List<int>();
-                        LoginStatus.LogginedUser = caretaker;
-
-                        await LoginStatus.LoadPatients();
-
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home", new { caretakerObjID = caretaker.Id});
                     }
                 }
 
@@ -145,7 +138,6 @@ namespace MedOnTime_WebApp.Controllers
         [HttpGet]
         public IActionResult Logout()
         {
-            LoginStatus.Logout();
             return RedirectToAction("Index", "Home");
         }
 

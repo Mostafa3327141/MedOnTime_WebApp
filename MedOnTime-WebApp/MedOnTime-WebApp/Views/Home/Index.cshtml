@@ -1,11 +1,12 @@
-﻿@{
+﻿@model HomeViewModel
+@{
     ViewData["Title"] = "MedOnTime Home";
 }
 
 <!--TODO: Make a table with Patient Info displaying -->
 
 <div id="homeFlexCol">
-    @if (!LoginStatus.IsLoggedIn)
+    @if (Model.UserObj == null)
     {
         <section class="homeContent">
             <img class="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
@@ -20,14 +21,14 @@
         <section class="homeContent">
             <!--To have patient data shown-->
             <img class="homeCalendar" src="~/img/calendarIcon.png" alt="Calendar Icon" />
-            <h4>Logged in as @LoginStatus.LogginedUser.Email</h4>
+            <h4>Logged in as @Model.UserObj.Email</h4>
         </section>
         <section id="medication-panel">
-            @if (LoginStatus.Patients.Count() != 0)
+            @if (Model.Patients.Count() != 0)
             {
                 <h4>Your patients</h4>
                 <ul id="patient-select-list">
-                    @foreach (var patient in LoginStatus.Patients)
+                    @foreach (var patient in Model.Patients)
                     {
                         <li>
                             <form method="get" asp-action="PatientDetails" asp-controller="Patient">
@@ -35,12 +36,6 @@
                                 <input type="submit" value="@patient.FirstName, @patient.LastName" />
                             </form>
                         </li>
-                        @*
-                            <form method="post" asp-action="Patient_Detail">
-                                <input type="hidden" name="PatientId" value="patient.PatientId" />
-                                <img src="patient.icon" alt="patient.name" />
-                                <input type="submit" value="patient.name" />
-                            </form>*@
                     }
                 </ul>
             }
@@ -48,7 +43,8 @@
             {
                 <h4>You don't have any patients yet.</h4>
             }
-            <a class="addPatientLink" asp-controller="Patient" asp-action="AddPatient">Add Patient</a>
+            @*<a class="addPatientLink" asp-controller="Patient" asp-action="AddPatient">Add Patient</a>*@
+            @Html.ActionLink("Add Patient", "AddPatient", "Patient", new { caretakerID = Model.UserObj.CaretakerID, caretakerObjID = Model.UserObj.Id})
         </section>
         <!--<section id="medication-panel">-->
         <!--To have medical data shown-->
@@ -57,3 +53,18 @@
         </section>-->
     }
 </div>
+
+<script>
+    function setCaretakerIDCookie(cvalue) {
+        document.cookie = "Caretaker=" + cvalue + ";"
+    }
+
+    @if (Model.UserObj != null)
+    {
+        <text>setCaretakerIDCookie("@Model.UserObj.Id")</text>
+    }
+    else
+    {
+        <text>setCaretakerIDCookie("")</text>
+    }
+</script>

@@ -1,4 +1,5 @@
 ﻿using MedOnTime_WebApp.Models;
+using MedOnTime_WebApp.Views.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,7 +17,7 @@ namespace MedOnTime_WebApp.Controllers
         }
 
         [HttpGet]
-        public async System.Threading.Tasks.Task<ActionResult> MedicationList()
+        public async System.Threading.Tasks.Task<ActionResult> MedicationList(int patientID)
         {
             List<Medication> existingMeds = new List<Medication>();
             List<Medication> patientMeds = new List<Medication>();
@@ -32,23 +33,27 @@ namespace MedOnTime_WebApp.Controllers
 
             foreach (var med in existingMeds)
             {
-                if (med.PatientID == LoginStatus.SelectedPatient.PatientID)
+                if (med.PatientID == patientID)
                     patientMeds.Add(med);
             }
 
-            return View(patientMeds);
+            Patient patient = await LoginStatus.LoadPatient(patientID);
+
+            return View(new MedicationListViewModel{ Medications = patientMeds, Patient = patient });
         }
 
         [HttpGet]
-        public IActionResult MedicationForm()
+        public async System.Threading.Tasks.Task<IActionResult> MedicationForm(int patientID, string caretakerObjID)
         {
-            return View();
+            Patient patient = await LoginStatus.LoadPatient(patientID);
+            Caretaker caretaker = await LoginStatus.LoadCaretaker(caretakerObjID);
+            return View(new MedicationFormViewModel { Patient = patient, Caretaker = caretaker});
         }
 
         // Method for API Testing
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> MedicationForm(Medication formResponse, IFormFile medImage)
+        public async System.Threading.Tasks.Task<IActionResult> MedicationForm(MedicationFormViewModel formResponse, IFormFile medImage)
         {
             if (ModelState.IsValid)
             {
@@ -57,22 +62,26 @@ namespace MedOnTime_WebApp.Controllers
                 {
                     // prepping medImage for serialization
                     var bytes = await medImage.GetBytes();
-                    formResponse.MedicationImage = Convert.ToBase64String(bytes);
+                    formResponse.Medication.MedicationImage = Convert.ToBase64String(bytes);
                 } else
                 {
-                    formResponse.MedicationImage = null;
+                    formResponse.Medication.MedicationImage = null;
                 }
 
                /* if (formResponse.Frequency == "Every Day")
                     formResponse.HoursBetween = 24; // only if selecting Every Day option*/
 
                 // create a new list for the newly binded medication object
-                formResponse.Times = new List<DateTime>();
-                formResponse.Times.Add(DateTime.Parse(formResponse.FirstDoseTime.Insert(5, ":00")));
+                formResponse.Medication.Times = new List<DateTime>();
+                formResponse.Medication.Times.Add(DateTime.Parse(formResponse.Medication.FirstDoseTime.Insert(5, ":00")));
+
+
+                formResponse.Caretaker = await LoginStatus.LoadCaretaker(formResponse.Medication.CaretakerID);
+                formResponse.Patient = await LoginStatus.LoadPatient(formResponse.Medication.PatientID);
 
                 try
                 {
-                    StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
+                    StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse.Medication), Encoding.UTF8, "application/json");
                     using (var httpClient = new HttpClient())
                     {
                         using (var response = await httpClient.PostAsync("https://medontime-api.herokuapp.com/API/MedicationAPI", content))
@@ -83,17 +92,17 @@ namespace MedOnTime_WebApp.Controllers
                     }
 
                     // Remove selected shape into the list of unselected shape
-                    foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
+                    foreach (Shape s in formResponse.Patient.UnSelectedShapes)
                     {
-                        if (s.ShapeName == formResponse.Shape)
+                        if (s.ShapeName == formResponse.Medication.Shape)
                         {
-                            LoginStatus.SelectedPatient.UnSelectedShapes.Remove(s);
+                            formResponse.Patient.UnSelectedShapes.Remove(s);
                             break;
                         }
                     }
 
                     // Update patient's unselected shapes
-                    StringContent patientContent = new StringContent(JsonConvert.SerializeObject(LoginStatus.SelectedPatient), Encoding.UTF8, "application/json");
+                    StringContent patientContent = new StringContent(JsonConvert.SerializeObject(formResponse.Patient), Encoding.UTF8, "application/json");
                     using (var httpClient = new HttpClient())
                     {
                         using (var response = await httpClient.PutAsync("https://medontime-api.herokuapp.com/API/PatientAPI", patientContent))
@@ -103,9 +112,12 @@ namespace MedOnTime_WebApp.Controllers
                         }
                     }
 
-                    return RedirectToAction("MedicationList");
+                    return RedirectToAction("MedicationList", new { patientID = formResponse.Patient.PatientID });
                 }
-                catch { return View(formResponse); }
+                catch 
+                {
+                    return View(formResponse); 
+                }
             }
             return View(formResponse);
         }
@@ -124,12 +136,14 @@ namespace MedOnTime_WebApp.Controllers
                     System.Diagnostics.Debug.WriteLine(apiRes);
                 }
             }
-            return View(med);
+            Caretaker caretaker = await LoginStatus.LoadCaretaker(med.CaretakerID);
+            Patient patient = await LoginStatus.LoadPatient(med.PatientID);
+            return View(new MedicationEditViewModel { Medication = med , Caretaker = caretaker, Patient = patient });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(Medication formResponse, string oldShape, IFormFile medImage)
+        public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(MedicationEditViewModel formResponse, string oldShape, IFormFile medImage)
         {
             if (ModelState.IsValid)
             {
@@ -137,10 +151,13 @@ namespace MedOnTime_WebApp.Controllers
                 {
                     // prepping medImage for serialization
                     var bytes = await medImage.GetBytes();
-                    formResponse.MedicationImage = Convert.ToBase64String(bytes);
+                    formResponse.Medication.MedicationImage = Convert.ToBase64String(bytes);
                 }
 
-                StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
+                formResponse.Caretaker = await LoginStatus.LoadCaretaker(formResponse.Medication.CaretakerID);
+                formResponse.Patient = await LoginStatus.LoadPatient(formResponse.Medication.PatientID);
+
+                StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse.Medication), Encoding.UTF8, "application/json");
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.PutAsync("https://medontime-api.herokuapp.com/API/MedicationAPI", content))
@@ -150,23 +167,23 @@ namespace MedOnTime_WebApp.Controllers
                     }
                 }
 
-                if (!formResponse.Shape.Equals(oldShape))
+                if (!formResponse.Medication.Shape.Equals(oldShape))
                 {
-                    LoginStatus.SelectedPatient.UnSelectedShapes.Add(getShapeByName(oldShape));
+                    formResponse.Patient.UnSelectedShapes.Add(getShapeByName(oldShape));
 
                     // Remove selected shape into the list of unselected shape
-                    foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
+                    foreach (Shape s in formResponse.Patient.UnSelectedShapes)
                     {
-                        if (s.ShapeName == formResponse.Shape)
+                        if (s.ShapeName == formResponse.Medication.Shape)
                         {
-                            LoginStatus.SelectedPatient.UnSelectedShapes.Remove(s);
+                            formResponse.Patient.UnSelectedShapes.Remove(s);
                             break;
                         }
                     }
                 } 
 
                 // Update patient's unselected shapes
-                StringContent patientContent = new StringContent(JsonConvert.SerializeObject(LoginStatus.SelectedPatient), Encoding.UTF8, "application/json");
+                StringContent patientContent = new StringContent(JsonConvert.SerializeObject(formResponse.Patient), Encoding.UTF8, "application/json");
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.PutAsync("https://medontime-api.herokuapp.com/API/PatientAPI", patientContent))
@@ -176,7 +193,7 @@ namespace MedOnTime_WebApp.Controllers
                     }
                 }
 
-                return RedirectToAction("MedicationList");
+                return RedirectToAction("MedicationList", new { patientID = formResponse.Patient.PatientID });
             } 
             else
             {
@@ -185,7 +202,7 @@ namespace MedOnTime_WebApp.Controllers
         }
 
         [HttpGet]
-        public async System.Threading.Tasks.Task<IActionResult> MedicationDetails(string Id)
+        public async System.Threading.Tasks.Task<IActionResult> MedicationDetails(string Id, int patientID)
         {
             Medication med = new Medication();
             using (var httpClient = new HttpClient())
@@ -203,7 +220,7 @@ namespace MedOnTime_WebApp.Controllers
                     System.Diagnostics.Debug.WriteLine(apiRes);
                 }
             }
-            return View(med);
+            return View(new MedicationDetailsViewModel { Medication = med, PatientID = patientID });
         }
 
         [HttpGet]
@@ -224,7 +241,7 @@ namespace MedOnTime_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> MedicationDelete(string objID, string medShape, Medication formResponse)
+        public async System.Threading.Tasks.Task<IActionResult> MedicationDelete(string objID, string medShape, int patientID)
         {            
             try
             {
@@ -237,10 +254,11 @@ namespace MedOnTime_WebApp.Controllers
                     }
                 }
 
-                LoginStatus.SelectedPatient.UnSelectedShapes.Add(getShapeByName(medShape));
+                Patient patient = await LoginStatus.LoadPatient(patientID);
+                patient.UnSelectedShapes.Add(getShapeByName(medShape));
 
                 // Update patient's unselected shapes
-                StringContent patientContent = new StringContent(JsonConvert.SerializeObject(LoginStatus.SelectedPatient), Encoding.UTF8, "application/json");
+                StringContent patientContent = new StringContent(JsonConvert.SerializeObject(patient), Encoding.UTF8, "application/json");
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.PutAsync("https://medontime-api.herokuapp.com/API/PatientAPI", patientContent))
@@ -250,9 +268,9 @@ namespace MedOnTime_WebApp.Controllers
                     }
                 }
 
-                return RedirectToAction("MedicationList");
+                return RedirectToAction("MedicationList", new { patientID = patientID });
             }
-            catch { return View(formResponse); }
+            catch { return View(objID); }
         }
 
         private Shape getShapeByName(string name)

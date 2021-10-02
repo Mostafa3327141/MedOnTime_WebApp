@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Patient>
+﻿@model PatientListViewModel
 
 <h3><img class="heartBeatIcon" src="~/img/heart-beat-icon.png" alt="Heart Icon" />   Patient Profile</h3>
 
@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <h1>Your Patients</h1>
-@if (!LoginStatus.IsLoggedIn)
+@if (Model.CaretakerID == null)
 {
     <section class="homeContent">
         <h3>Currently not logged in</h3><br />
@@ -22,7 +22,7 @@ else
     <p>
         <a asp-action="AddPatient">Add new patient</a>
     </p>
-    @if (LoginStatus.Patients.Count() != 0)
+    @if (Model.Patients.Count() != 0)
     {
         <table class="table">
             <thead>
@@ -36,7 +36,7 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Patients)
                 {
                     <tr>
                         <td>
@@ -46,10 +46,10 @@ else
                             @Html.DisplayFor(modelItem => item.Age)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "EditPatient", new { Id = item.Id }) |
+                            @Html.ActionLink("Edit", "EditPatient", new { Id = item.Id , caretakerID = Model.CaretakerID}) |
                             @Html.ActionLink("Details", "PatientDetails", new { Id = item.Id }) |
-                            @Html.ActionLink("Delete", "DeletePatient", new { Id = item.Id }) |
-                            @Html.ActionLink("History", "PatientLog", new { Id = item.PatientID })
+                            @Html.ActionLink("Delete", "DeletePatient", new { Id = item.Id }) @*|
+                            @Html.ActionLink("History", "PatientLog", new { Id = item.PatientID })*@
                         </td>
                     </tr>
                 }

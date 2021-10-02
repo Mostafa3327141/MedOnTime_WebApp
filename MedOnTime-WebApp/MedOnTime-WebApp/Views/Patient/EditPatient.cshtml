@@ -1,4 +1,4 @@
-﻿@model Patient
+﻿@model EditPatientViewModel
 @{ ViewData["Title"] = "Edit Patient"; }
 
 <section id="registerHeadingFlexRow">
@@ -8,26 +8,26 @@
 <section>
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
     <form asp-action="EditPatient" asp-controller="Patient" method="post">
-        <input type="hidden" asp-for="CaretakerID" value="@LoginStatus.LogginedUser.CaretakerID" />
+        <input type="hidden" asp-for="Patient.CaretakerID" value="@Model.CaretakerID" />
         <!--First Name field-->
         <div class="registerField">
-            <input class="form-control" placeholder="First Name" asp-for="FirstName" />
+            <input class="form-control" placeholder="First Name" asp-for="Patient.FirstName" />
         </div>
         <!--Last Name field-->
         <div class="registerField">
-            <input class="form-control" placeholder="Last Name" asp-for="LastName" />
+            <input class="form-control" placeholder="Last Name" asp-for="Patient.LastName" />
         </div>
         <!--Email field-->
         <div class="registerField">
-            <input class="form-control" placeholder="Email" asp-for="Email" />
+            <input class="form-control" placeholder="Email" asp-for="Patient.Email" />
         </div>
         <!--Phone number field-->
         <div class="registerField">
-            <input class="form-control" placeholder="Phone Number" asp-for="PhoneNum" />
+            <input class="form-control" placeholder="Phone Number" asp-for="Patient.PhoneNum" />
         </div>
         <!--Age field-->
         <div class="registerField">
-            <input class="form-control" placeholder="Age" asp-for="Age" />
+            <input class="form-control" placeholder="Age" asp-for="Patient.Age" />
         </div>
         <input type="submit" value="Update Values" />
     </form>

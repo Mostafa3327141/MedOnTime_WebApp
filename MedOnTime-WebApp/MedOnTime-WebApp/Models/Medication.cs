@@ -24,6 +24,8 @@ namespace MedOnTime_WebApp.Models
         [Required(ErrorMessage = "Please select the quantity")]
         public int? Quantity { get; set; }
 
+        public string Condition { get; set; }
+
         [Required(ErrorMessage = "Please enter time of taking the medication")]
         public string FirstDoseTime { get; set; }
 

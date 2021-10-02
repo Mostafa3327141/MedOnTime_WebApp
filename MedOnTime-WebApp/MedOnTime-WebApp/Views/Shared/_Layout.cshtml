@@ -1,5 +1,4 @@
-﻿@using MedOnTime_WebApp.Models
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,6 +9,23 @@
     <link rel="stylesheet" href="~/css/style.css" type="text/css" />
 </head>
 <body>
+    <script>
+
+        function getCookie(cname) {
+            let name = cname + "=";
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+    </script>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="z-index: 5;">
             <button id="layout-nav-button" class="btn">
@@ -18,14 +34,11 @@
             <div class="container">
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
                     <ul class="navbar-nav flex-row">
-                        @if (LoginStatus.IsLoggedIn)
-                        {
-                            <li class="nav-item">
+                            <li class="nav-item" id="logout-btn">
                                 <a class="navbar-brand" href="#" id="medOnTime-title" onclick="Logout()">Logout</a>
                             </li>
-                        }
                         <li class="nav-item">
-                            <a class="navbar-brand" id="medOnTime-title" asp-area="" asp-controller="Home" asp-action="Index">MedOnTime</a>
+                            <a class="navbar-brand" id="medOnTime-home-btn" href="">MedOnTime</a>
                         </li>
                         <li class="nav-item">
                             <!-- To start email notification & use subscription model -->
@@ -83,6 +96,17 @@
                 window.location.href = '@Url.Action("Logout", "Caretaker")';
             }
         }
+
+        var logoutBtn = document.getElementById("logout-btn");
+        if (getCookie("Caretaker") === "") {
+            logoutBtn.style.display = "none";
+        } else {
+            logoutBtn.style.display = "true";
+        }
+
+
+        var homeBtn = document.getElementById("medOnTime-home-btn");
+        homeBtn.href = "/home/index?caretakerObjID=" + getCookie("Caretaker");
     </script>
 </body>
 </html>

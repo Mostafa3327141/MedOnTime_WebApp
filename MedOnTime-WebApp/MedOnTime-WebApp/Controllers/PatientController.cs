@@ -1,4 +1,5 @@
 ﻿using MedOnTime_WebApp.Models;
+using MedOnTime_WebApp.Views.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -20,31 +21,6 @@ namespace MedOnTime_WebApp.Controllers
         public PatientController()
         {
         }
-
-        [HttpGet]
-        public IActionResult AddPatient()
-        {
-            ViewBag.Message = "";
-            return View();
-        }
-
-        public async System.Threading.Tasks.Task<ActionResult> PatientList()
-        {
-            List<Patient> existingPatients = new List<Patient>();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/PatientAPI?caretakerID=" + LoginStatus.LogginedUser.CaretakerID + "&" + LoginStatus.ApiKey))
-                {
-                    string apiRes = await response.Content.ReadAsStringAsync();
-                    System.Diagnostics.Debug.WriteLine(apiRes);
-                    existingPatients = JsonConvert.DeserializeObject<List<Patient>>(apiRes);
-                }
-            }
-            return View(existingPatients);
-        }
-
-
-
         public async System.Threading.Tasks.Task<ActionResult> PatientLog(string Id)
         {
             List<Log> existingLogs = new List<Log>();
@@ -60,15 +36,29 @@ namespace MedOnTime_WebApp.Controllers
             return View(existingLogs);
         }
 
+        public async System.Threading.Tasks.Task<ActionResult> PatientList(string caretakerObjID)
+        {
+            Caretaker caretaker = await LoginStatus.LoadCaretaker(caretakerObjID);
+            List<Patient> existingPatients = await LoginStatus.LoadPatients(caretaker.CaretakerID);
+            return View(new PatientListViewModel { Patients = existingPatients, CaretakerID = caretaker.CaretakerID });
+        }
+
+        [HttpGet]
+        public IActionResult AddPatient(int caretakerID, string caretakerObjID)
+        {
+            ViewBag.Message = "";
+            return View(new AddPatientViewModel { CaretakerID = caretakerID, CaretakerObjID = caretakerObjID });
+        }
+
         [HttpPost]
-        public async System.Threading.Tasks.Task<IActionResult> AddPatient(Patient formResponse)
+        public async System.Threading.Tasks.Task<IActionResult> AddPatient(AddPatientViewModel formResponse)
         {
 
             ViewBag.Message = "";
             if (ModelState.IsValid)
             {
-                System.Diagnostics.Debug.WriteLine(formResponse.FirstName + ", " + formResponse.LastName + ", " +
-                                                    formResponse.Email + ", " + formResponse.PhoneNum + ", " + formResponse.Age);
+                System.Diagnostics.Debug.WriteLine(formResponse.Patient.FirstName + ", " + formResponse.Patient.LastName + ", " +
+                                                    formResponse.Patient.Email + ", " + formResponse.Patient.PhoneNum + ", " + formResponse.Patient.Age);
                 try
                 {
                     //List<Patient> existingPatients = _patientCollection.AsQueryable<Patient>().ToList();
@@ -89,20 +79,20 @@ namespace MedOnTime_WebApp.Controllers
                     {
                         Console.WriteLine(patient.LastName);
                         // if the response email is the same as an existing patient's email
-                        if (formResponse.Email.Equals(patient.Email))
+                        if (formResponse.Patient.Email.Equals(patient.Email))
                         {
-                            ViewBag.Message = formResponse.Email + " is associated to PID#" + patient.PatientID + ", " + patient.FirstName + ", " + patient.LastName + " already.";
+                            ViewBag.Message = formResponse.Patient.Email + " is associated to PID#" + patient.PatientID + ", " + patient.FirstName + ", " + patient.LastName + " already.";
                             return View(formResponse);
                         }
                     }
 
                     // if any existing patients, increment the new patient's patient ID
                     if (existingPatients.Count == 0)
-                        formResponse.PatientID = 1;
+                        formResponse.Patient.PatientID = 1;
                     else
-                        formResponse.PatientID = existingPatients[existingPatients.Count - 1].PatientID + 1;
-
-                    formResponse.UnSelectedShapes = new List<Shape> {
+                        formResponse.Patient.PatientID = existingPatients[existingPatients.Count - 1].PatientID + 1;
+                    
+                    formResponse.Patient.UnSelectedShapes = new List<Shape> {
                         new Shape { ShapeName = "circle", ShapeDisplay = "Circle" },
                         new Shape { ShapeName = "oval", ShapeDisplay = "Oval" },
                         new Shape { ShapeName = "triangle", ShapeDisplay = "Triangle" },
@@ -125,15 +115,14 @@ namespace MedOnTime_WebApp.Controllers
                     // Add new Patient with POST method
                     using (var httpClient = new HttpClient())
                     {
-                        StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
-                        using (var response = await httpClient.PostAsync("https://medontime-api.herokuapp.com/api/PatientAPI?", content))
+                        StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse.Patient), Encoding.UTF8, "application/json");
+                        using (var response = await httpClient.PostAsync("https://medontime-api.herokuapp.com/api/PatientAPI?" + LoginStatus.ApiKey, content))
                         {
                             string apiRes = await response.Content.ReadAsStringAsync();
                             System.Diagnostics.Debug.WriteLine(apiRes);
                         }
                     }
-                    await LoginStatus.LoadPatients();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home", new { caretakerObjID = formResponse.CaretakerObjID, caretakerID = formResponse.Patient.CaretakerID });
                 }
                 catch
                 {
@@ -156,13 +145,12 @@ namespace MedOnTime_WebApp.Controllers
                     System.Diagnostics.Debug.WriteLine(apiRes);
                 }
             }
-            LoginStatus.SelectedPatient = patient;
             return View(patient);
         }
 
         // for going to EditPatient view to update info
         [HttpGet]
-        public async System.Threading.Tasks.Task<IActionResult> EditPatient(string Id)
+        public async System.Threading.Tasks.Task<IActionResult> EditPatient(string Id, int caretakerID)
         {
 
             Patient patient = new Patient();
@@ -175,17 +163,17 @@ namespace MedOnTime_WebApp.Controllers
                     System.Diagnostics.Debug.WriteLine(apiRes);
                 }
             }
-            return View(patient);
+            return View(new EditPatientViewModel { Patient = patient, CaretakerID = caretakerID});
         }
 
         // post update method
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> EditPatient(string Id, Patient formResponse)
+        public async System.Threading.Tasks.Task<IActionResult> EditPatient(EditPatientViewModel formResponse)
         {
             if (ModelState.IsValid)
             {
-                StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse), Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse.Patient), Encoding.UTF8, "application/json");
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.PutAsync("https://medontime-api.herokuapp.com/API/PatientAPI", content))
@@ -194,7 +182,7 @@ namespace MedOnTime_WebApp.Controllers
                         System.Diagnostics.Debug.WriteLine(apiRes);
                     }
                 }
-                return RedirectToAction("PatientList");
+                return RedirectToAction("PatientList", new { caretakerID = formResponse.CaretakerID });
             }
             else
             {
@@ -232,8 +220,8 @@ namespace MedOnTime_WebApp.Controllers
                         System.Diagnostics.Debug.WriteLine(apiRes);
                     }
                 }
-                await LoginStatus.LoadPatients();
-                return RedirectToAction("PatientList");
+                await LoginStatus.LoadPatients(formResponse.CaretakerID);
+                return RedirectToAction("PatientList", new { caretakerID = formResponse.CaretakerID });
             }
             catch { return View(formResponse); }
         } // end of DeletePatient

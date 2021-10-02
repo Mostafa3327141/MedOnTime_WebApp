@@ -56,6 +56,10 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "EditPatient", new { Id = Model.Id }) |
-    @Html.ActionLink("Back to list", "PatientList")
+    @Html.ActionLink("Edit", "EditPatient", new { Id = Model.Id, caretakerID = Model.CaretakerID }) |
+    <a id="patient-list-btn" href="">Back to List</a>
 </div>
+<script>
+    var patientListBtn = document.getElementById("patient-list-btn");
+    patientListBtn.href = "/Patient/PatientList?caretakerObjID=" + getCookie("Caretaker");
+</script>

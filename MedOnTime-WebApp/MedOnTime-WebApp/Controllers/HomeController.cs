@@ -1,6 +1,9 @@
 ﻿using MedOnTime_WebApp.Models;
+using MedOnTime_WebApp.Views.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace MedOnTime_WebApp.Controllers
@@ -14,10 +17,18 @@ namespace MedOnTime_WebApp.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async System.Threading.Tasks.Task<IActionResult> Index(string caretakerObjID)
         {
-            LoginStatus.SelectedPatient = null;
-            return View();
+            if (caretakerObjID != null)
+            {
+                Caretaker userObj = await LoginStatus.LoadCaretaker(caretakerObjID);
+                List<Patient> patients = await LoginStatus.LoadPatients(userObj.CaretakerID);
+                return View(new HomeViewModel { UserObj = userObj, Patients = patients });
+            }
+            else
+            {
+                return View(new HomeViewModel { UserObj = null, Patients = null });
+            }
         }
 
         public IActionResult SchedulePicker()

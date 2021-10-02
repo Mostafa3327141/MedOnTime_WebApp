@@ -1,16 +1,16 @@
-﻿@model Medication
+﻿@model MedicationFormViewModel
 
 <div>
     <div class="alert-danger text-left" asp-validation-summary="All"></div>
-    <h4>Add new medication for @LoginStatus.SelectedPatient.FirstName</h4>
+    <h4>Add new medication for @Model.Patient.FirstName</h4>
     <form enctype="multipart/form-data" asp-action="MedicationForm" method="post">
         <input type="submit" />
         <!--Current Caretaker-->
-        <input type="hidden" value="@LoginStatus.LogginedUser.Id" asp-for="CaretakerID" />
-        <input type="hidden" value="@LoginStatus.SelectedPatient.PatientID" asp-for="PatientID" />
+        <input type="hidden" value="@Model.Caretaker.Id" asp-for="Medication.CaretakerID" />
+        <input type="hidden" value="@Model.Patient.PatientID" asp-for="Medication.PatientID" />
         <!-- Medication name field-->
         <div class="registerField">
-            <input class="form-control" asp-for="MedicationName" placeholder="Medication Name" />
+            <input class="form-control" asp-for="Medication.MedicationName" placeholder="Medication Name" />
         </div>
         <!-- Unit field-->
         <div class="registerField">
@@ -37,16 +37,16 @@
                     </td>
                 </tr>
             </table>
-            <input type="hidden" asp-for="Unit" id="concated-unit" />
+            <input type="hidden" asp-for="Medication.Unit" id="concated-unit" />
         </div>
         <!-- Quantity field-->
         <div class="registerField">
-            <input class="form-control" asp-for="Quantity" min="0" placeholder="Quantity" />
+            <input class="form-control" asp-for="Medication.Quantity" min="0" placeholder="Quantity" />
         </div>
 
         <!-- Frequency field-->
         <div class="registerField">
-            <select class="form-control mb-3" asp-for="Frequency">
+            <select class="form-control mb-3" asp-for="Medication.Frequency">
                 <option selected disabled>Frequency</option>
                 <option value="Every Day">Every Day</option> <!--Hours Between = 24 hours-->
                 <option value="Specific Days">Specific Days</option>
@@ -57,26 +57,26 @@
 
         <!-- First Dose Time field-->
         <div class="registerField">
-            <label style="margin: 0;" asp-for="FirstDoseTime">First Dose Time</label><br />
+            <label style="margin: 0;" asp-for="Medication.FirstDoseTime">First Dose Time</label><br />
             <div id="timepicker" class="timepicker">
-                <input class="timepickinput" type="text" value="00:00 AM" asp-for="FirstDoseTime" readonly />
+                <input class="timepickinput" type="text" value="00:00 AM" asp-for="Medication.FirstDoseTime" readonly />
             </div>
         </div>
 
         <!-- HoursBetween field-->
         <div class="registerField">
-            <input class="form-control" type="number" asp-for="HoursBetween" min="0" placeholder="HoursBetween" />
+            <input class="form-control" type="number" asp-for="Medication.HoursBetween" min="0" placeholder="HoursBetween" />
         </div>
 
         <!-- HoursBetween field-->
         <div class="registerField">
             <label style="margin: 0;" >Select a shape as an identifier</label><br />
 
-            <select class="form-control" id="shape-selector" asp-for="Shape" onChange="shapeSelectorChange()">
+            <select class="form-control" id="shape-selector" asp-for="Medication.Shape" onChange="shapeSelectorChange()">
                 <option selected disabled>Please select a shape</option>
                 @{ 
-                    if (LoginStatus.SelectedPatient.UnSelectedShapes.Count != 0) { 
-                        foreach (Shape s in LoginStatus.SelectedPatient.UnSelectedShapes)
+                    if (Model.Patient.UnSelectedShapes.Count != 0) { 
+                        foreach (Shape s in Model.Patient.UnSelectedShapes)
                         {
                             <option value="@s.ShapeName">@s.ShapeDisplay</option>
                         }
