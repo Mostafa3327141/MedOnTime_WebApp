@@ -68,8 +68,6 @@ namespace MedOnTime_WebApp.Models
                     return caretaker;
                 }
             }
-
-            return null;
         }
     }
 }

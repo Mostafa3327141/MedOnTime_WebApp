@@ -215,7 +215,6 @@ namespace MedOnTime_WebApp.Controllers
                     {
                         var binary = Convert.FromBase64String(med.MedicationImage);
                         System.IO.File.WriteAllBytes("./wwwroot/img/" + med.Id + ".jpg", binary); // TODO: Detect image file type before creating file.
-                        //System.IO.File.WriteAllBytes("./wwwroot/img/test.jpg", binary); // TODO: Detect image file type before creating file.
                     }
                     System.Diagnostics.Debug.WriteLine(apiRes);
                 }

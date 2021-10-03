@@ -43,14 +43,8 @@
             {
                 <h4>You don't have any patients yet.</h4>
             }
-            @*<a class="addPatientLink" asp-controller="Patient" asp-action="AddPatient">Add Patient</a>*@
             @Html.ActionLink("Add Patient", "AddPatient", "Patient", new { caretakerID = Model.UserObj.CaretakerID, caretakerObjID = Model.UserObj.Id})
         </section>
-        <!--<section id="medication-panel">-->
-        <!--To have medical data shown-->
-        <!--<h4>No Medications Added</h4>
-            <a class="homeRoute" asp-controller="Medication" asp-action="MedicationForm">Add Medication</a>
-        </section>-->
     }
 </div>
 
@@ -67,4 +61,6 @@
     {
         <text>setCaretakerIDCookie("")</text>
     }
+
+    window.history.replaceState("", "", '/home');
 </script>

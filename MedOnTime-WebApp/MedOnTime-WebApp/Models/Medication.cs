@@ -14,6 +14,7 @@ namespace MedOnTime_WebApp.Models
 
         [Required(ErrorMessage = "Please enter medication name")]
         public string MedicationName { get; set; }
+
         public string MedicationImage { get; set; }
 
         public string ImageId { get; set; }

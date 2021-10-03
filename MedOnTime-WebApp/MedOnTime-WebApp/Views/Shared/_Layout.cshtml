@@ -34,11 +34,11 @@
             <div class="container">
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
                     <ul class="navbar-nav flex-row">
-                            <li class="nav-item" id="logout-btn">
+                            <li class="nav-item" id="logout-btn" style="display:none;">
                                 <a class="navbar-brand" href="#" id="medOnTime-title" onclick="Logout()">Logout</a>
                             </li>
                         <li class="nav-item">
-                            <a class="navbar-brand" id="medOnTime-home-btn" href="">MedOnTime</a>
+                            <a class="navbar-brand" id="medOnTime-home-btn" href="#" onclick="RedirectToHome()">MedOnTime</a>
                         </li>
                         <li class="nav-item">
                             <!-- To start email notification & use subscription model -->
@@ -78,6 +78,11 @@
             @RenderBody()
         </main>
     </div>
+    <div style="display:none">
+        <form id="redirect-to-home" action="/Home/Index" method="get">
+            <input type="hidden" id="caretaketObjID" name="caretakerObjID" />
+        </form>
+    </div>
 
     <footer class="footer-hide border-top footer text-muted">
         <div class="footer-hide container">
@@ -89,6 +94,16 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script type="text/javascript">
+        var logoutBtn = document.getElementById("logout-btn");
+        if (getCookie("Caretaker") === "") {
+            logoutBtn.style.display = "none";
+        } else {
+            logoutBtn.style.display = "inline";
+        }
+
+        var caretaketObjIDHolder = document.getElementById("caretaketObjID");
+        caretaketObjIDHolder.value = getCookie("Caretaker");
+
         function Logout() {
             var conf = confirm("Confirm Logout?");
             if (conf == true) {
@@ -97,16 +112,10 @@
             }
         }
 
-        var logoutBtn = document.getElementById("logout-btn");
-        if (getCookie("Caretaker") === "") {
-            logoutBtn.style.display = "none";
-        } else {
-            logoutBtn.style.display = "true";
+
+        function RedirectToHome() {
+            document.getElementById("redirect-to-home").submit();
         }
-
-
-        var homeBtn = document.getElementById("medOnTime-home-btn");
-        homeBtn.href = "/home/index?caretakerObjID=" + getCookie("Caretaker");
     </script>
 </body>
 </html>

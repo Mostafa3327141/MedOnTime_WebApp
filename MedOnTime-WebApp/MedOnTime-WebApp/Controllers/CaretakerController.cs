@@ -104,7 +104,6 @@ namespace MedOnTime_WebApp.Controllers
                 using (SHA256 sha256hash = SHA256.Create())
                     pwdHash = GetHash(sha256hash, password, email.ToLower());
 
-                //List<Caretaker> existingCaretakers = _caretakerCollection.AsQueryable<Caretaker>().ToList();
                 List<Caretaker> existingCaretakers = new List<Caretaker>();
 
                 using (var httpClient = new HttpClient())
