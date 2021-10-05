@@ -22,6 +22,8 @@ namespace MedOnTime_WebApp.Models
         [Required(ErrorMessage = "Please enter your phone number")]
         public string PhoneNum { get; set; }
 
+        public bool IsPasswordTemporary { get; set; }
+
         [Required(ErrorMessage = "Please enter your age")]
         public int Age { get; set; }
         public List<Shape> UnSelectedShapes { get; set; }

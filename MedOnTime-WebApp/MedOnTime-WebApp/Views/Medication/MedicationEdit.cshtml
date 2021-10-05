@@ -88,6 +88,10 @@
         <div class="registerField">
             <input class="form-control" asp-for="Medication.MedicationName" placeholder="Medication Name" />
         </div>
+        <!-- Medication condition field-->
+        <div class="registerField">
+            <input class="form-control" asp-for="Medication.Condition" placeholder="Condition" />
+        </div>
         <!-- Unit field-->
         <div class="registerField">
             <table>
@@ -155,13 +159,13 @@
                     {
                         foreach (Shape s in Model.Patient.UnSelectedShapes)
                         {
-                                <option value="@s.ShapeName">@s.ShapeDisplay</option>
+                            <option value="@s.ShapeName">@s.ShapeDisplay</option>
                         }
-                        
+
                     }
                 }
             </select>
-            <img id="shape-preview" src="@imgSrc"/>
+            <img id="shape-preview" src="@imgSrc" />
         </div>
 
         <!--Upload Pill Image field-->
@@ -178,7 +182,7 @@
             </div>
         </div>
 
-        <input type="hidden" value="@Model.Medication.Shape" name="oldShape"/>
+        <input type="hidden" value="@Model.Medication.Shape" name="oldShape" />
     </form>
 </div>
 
