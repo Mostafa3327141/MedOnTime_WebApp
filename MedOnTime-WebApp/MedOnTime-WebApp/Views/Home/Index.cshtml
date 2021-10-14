@@ -43,9 +43,10 @@
             {
                 <h4>You don't have any patients yet.</h4>
             }
-            @Html.ActionLink("Add Patient", "AddPatient", "Patient", new { caretakerID = Model.UserObj.CaretakerID, caretakerObjID = Model.UserObj.Id})
+            @Html.ActionLink("Add Patient", "AddPatient", "Patient", new { caretakerID = Model.UserObj.CaretakerID, caretakerObjID = Model.UserObj.Id })
         </section>
     }
+    @*<a asp-controller="Home" asp-action="LogTest">LogTest</a>*@
 </div>
 
 <script>

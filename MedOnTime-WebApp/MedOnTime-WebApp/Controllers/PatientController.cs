@@ -22,6 +22,7 @@ namespace MedOnTime_WebApp.Controllers
         public PatientController()
         {
         }
+
         public async System.Threading.Tasks.Task<ActionResult> PatientLog(string Id)
         {
             List<Log> existingLogs = new List<Log>();
