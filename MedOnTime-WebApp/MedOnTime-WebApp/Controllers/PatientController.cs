@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
 
 /*
@@ -53,6 +54,11 @@ namespace MedOnTime_WebApp.Controllers
         [HttpPost]
         public async System.Threading.Tasks.Task<IActionResult> AddPatient(AddPatientViewModel formResponse)
         {
+            // Hash the password
+            using (SHA256 sha256hash = SHA256.Create())
+                formResponse.Patient.Password = LoginStatus.GetHash(sha256hash, formResponse.TempPassword, formResponse.Patient.Email.ToLower());
+
+            formResponse.Patient.IsPasswordTemporary = true;
 
             ViewBag.Message = "";
             if (ModelState.IsValid)

@@ -19,6 +19,8 @@ namespace MedOnTime_WebApp.Models
         [Required(ErrorMessage = "Please enter your email")]
         public string Email { get; set; }
 
+        public string Password { get; set; }
+
         [Required(ErrorMessage = "Please enter your phone number")]
         public string PhoneNum { get; set; }
 

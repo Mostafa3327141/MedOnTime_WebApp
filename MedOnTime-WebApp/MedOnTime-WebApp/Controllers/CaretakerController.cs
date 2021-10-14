@@ -66,7 +66,7 @@ namespace MedOnTime_WebApp.Controllers
 
                     // Hash the password
                     using (SHA256 sha256hash = SHA256.Create())
-                        formResponse.PasswordHash = GetHash(sha256hash, formResponse.Password, formResponse.Email.ToLower());
+                        formResponse.PasswordHash = LoginStatus.GetHash(sha256hash, formResponse.Password, formResponse.Email.ToLower());
 
                     formResponse.Password = "";
 
@@ -102,7 +102,7 @@ namespace MedOnTime_WebApp.Controllers
             {
                 string pwdHash;
                 using (SHA256 sha256hash = SHA256.Create())
-                    pwdHash = GetHash(sha256hash, password, email.ToLower());
+                    pwdHash = LoginStatus.GetHash(sha256hash, password, email.ToLower());
 
                 List<Caretaker> existingCaretakers = new List<Caretaker>();
 
@@ -119,7 +119,7 @@ namespace MedOnTime_WebApp.Controllers
                 foreach (var caretaker in existingCaretakers)
                 {
                     // Check if there is any entries' data matches with the provided data
-                    if (caretaker.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && VerifyHash(pwdHash,caretaker.PasswordHash))
+                    if (caretaker.Email.Equals(email, StringComparison.OrdinalIgnoreCase) && LoginStatus.VerifyHash(pwdHash,caretaker.PasswordHash))
                     {
                         return RedirectToAction("Index", "Home", new { caretakerObjID = caretaker.Id});
                     }
@@ -138,39 +138,6 @@ namespace MedOnTime_WebApp.Controllers
         public IActionResult Logout()
         {
             return RedirectToAction("Index", "Home");
-        }
-
-
-        // Comes from MS documentation
-        // ref https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.hashalgorithm.computehash?view=netcore-3.1
-        public string GetHash(HashAlgorithm hashAlgorithm, string password, string email)
-        {
-
-            // Convert the password string with email as salt to a byte array and compute the hash.
-            byte[] data = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes((password + email)));
-
-            // Create a new Stringbuilder to collect the bytes
-            // and create a string.
-            var sBuilder = new StringBuilder();
-
-            // Loop through each byte of the hashed data
-            // and format each one as a hexadecimal string.
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-
-            // Return the hexadecimal string.
-            return sBuilder.ToString();
-        }
-
-        // Verify a hash against a string.
-        public bool VerifyHash(string input, string hash)
-        {
-            // Create a StringComparer an compare the hashes.
-            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
-
-            return comparer.Compare(input, hash) == 0;
         }
     }
 }
