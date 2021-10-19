@@ -1,4 +1,4 @@
-﻿@*@model IEnumerable<Log>
+﻿@model IEnumerable<Log>
 
 <h3><img class="heartBeatIcon" src="~/img/heart-beat-icon.png" alt="Heart Icon" />   Patient Profile</h3>
 
@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <h1>History of patient</h1>
-@if (!LoginStatus.IsLoggedIn)
+@if (false)
 {
     <section class="homeContent">
         <h3>Currently not logged in</h3><br />
@@ -16,7 +16,8 @@
             <a class="homeRoute" asp-controller="Caretaker" asp-action="Register">Register</a>
             <a class="homeRoute" asp-controller="Caretaker" asp-action="Login">Login</a>
         </div>
-    </section> }
+    </section> 
+}
 else
 {
     @if (Model.Count() != 0)
@@ -40,7 +41,7 @@ else
                             @item.TimeTake
                         </td>
                         <td>
-                            @item.MedicationID
+                            @item.MedicationName
                         </td>
                     </tr>
                 }
@@ -49,9 +50,10 @@ else
     }
     else
     {
-        <h2 class="text-danger">There are no history yet.</h2>}
+        <h2 class="text-danger">There are no history yet.</h2>
+    }
 }
 
 <form asp-action="PatientList" asp-controller="Patient" method="get">
     <input type="submit" value="Back To List" />
-</form>*@
+</form>

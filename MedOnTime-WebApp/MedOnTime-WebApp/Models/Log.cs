@@ -7,10 +7,7 @@ namespace MedOnTime_WebApp.Models
         public string Id { get; set; }
 
         public string PatientID { get; set; }
-
-        /*        [BsonElement("TimeTake")]
-                public DateTime TimeTake { get; set; }*/
-
+        public string TimeTake { get; set; }
         public string MedicationID { get; set; }
 
         public string MedicationName { get; set; }

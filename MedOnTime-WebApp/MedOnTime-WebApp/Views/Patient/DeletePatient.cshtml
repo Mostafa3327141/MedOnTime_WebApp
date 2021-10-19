@@ -13,6 +13,8 @@
             <td>
                 <form asp-action="DeletePatient" method="post">
                     <input type="hidden" name="Id" value="@Model.Id" />
+                    <input type="hidden" id="caretakerObjID" name="caretakerObjID" value=" " />
+                    <input type="hidden" asp-for="CaretakerID" value="@Model.CaretakerID" />
                     <input type="submit" value="Delete" class="btn btn-danger" />
                 </form>
             </td>
@@ -62,4 +64,7 @@
 <script>
     var patientListBtn = document.getElementById("patient-list-btn");
     patientListBtn.href = "/Patient/PatientList?caretakerObjID=" + getCookie("Caretaker");
+
+    var caretaketObjIDHolder = document.getElementById("caretakerObjID");
+    caretaketObjIDHolder.value = getCookie("Caretaker");
 </script>

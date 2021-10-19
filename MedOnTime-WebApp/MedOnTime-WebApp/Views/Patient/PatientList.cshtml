@@ -48,8 +48,8 @@ else
                         <td>
                             @Html.ActionLink("Edit", "EditPatient", new { Id = item.Id , caretakerID = Model.CaretakerID}) |
                             @Html.ActionLink("Details", "PatientDetails", new { Id = item.Id }) |
-                            @Html.ActionLink("Delete", "DeletePatient", new { Id = item.Id }) @*|
-                            @Html.ActionLink("History", "PatientLog", new { Id = item.PatientID })*@
+                            @Html.ActionLink("Delete", "DeletePatient", new { Id = item.Id }) |
+                            @Html.ActionLink("History", "PatientLog", new { Id = item.Id })
                         </td>
                     </tr>
                 }

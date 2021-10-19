@@ -68,14 +68,6 @@ namespace MedOnTime_WebApp.Controllers
                     formResponse.Medication.MedicationImage = null;
                 }
 
-               /* if (formResponse.Frequency == "Every Day")
-                    formResponse.HoursBetween = 24; // only if selecting Every Day option*/
-
-                // create a new list for the newly binded medication object
-                formResponse.Medication.Times = new List<DateTime>();
-                formResponse.Medication.Times.Add(DateTime.Parse(formResponse.Medication.FirstDoseTime.Insert(5, ":00")));
-
-
                 formResponse.Caretaker = await LoginStatus.LoadCaretaker(formResponse.Medication.CaretakerID);
                 formResponse.Patient = await LoginStatus.LoadPatient(formResponse.Medication.PatientID);
 

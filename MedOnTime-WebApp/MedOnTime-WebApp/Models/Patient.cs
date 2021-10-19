@@ -29,8 +29,6 @@ namespace MedOnTime_WebApp.Models
         [Required(ErrorMessage = "Please enter your age")]
         public int Age { get; set; }
         public List<Shape> UnSelectedShapes { get; set; }
-        public List<int> MedicationIDs { get; set; }
-        public List <int> PrescriptionIDs { get; set; }
 
         public Patient() { }
 
@@ -42,9 +40,7 @@ namespace MedOnTime_WebApp.Models
             this.Email = email;
             this.PhoneNum = phoneNum;
             this.Age = age;
-            this.MedicationIDs = new List<int>();
             this.CaretakerID = 0;
-            this.PrescriptionIDs = new List<int>();
         }
     }
 }

@@ -215,7 +215,7 @@ namespace MedOnTime_WebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> DeletePatient(string Id, Patient formResponse)
+        public async System.Threading.Tasks.Task<IActionResult> DeletePatient(string Id, string caretakerObjID, Patient formResponse)
         {
             try
             {
@@ -228,7 +228,7 @@ namespace MedOnTime_WebApp.Controllers
                     }
                 }
                 await LoginStatus.LoadPatients(formResponse.CaretakerID);
-                return RedirectToAction("PatientList", new { caretakerID = formResponse.CaretakerID });
+                return RedirectToAction("PatientList", new { caretakerObjID = caretakerObjID, caretakerID = formResponse.CaretakerID });
             }
             catch { return View(formResponse); }
         } // end of DeletePatient

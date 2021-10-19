@@ -39,8 +39,6 @@ namespace MedOnTime_WebApp.Models
         [Required(ErrorMessage = "Please select a shape for this medication")]
         public string Shape { get; set; }
 
-        public List<DateTime> Times { get; set; }
-
         public Medication() { }
         public Medication(string medicationName, string medImage, string unit, int quantity, string firstDoseTime, string frequency, string shape,int hoursBetween)
         {
@@ -51,7 +49,6 @@ namespace MedOnTime_WebApp.Models
             this.Frequency = frequency;
             this.Shape = shape;
             this.HoursBetween = hoursBetween;
-            this.Times = new List<DateTime>();
         }
     }
 }
