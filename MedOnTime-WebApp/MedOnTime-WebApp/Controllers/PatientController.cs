@@ -23,21 +23,23 @@ namespace MedOnTime_WebApp.Controllers
         {
         }
 
-        public async System.Threading.Tasks.Task<ActionResult> PatientLog(string Id)
+        public async System.Threading.Tasks.Task<ActionResult> PatientLog(string Id, string patientFirstName)
         {
             List<Log> existingLogs = new List<Log>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/LogAPI?patientID=" + Id + LoginStatus.ApiKey))
+                using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/LogAPI?patientID=" + Id + "&" + LoginStatus.ApiKey))
                 {
                     string apiRes = await response.Content.ReadAsStringAsync();
                     System.Diagnostics.Debug.WriteLine(apiRes);
                     existingLogs = JsonConvert.DeserializeObject<List<Log>>(apiRes);
                 }
             }
+            ViewBag.patientFirstName = patientFirstName;
             return View(existingLogs);
         }
-
+        
+        
         public async System.Threading.Tasks.Task<ActionResult> PatientList(string caretakerObjID)
         {
             Caretaker caretaker = await LoginStatus.LoadCaretaker(caretakerObjID);

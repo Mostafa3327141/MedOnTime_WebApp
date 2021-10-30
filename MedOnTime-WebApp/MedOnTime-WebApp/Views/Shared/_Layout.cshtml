@@ -57,7 +57,7 @@
         </nav>
     </header>
     <div id="layout-side-panel">
-        <a class="side-panel-item btn" asp-controller="Home" asp-action="Index" aria-current="true">
+        <a class="side-panel-item btn" onclick="RedirectToHome()" aria-current="true">
             <img id="home-icon" src="~/img/home-icon.png" alt="Home Icon" />
         </a>
         <br />
@@ -69,7 +69,7 @@
             <img id="pill-icon" src="~/img/pill-icon.png" alt="Pill Icon" />
         </a>
         <br />
-        <a class="side-panel-item btn"  asp-controller="Patient" asp-action="PatientList" aria-current="true">
+        <a class="side-panel-item btn" onclick="PatientList()" aria-current="true">
             <img id="peoples-icon" src="~/img/peoples-icon.png" alt="Peoples Icon" />
         </a>
     </div>
@@ -80,7 +80,11 @@
     </div>
     <div style="display:none">
         <form id="redirect-to-home" action="/Home/Index" method="get">
-            <input type="hidden" id="caretaketObjID" name="caretakerObjID" />
+            <input type="hidden" id="home-caretaketObjID" name="caretakerObjID" />
+        </form>
+
+        <form id="show-patient-list" asp-controller="Patient" asp-action="PatientList" method="get">
+            <input type="hidden" id="patient-list-caretakerObjID" name="caretakerObjID" />
         </form>
     </div>
 
@@ -101,8 +105,8 @@
             logoutBtn.style.display = "inline";
         }
 
-        var caretaketObjIDHolder = document.getElementById("caretaketObjID");
-        caretaketObjIDHolder.value = getCookie("Caretaker");
+        document.getElementById("home-caretaketObjID").value = getCookie("Caretaker");
+        document.getElementById("patient-list-caretakerObjID").value = getCookie("Caretaker");
 
         function Logout() {
             var conf = confirm("Confirm Logout?");
@@ -112,9 +116,12 @@
             }
         }
 
-
         function RedirectToHome() {
             document.getElementById("redirect-to-home").submit();
+        }
+
+        function PatientList() {
+            document.getElementById("show-patient-list").submit();
         }
     </script>
 </body>
