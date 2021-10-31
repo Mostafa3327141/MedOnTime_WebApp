@@ -7,8 +7,15 @@
 
 <h1>@Model.Patient.FirstName's medications</h1>
 
+<div>
+    <form id="add-medication" asp-controller="Medication" asp-action="MedicationForm" method="get">
+        <input type="hidden" name="patientID" value="@Model.Patient.PatientID" />
+        <input type="hidden" id="add-medication-caretakerObjID" name="caretakerObjID" />
+    </form>
+</div>
+
 <p>
-    @Html.ActionLink("Add new medication", "MedicationForm")
+    <a href="#" id="add-medication-form" onclick="document.getElementById('add-medication').submit()">Add new medication</a>
 </p>
 @if (Model.Medications.Count() != 0)
 {
@@ -48,3 +55,7 @@ else
 {
     <h2 class="text-danger">There are no medications yet.</h2>
 }
+
+<script type="text/javascript">
+    document.getElementById("add-medication-caretakerObjID").value = getCookie("Caretaker");
+</script>
