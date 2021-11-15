@@ -49,37 +49,41 @@
     </dl>
 </div>
 <div>
-    <form asp-action="MedicationList" asp-controller="Medication" method="get">
-        <input type="hidden" value="@Model.PatientID" name="patientID"/>
-        <input type="submit" value="See @Model.FirstName's medications" />
-    </form>
-    <form asp-action="MedicationForm" asp-controller="Medication" method="get">
-        <input type="hidden" value="@Model.PatientID" name="patientID" />
-        <input type="hidden" id="medication-form-caretakerObjID" name="caretakerObjID" />
-        <input type="submit" value="Add new medication for @Model.FirstName" />
-    </form>
-    <form asp-action="PatientList" asp-controller="Patient" method="get">
-        <input type="hidden" id="patient-list-caretakerObjId" value="" name="caretakerObjID" />
-        <input type="submit" value="Back To Patient List" />
-    </form>
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <form asp-action="MedicationList" asp-controller="Medication" method="get">
+                        <input type="hidden" value="@Model.PatientID" name="patientID" />
+                        <input type="submit" value="See @Model.FirstName's medications" />
+                    </form>
+                </td>
+                <td>
+                    <form asp-action="MedicationForm" asp-controller="Medication" method="get">
+                        <input type="hidden" value="@Model.PatientID" name="patientID" />
+                        <input type="hidden" id="medication-form-caretakerObjID" name="caretakerObjID" />
+                        <input type="submit" value="Add new medication for @Model.FirstName" />
+                    </form>
+                </td>
+                <td>
+                    <form asp-action="PatientList" asp-controller="Patient" method="get">
+                        <input type="hidden" id="patient-list-caretakerObjId" value="" name="caretakerObjID" />
+                        <input type="submit" value="Back To Patient List" />
+                    </form>
+                </td>
+                <td>
+                    <form asp-action="PatientLog" asp-controller="Patient" method="get">
+                        <input type="hidden" value="@Model.FirstName" name="patientFirstName" />
+                        <input type="hidden" value="@Model.PatientID" name="Id" />
+                        <input type="submit" value="Patient's medication history" />
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <script>
-    function getCookie(cname) {
-        let name = cname + "=";
-        let ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
-
     document.getElementById("patient-list-caretakerObjId").value = getCookie("Caretaker");
     document.getElementById("medication-form-caretakerObjID").value = getCookie("Caretaker");
 </script>

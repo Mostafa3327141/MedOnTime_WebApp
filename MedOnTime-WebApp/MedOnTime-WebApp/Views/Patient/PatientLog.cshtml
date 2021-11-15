@@ -34,7 +34,7 @@ else
                     </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="text-align:center">
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -56,5 +56,11 @@ else
 }
 
 <form asp-action="PatientList" asp-controller="Patient" method="get">
-    <input type="submit" value="Back To List" />
+    <input type="hidden" id="patient-list-caretakerObjId" value="" name="caretakerObjID" />
+    <input type="submit" value="Back To Patient List" />
 </form>
+
+
+<script>
+    document.getElementById("patient-list-caretakerObjId").value = getCookie("Caretaker");
+</script>
