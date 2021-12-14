@@ -21,6 +21,8 @@ namespace MedOnTime_WebApp.Controllers
         {
             List<Medication> existingMeds = new List<Medication>();
             List<Medication> patientMeds = new List<Medication>();
+
+            // request the full list of medication from the API
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/API/MedicationAPI?" + LoginStatus.ApiKey))
@@ -31,6 +33,7 @@ namespace MedOnTime_WebApp.Controllers
                 }
             }
 
+            // filter out medicines for this patient
             foreach (var med in existingMeds)
             {
                 if (med.PatientID == patientID)
@@ -45,12 +48,12 @@ namespace MedOnTime_WebApp.Controllers
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> MedicationForm(int patientID, string caretakerObjID)
         {
+            // request the information of the caretaker and the patient
             Patient patient = await LoginStatus.LoadPatient(patientID);
             Caretaker caretaker = await LoginStatus.LoadCaretaker(caretakerObjID);
             return View(new MedicationFormViewModel { Patient = patient, Caretaker = caretaker});
         }
 
-        // Method for API Testing
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async System.Threading.Tasks.Task<IActionResult> MedicationForm(MedicationFormViewModel formResponse, IFormFile medImage)
@@ -73,6 +76,7 @@ namespace MedOnTime_WebApp.Controllers
 
                 try
                 {
+                    // write new medication into the database via the API
                     StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse.Medication), Encoding.UTF8, "application/json");
                     using (var httpClient = new HttpClient())
                     {
@@ -117,7 +121,7 @@ namespace MedOnTime_WebApp.Controllers
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> MedicationEdit(string Id)
         {
-
+            // fetch the requested medication for edit
             Medication med = new Medication();
             using (var httpClient = new HttpClient())
             {
@@ -149,6 +153,7 @@ namespace MedOnTime_WebApp.Controllers
                 formResponse.Caretaker = await LoginStatus.LoadCaretaker(formResponse.Medication.CaretakerID);
                 formResponse.Patient = await LoginStatus.LoadPatient(formResponse.Medication.PatientID);
 
+                // update the medication's info via API
                 StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse.Medication), Encoding.UTF8, "application/json");
                 using (var httpClient = new HttpClient())
                 {
@@ -196,6 +201,7 @@ namespace MedOnTime_WebApp.Controllers
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> MedicationDetails(string Id, int patientID)
         {
+            // Fetch the requested medication
             Medication med = new Medication();
             using (var httpClient = new HttpClient())
             {
@@ -205,8 +211,9 @@ namespace MedOnTime_WebApp.Controllers
                     med = JsonConvert.DeserializeObject<Medication>(apiRes);
                     if (med.MedicationImage != null)
                     {
+                        // convert the medicationImgae from raw byte to image
                         var binary = Convert.FromBase64String(med.MedicationImage);
-                        System.IO.File.WriteAllBytes("./wwwroot/img/" + med.Id + ".jpg", binary); // TODO: Detect image file type before creating file.
+                        System.IO.File.WriteAllBytes("./wwwroot/img/" + med.Id + ".jpg", binary);
                     }
                     System.Diagnostics.Debug.WriteLine(apiRes);
                 }
@@ -217,6 +224,7 @@ namespace MedOnTime_WebApp.Controllers
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> MedicationDelete(string Id)
         {
+            // Fetch the requested medication
             Medication med = new Medication();
             using (var httpClient = new HttpClient())
             {
@@ -236,6 +244,7 @@ namespace MedOnTime_WebApp.Controllers
         {            
             try
             {
+                // Remove the medication via a delete message with the objID of the medication by the API
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.DeleteAsync("https://medontime-api.herokuapp.com/API/MedicationAPI/" + objID + "?" + LoginStatus.ApiKey))

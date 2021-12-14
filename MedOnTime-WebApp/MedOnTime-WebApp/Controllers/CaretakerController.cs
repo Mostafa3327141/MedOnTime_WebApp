@@ -100,12 +100,14 @@ namespace MedOnTime_WebApp.Controllers
         {
             if (email != null && password != null)
             {
+                // hash the password
                 string pwdHash;
                 using (SHA256 sha256hash = SHA256.Create())
                     pwdHash = LoginStatus.GetHash(sha256hash, password, email.ToLower());
 
                 List<Caretaker> existingCaretakers = new List<Caretaker>();
 
+                // load all existing caretakers
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.GetAsync("https://medontime-api.herokuapp.com/api/CaretakerAPI?" + LoginStatus.ApiKey))

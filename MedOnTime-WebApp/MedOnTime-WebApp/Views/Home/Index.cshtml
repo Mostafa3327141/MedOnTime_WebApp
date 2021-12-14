@@ -46,7 +46,6 @@
             @Html.ActionLink("Add Patient", "AddPatient", "Patient", new { caretakerID = Model.UserObj.CaretakerID, caretakerObjID = Model.UserObj.Id })
         </section>
     }
-    @*<a asp-controller="Home" asp-action="LogTest">LogTest</a>*@
 </div>
 
 <script>
@@ -54,6 +53,7 @@
         document.cookie = "Caretaker=" + cvalue + ";"
     }
 
+    // write into cookies with whatever value that's in model's caretaker's ID, else set it to null
     @if (Model.UserObj != null)
     {
         <text>setCaretakerIDCookie("@Model.UserObj.Id")</text>

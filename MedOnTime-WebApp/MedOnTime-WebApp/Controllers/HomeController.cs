@@ -19,6 +19,7 @@ namespace MedOnTime_WebApp.Controllers
 
         public async System.Threading.Tasks.Task<IActionResult> Index(string caretakerObjID)
         {
+            // load caretaker info if not null (logged in)
             if (caretakerObjID != null)
             {
                 Caretaker userObj = await LoginStatus.LoadCaretaker(caretakerObjID);
@@ -30,22 +31,6 @@ namespace MedOnTime_WebApp.Controllers
                 return View(new HomeViewModel { UserObj = null, Patients = null });
             }
         }
-
-/*        public async System.Threading.Tasks.Task<IActionResult> LogTest()
-        {
-            Log log = new Log { PatientID = "test1", MedicationID = "testMedID1", MedicationName = "testMedName1" };
-            string contentLog = Newtonsoft.Json.JsonConvert.SerializeObject(log);
-            StringContent content = new StringContent(contentLog, System.Text.Encoding.UTF8, "application/json");
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.PostAsync("https://medontime-api.herokuapp.com/API/LogAPI", content))
-                {
-                    string apiRes = await response.Content.ReadAsStringAsync();
-                    System.Diagnostics.Debug.WriteLine(apiRes);
-                }
-            }
-            return View(new HomeViewModel { UserObj = null, Patients = null });
-        }*/
 
         public IActionResult SchedulePicker()
         {

@@ -25,6 +25,7 @@ namespace MedOnTime_WebApp.Controllers
 
         public async System.Threading.Tasks.Task<ActionResult> PatientLog(string Id, string patientFirstName)
         {
+            // Fetch all the log of patient from API
             List<Log> existingLogs = new List<Log>();
             using (var httpClient = new HttpClient())
             {
@@ -35,6 +36,7 @@ namespace MedOnTime_WebApp.Controllers
                     existingLogs = JsonConvert.DeserializeObject<List<Log>>(apiRes);
                 }
             }
+            // passing the patient's firstname to view via view bag
             ViewBag.patientFirstName = patientFirstName;
             return View(existingLogs);
         }
@@ -70,8 +72,6 @@ namespace MedOnTime_WebApp.Controllers
                                                     formResponse.Patient.Email + ", " + formResponse.Patient.PhoneNum + ", " + formResponse.Patient.Age);
                 try
                 {
-                    //List<Patient> existingPatients = _patientCollection.AsQueryable<Patient>().ToList();
-
                     List<Patient> existingPatients = new List<Patient>();
                     // Get the existing Patients with GET method
                     using (var httpClient = new HttpClient())
@@ -144,6 +144,7 @@ namespace MedOnTime_WebApp.Controllers
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> PatientDetails(string Id)
         {
+            // Request patient object with patient ID from API
             Patient patient = new Patient();
             using (var httpClient = new HttpClient())
             {
@@ -161,7 +162,7 @@ namespace MedOnTime_WebApp.Controllers
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> EditPatient(string Id, int caretakerID)
         {
-
+            // Request patient object with patient ID from API
             Patient patient = new Patient();
             using (var httpClient = new HttpClient())
             {
@@ -182,6 +183,7 @@ namespace MedOnTime_WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Update patient's info in the database via the API 
                 StringContent content = new StringContent(JsonConvert.SerializeObject(formResponse.Patient), Encoding.UTF8, "application/json");
                 using (var httpClient = new HttpClient())
                 {
@@ -202,6 +204,7 @@ namespace MedOnTime_WebApp.Controllers
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> DeletePatient(string Id)
         {
+            // Request patient object with patient ID from API
             Patient patient = new Patient();
             using (var httpClient = new HttpClient())
             {
@@ -221,6 +224,7 @@ namespace MedOnTime_WebApp.Controllers
         {
             try
             {
+                // Remove patient object from the database by patient ID via API
                 using (var httpClient = new HttpClient())
                 {
                     using (var response = await httpClient.DeleteAsync("https://medontime-api.herokuapp.com/API/PatientAPI/" + Id + "?" + LoginStatus.ApiKey))
